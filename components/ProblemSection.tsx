@@ -48,21 +48,21 @@ export default function ProblemSection() {
               key={problem.title}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
+              transition={{ duration: 0.6, delay: index * 0.15 }}
               viewport={{ once: true }}
               className="text-center group"
             >
-              <div className="mb-4 sm:mb-6">
-                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-red-50 dark:bg-red-900/20 rounded-2xl flex items-center justify-center mx-auto group-hover:bg-red-100 dark:group-hover:bg-red-900/30 transition-colors">
-                  <problem.icon className="w-6 h-6 sm:w-8 sm:h-8 text-red-500" />
+              <div className="mb-6 sm:mb-8">
+                <div className="w-14 h-14 sm:w-16 sm:h-16 bg-red-50 dark:bg-red-900/20 rounded-2xl flex items-center justify-center mx-auto group-hover:bg-red-100 dark:group-hover:bg-red-900/30 transition-colors duration-300">
+                  <problem.icon className="w-7 h-7 sm:w-8 sm:h-8 text-red-500" />
                 </div>
               </div>
               
-              <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-neutral-900 dark:text-neutral-100">
+              <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-neutral-900 dark:text-neutral-100 leading-tight">
                 {problem.title}
               </h3>
               
-              <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed">
+              <p className="text-base sm:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed font-medium">
                 {problem.description}
               </p>
             </motion.div>
