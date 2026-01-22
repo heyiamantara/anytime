@@ -40,20 +40,20 @@ export default function CTASection() {
         ))}
       </div>
 
-      <div className="max-w-4xl mx-auto text-center relative z-10">
+      <div className="max-w-4xl mx-auto text-center relative z-10 px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 sm:mb-8 leading-tight">
             Stop scheduling.
             <br />
             Start meeting.
           </h2>
           
-          <p className="text-xl text-purple-100 mb-12 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg lg:text-xl text-purple-100 mb-8 sm:mb-12 max-w-2xl mx-auto leading-relaxed">
             Create your first event in under 60 seconds.
           </p>
 
@@ -64,9 +64,9 @@ export default function CTASection() {
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <button className="bg-white text-primary-600 hover:bg-neutral-50 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-600 flex items-center space-x-2 mx-auto">
+            <button className="bg-white text-primary-600 hover:bg-neutral-50 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-base sm:text-lg transition-all duration-200 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-600 flex items-center space-x-2 mx-auto w-full sm:w-auto justify-center">
               <span>Get Started Free</span>
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </motion.div>
         </motion.div>

@@ -194,16 +194,16 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
       </div>
 
       {/* Grid */}
-      <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
-        <div className="min-w-[500px] sm:min-w-[600px]">
+      <div className="overflow-x-auto -mx-4 sm:-mx-6 lg:mx-0 px-4 sm:px-6 lg:px-0">
+        <div className="min-w-[400px] sm:min-w-[500px] lg:min-w-[600px]">
           {/* Header Row */}
-          <div className="grid gap-1 sm:gap-2 mb-3 sm:mb-4" style={{ gridTemplateColumns: `80px sm:120px repeat(${dates.length}, 1fr)` }}>
+          <div className="grid gap-1 sm:gap-2 mb-2 sm:mb-3 lg:mb-4" style={{ gridTemplateColumns: `60px sm:80px lg:120px repeat(${dates.length}, 1fr)` }}>
             <div></div> {/* Empty corner */}
             {dates.map((date, index) => {
               const formatted = formatDate(date)
               return (
-                <div key={index} className="text-center p-3">
-                  <div className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
+                <div key={index} className="text-center p-1 sm:p-2 lg:p-3">
+                  <div className="text-xs sm:text-sm font-medium text-neutral-900 dark:text-neutral-100">
                     {formatted.day}
                   </div>
                   <div className="text-xs text-neutral-500">
@@ -215,16 +215,16 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
           </div>
 
           {/* Time Rows */}
-          <div className="space-y-2">
+          <div className="space-y-1 sm:space-y-2">
             {event.time_blocks?.map((time: string, timeIndex: number) => (
               <div 
                 key={timeIndex} 
-                className="grid gap-2 items-center"
-                style={{ gridTemplateColumns: `120px repeat(${dates.length}, 1fr)` }}
+                className="grid gap-1 sm:gap-2 items-center"
+                style={{ gridTemplateColumns: `60px sm:80px lg:120px repeat(${dates.length}, 1fr)` }}
               >
                 {/* Time Label */}
-                <div className="text-right pr-4">
-                  <div className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                <div className="text-right pr-2 sm:pr-3 lg:pr-4">
+                  <div className="text-xs sm:text-sm font-medium text-neutral-700 dark:text-neutral-300">
                     {formatTime(time)}
                   </div>
                 </div>
@@ -247,22 +247,22 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
                       onMouseLeave={() => setHoveredSlot(null)}
                       onClick={() => toggleAvailability(dateStr, time)}
                       className={`
-                        h-12 rounded-lg transition-all duration-200 flex items-center justify-center relative
+                        h-8 sm:h-10 lg:h-12 rounded-md sm:rounded-lg transition-all duration-200 flex items-center justify-center relative
                         ${canInteract ? 'cursor-pointer' : 'cursor-default'}
                         ${getSlotIntensity(dateStr, time)}
-                        ${isUserAvailable ? 'ring-2 ring-primary-500 ring-offset-2 ring-offset-white dark:ring-offset-neutral-900' : ''}
+                        ${isUserAvailable ? 'ring-1 sm:ring-2 ring-primary-500 ring-offset-1 sm:ring-offset-2 ring-offset-white dark:ring-offset-neutral-900' : ''}
                         ${isHovered ? 'shadow-lg' : ''}
                         ${loading ? 'opacity-50' : ''}
                       `}
                     >
                       {/* Availability Count */}
-                      <span className="text-sm font-medium">
+                      <span className="text-xs sm:text-sm font-medium">
                         {availableUsers.length > 0 ? `${availableUsers.length}/${event.participants?.length || 0}` : ''}
                       </span>
 
                       {/* User's availability indicator */}
                       {isUserAvailable && (
-                        <CheckCircle className="absolute -top-1 -right-1 w-4 h-4 text-primary-600 bg-white dark:bg-neutral-900 rounded-full" />
+                        <CheckCircle className="absolute -top-0.5 -right-0.5 sm:-top-1 sm:-right-1 w-3 h-3 sm:w-4 sm:h-4 text-primary-600 bg-white dark:bg-neutral-900 rounded-full" />
                       )}
                     </motion.div>
                   )
@@ -274,31 +274,33 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
       </div>
 
       {/* Legend */}
-      <div className="mt-6 pt-6 border-t border-neutral-200 dark:border-neutral-700">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center space-x-4">
+      <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-neutral-200 dark:border-neutral-700">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
             <div className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
               Legend:
             </div>
-            <div className="flex items-center space-x-2">
-              <div className="w-4 h-4 bg-green-500 rounded"></div>
-              <span className="text-xs text-neutral-600 dark:text-neutral-400">High availability</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <div className="w-4 h-4 bg-yellow-400 rounded"></div>
-              <span className="text-xs text-neutral-600 dark:text-neutral-400">Medium availability</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <div className="w-4 h-4 bg-neutral-300 dark:bg-neutral-700 rounded"></div>
-              <span className="text-xs text-neutral-600 dark:text-neutral-400">Low availability</span>
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 sm:w-4 sm:h-4 bg-green-500 rounded"></div>
+                <span className="text-xs text-neutral-600 dark:text-neutral-400">High</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 sm:w-4 sm:h-4 bg-yellow-400 rounded"></div>
+                <span className="text-xs text-neutral-600 dark:text-neutral-400">Medium</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 sm:w-4 sm:h-4 bg-neutral-300 dark:bg-neutral-700 rounded"></div>
+                <span className="text-xs text-neutral-600 dark:text-neutral-400">Low</span>
+              </div>
             </div>
           </div>
 
           {/* Hover Info */}
           {hoveredSlot && (
-            <div className="text-sm text-neutral-600 dark:text-neutral-400">
+            <div className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400">
               {formatTime(hoveredSlot.time)} on {new Date(hoveredSlot.date).toLocaleDateString('en-US', { 
-                weekday: 'long', 
+                weekday: 'short', 
                 month: 'short', 
                 day: 'numeric' 
               })}

@@ -108,15 +108,15 @@ body {
 /* Button styles */
 @layer components {
   .btn-primary {
-    @apply bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 hover:shadow-lg hover:shadow-primary-500/25 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+    @apply bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 hover:shadow-lg hover:shadow-primary-500/25 active:scale-95 focus:outline-none touch-manipulation;
   }
 
   .btn-secondary {
-    @apply border-2 border-primary-600 text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/20 px-6 py-3 rounded-xl font-semibold transition-all duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+    @apply border-2 border-primary-600 text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/20 px-6 py-3 rounded-xl font-semibold transition-all duration-200 active:scale-95 focus:outline-none touch-manipulation;
   }
 
   .btn-ghost {
-    @apply text-neutral-600 hover:text-primary-600 px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+    @apply text-neutral-600 hover:text-primary-600 px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none touch-manipulation;
   }
 
   /* Card styles */
@@ -130,19 +130,19 @@ body {
 
   /* Section styles */
   .section {
-    @apply py-24 px-6;
+    @apply py-16 sm:py-20 lg:py-24 px-4 sm:px-6;
   }
 
   .section-header {
-    @apply text-center mb-16;
+    @apply text-center mb-12 sm:mb-16;
   }
 
   .section-title {
-    @apply text-4xl md:text-5xl font-bold mb-6 text-neutral-900 dark:text-neutral-100;
+    @apply text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-neutral-900 dark:text-neutral-100 leading-tight;
   }
 
   .section-subtitle {
-    @apply text-xl text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto;
+    @apply text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto leading-relaxed;
   }
 
   /* Badge styles */

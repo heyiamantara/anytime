@@ -72,7 +72,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-white dark:bg-neutral-900">
       <Header />
-      <HeroSection />
+      <HeroSection onSignUp={handleSignUp} />
       <ProblemSection />
       <HowItWorksSection />
       <FeaturesSection />
