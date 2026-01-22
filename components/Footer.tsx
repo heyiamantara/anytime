@@ -35,12 +35,12 @@ export default function Footer() {
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
       viewport={{ once: true }}
-      className="bg-primary-50/50 dark:bg-neutral-900/50"
+      className="bg-primary-50/50 dark:bg-neutral-900/50 relative"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
-        {/* First divider - top of footer */}
-        <div className="border-t border-neutral-200 dark:border-neutral-700 mb-8 sm:mb-12"></div>
+      {/* First divider - top of footer - full width */}
+      <div className="w-screen border-t border-neutral-200 dark:border-neutral-700 relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]"></div>
 
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
         {/* Main footer content */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-8 sm:mb-12">
           {/* Brand column */}
@@ -113,10 +113,12 @@ export default function Footer() {
             </ul>
           </div>
         </div>
+      </div>
 
-        {/* Second divider - middle */}
-        <div className="border-t border-neutral-200 dark:border-neutral-700 mb-8"></div>
+      {/* Second divider - middle - full width */}
+      <div className="w-screen border-t border-neutral-200 dark:border-neutral-700 relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]"></div>
 
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         {/* Bottom section */}
         <div className="flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0 mb-6 sm:mb-8">
           {/* Left side */}
@@ -138,10 +140,10 @@ export default function Footer() {
             ))}
           </div>
         </div>
-
-        {/* Third divider - bottom */}
-        <div className="border-t border-neutral-200 dark:border-neutral-700"></div>
       </div>
+
+      {/* Third divider - bottom - full width */}
+      <div className="w-screen border-t border-neutral-200 dark:border-neutral-700 relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]"></div>
     </motion.footer>
   )
 }

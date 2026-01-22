@@ -7,17 +7,17 @@ const problems = [
   {
     icon: MessageSquare,
     title: 'Endless group chats',
-    description: 'Back and forth messages that never end'
+    description: 'Stop the back and forth that wastes everyone\'s time.'
   },
   {
     icon: Clock,
     title: 'People replying late',
-    description: 'Waiting days for everyone to respond'
+    description: 'Get responses in minutes, not days.'
   },
   {
     icon: Users,
     title: 'No clear overlap',
-    description: 'Confusion about when everyone is free'
+    description: 'See the perfect time slot instantly.'
   }
 ]
 
@@ -34,12 +34,15 @@ export default function ProblemSection() {
           className="section-header"
         >
           <h2 className="section-title max-w-4xl mx-auto leading-tight">
-            Group scheduling shouldn't be this hard
+            Skip the scheduling chaos
           </h2>
+          <p className="section-subtitle mt-4">
+            We solve the three biggest group scheduling headaches
+          </p>
         </motion.div>
 
         {/* Problems grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 max-w-5xl mx-auto">
           {problems.map((problem, index) => (
             <motion.div
               key={problem.title}
