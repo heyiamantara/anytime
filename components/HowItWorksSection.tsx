@@ -55,11 +55,6 @@ export default function HowItWorksSection() {
               viewport={{ once: true }}
               className="relative"
             >
-              {/* Step number */}
-              <div className="absolute -top-3 -left-3 sm:-top-4 sm:-left-4 w-6 h-6 sm:w-8 sm:h-8 bg-primary-600 text-white rounded-full flex items-center justify-center text-xs sm:text-sm font-bold z-10">
-                {index + 1}
-              </div>
-
               {/* Card */}
               <div className="card-feature text-center h-full group">
                 <div className="mb-4 sm:mb-6">
