@@ -45,7 +45,7 @@ export default function HowItWorksSection() {
         </motion.div>
 
         {/* Steps */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 relative">
           {steps.map((step, index) => (
             <motion.div
               key={step.title}
@@ -56,23 +56,23 @@ export default function HowItWorksSection() {
               className="relative"
             >
               {/* Step number */}
-              <div className="absolute -top-4 -left-4 w-8 h-8 bg-primary-600 text-white rounded-full flex items-center justify-center text-sm font-bold z-10">
+              <div className="absolute -top-3 -left-3 sm:-top-4 sm:-left-4 w-6 h-6 sm:w-8 sm:h-8 bg-primary-600 text-white rounded-full flex items-center justify-center text-xs sm:text-sm font-bold z-10">
                 {index + 1}
               </div>
 
               {/* Card */}
               <div className="card-feature text-center h-full group">
-                <div className="mb-6">
-                  <div className="w-16 h-16 bg-primary-100 dark:bg-primary-900/30 rounded-2xl flex items-center justify-center mx-auto group-hover:bg-primary-200 dark:group-hover:bg-primary-900/50 transition-colors">
-                    <step.icon className="w-8 h-8 text-primary-600" />
+                <div className="mb-4 sm:mb-6">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary-100 dark:bg-primary-900/30 rounded-2xl flex items-center justify-center mx-auto group-hover:bg-primary-200 dark:group-hover:bg-primary-900/50 transition-colors">
+                    <step.icon className="w-6 h-6 sm:w-8 sm:h-8 text-primary-600" />
                   </div>
                 </div>
                 
-                <h3 className="text-xl font-semibold mb-4 text-neutral-900 dark:text-neutral-100">
+                <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-neutral-900 dark:text-neutral-100">
                   {step.title}
                 </h3>
                 
-                <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed">
                   {step.description}
                 </p>
               </div>

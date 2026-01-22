@@ -180,38 +180,6 @@ export default function RefinedEventCard({
           </div>
         )}
       </div>
-          <div className="flex items-center space-x-1.5">
-            <Users className="w-4 h-4 text-neutral-500" />
-            <span className="text-sm font-medium text-neutral-300">{participantCount}</span>
-            <span className="text-xs text-neutral-500">participants</span>
-          </div>
-          
-          <div className="flex items-center space-x-1.5">
-            <Clock className="w-4 h-4 text-neutral-500" />
-            <span className="text-sm font-medium text-neutral-300">{responseCount}</span>
-            <span className="text-xs text-neutral-500">responses</span>
-            {responseCount > 0 && (
-              <div className="w-2 h-2 bg-primary-500 rounded-full animate-pulse" />
-            )}
-          </div>
-        </div>
-
-        {/* Response Rate Indicator */}
-        {participantCount > 0 && (
-          <div className="text-right">
-            <div className="text-xs text-neutral-500">Response Rate</div>
-            <div className={`text-sm font-semibold ${
-              responseCount === participantCount 
-                ? 'text-green-400' 
-                : responseCount > 0 
-                  ? 'text-yellow-400' 
-                  : 'text-neutral-400'
-            }`}>
-              {Math.round((responseCount / participantCount) * 100)}%
-            </div>
-          </div>
-        )}
-      </div>
 
       {/* Hover Overlay Effect */}
       <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" />

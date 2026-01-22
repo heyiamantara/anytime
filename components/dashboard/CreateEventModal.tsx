@@ -130,10 +130,10 @@ export default function CreateEventModal({ isOpen, onClose, onSuccess }: CreateE
           transition={{ duration: 0.2 }}
           className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto"
         >
-          <div className="card p-8">
+          <div className="card p-4 sm:p-6 lg:p-8">
             {/* Header */}
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">
+            <div className="flex items-center justify-between mb-4 sm:mb-6">
+              <h2 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-neutral-100">
                 Create New Event
               </h2>
               <button
@@ -144,7 +144,7 @@ export default function CreateEventModal({ isOpen, onClose, onSuccess }: CreateE
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
               {/* Event Name */}
               <div>
                 <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
@@ -175,7 +175,7 @@ export default function CreateEventModal({ isOpen, onClose, onSuccess }: CreateE
               </div>
 
               {/* Date Range */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
                     Start Date *
@@ -247,7 +247,7 @@ export default function CreateEventModal({ isOpen, onClose, onSuccess }: CreateE
                       Choose the time slots when participants can be available
                     </p>
 
-                    <div className="grid grid-cols-3 md:grid-cols-6 gap-2 mb-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 mb-4">
                       {availableTimeSlots.map((timeSlot) => {
                         const isSelected = formData.time_blocks.includes(timeSlot)
                         return (
@@ -294,18 +294,18 @@ export default function CreateEventModal({ isOpen, onClose, onSuccess }: CreateE
               )}
 
               {/* Submit Button */}
-              <div className="flex items-center justify-end space-x-4 pt-4">
+              <div className="flex flex-col sm:flex-row items-center justify-end space-y-3 sm:space-y-0 sm:space-x-4 pt-4">
                 <button
                   type="button"
                   onClick={onClose}
-                  className="btn-secondary"
+                  className="btn-secondary w-full sm:w-auto"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="btn-primary flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="btn-primary flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
                 >
                   {loading ? (
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />

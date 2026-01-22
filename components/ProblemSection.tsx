@@ -39,7 +39,7 @@ export default function ProblemSection() {
         </motion.div>
 
         {/* Problems grid */}
-        <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-4xl mx-auto">
           {problems.map((problem, index) => (
             <motion.div
               key={problem.title}
@@ -49,17 +49,17 @@ export default function ProblemSection() {
               viewport={{ once: true }}
               className="text-center group"
             >
-              <div className="mb-6">
-                <div className="w-16 h-16 bg-red-50 dark:bg-red-900/20 rounded-2xl flex items-center justify-center mx-auto group-hover:bg-red-100 dark:group-hover:bg-red-900/30 transition-colors">
-                  <problem.icon className="w-8 h-8 text-red-500" />
+              <div className="mb-4 sm:mb-6">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-red-50 dark:bg-red-900/20 rounded-2xl flex items-center justify-center mx-auto group-hover:bg-red-100 dark:group-hover:bg-red-900/30 transition-colors">
+                  <problem.icon className="w-6 h-6 sm:w-8 sm:h-8 text-red-500" />
                 </div>
               </div>
               
-              <h3 className="text-xl font-semibold mb-3 text-neutral-900 dark:text-neutral-100">
+              <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-neutral-900 dark:text-neutral-100">
                 {problem.title}
               </h3>
               
-              <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed">
+              <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed">
                 {problem.description}
               </p>
             </motion.div>
