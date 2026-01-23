@@ -347,8 +347,16 @@ export default function Dashboard() {
               {/* Sign Out - Mobile Responsive */}
               <button
                 onClick={async () => {
-                  await signOut()
-                  router.push('/')
+                  try {
+                    console.log('Sign out clicked')
+                    await signOut()
+                    console.log('Sign out successful, redirecting...')
+                    router.push('/')
+                  } catch (error) {
+                    console.error('Sign out error:', error)
+                    // Still redirect even if there's an error
+                    router.push('/')
+                  }
                 }}
                 className="p-2 sm:p-3 hover:bg-neutral-200/60 dark:hover:bg-white/10 rounded-xl sm:rounded-2xl transition-all duration-500 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
                 title="Sign out"

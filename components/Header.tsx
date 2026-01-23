@@ -37,9 +37,18 @@ export default function Header({ hideSignOut = false }: HeaderProps) {
   }, [pathname])
 
   const handleSignOut = async () => {
-    await signOut()
-    router.push('/')
-    setMobileMenuOpen(false)
+    try {
+      console.log('Header sign out clicked')
+      await signOut()
+      console.log('Header sign out successful, redirecting...')
+      router.push('/')
+      setMobileMenuOpen(false)
+    } catch (error) {
+      console.error('Header sign out error:', error)
+      // Still redirect and close menu even if there's an error
+      router.push('/')
+      setMobileMenuOpen(false)
+    }
   }
 
   const openAuthModal = (mode: 'login' | 'signup') => {

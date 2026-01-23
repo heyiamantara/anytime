@@ -85,8 +85,16 @@ export default function EventPage() {
   }
 
   const handleSignOut = async () => {
-    await signOut()
-    router.push('/')
+    try {
+      console.log('Event page sign out clicked')
+      await signOut()
+      console.log('Event page sign out successful, redirecting...')
+      router.push('/')
+    } catch (error) {
+      console.error('Event page sign out error:', error)
+      // Still redirect even if there's an error
+      router.push('/')
+    }
   }
 
   const isEventCreator = user && event && event.created_by === user.id
