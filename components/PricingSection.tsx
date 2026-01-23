@@ -72,7 +72,7 @@ export default function PricingSection({ onSignUp, onUpgrade }: PricingSectionPr
         </motion.div>
 
         {/* Mobile-Responsive Pricing Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 max-w-4xl mx-auto pt-6">
           {plans.map((plan, index) => (
             <motion.div
               key={plan.name}
@@ -80,10 +80,10 @@ export default function PricingSection({ onSignUp, onUpgrade }: PricingSectionPr
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.0, delay: index * 0.2, ease: [0.16, 1, 0.3, 1] }}
               viewport={{ once: true }}
-              className={`relative group bg-white/90 dark:bg-neutral-900/60 backdrop-blur-xl border rounded-2xl p-8 sm:p-10 hover:bg-white dark:hover:bg-neutral-900/80 transition-all duration-500 hover:shadow-2xl overflow-hidden ${
+              className={`relative group bg-white/90 dark:bg-neutral-900/60 backdrop-blur-xl border rounded-2xl p-8 sm:p-10 hover:bg-white dark:hover:bg-neutral-900/80 transition-all duration-500 hover:shadow-2xl ${
                 plan.popular 
-                  ? 'border-violet-500/30 shadow-xl shadow-violet-500/10 dark:shadow-violet-500/5' 
-                  : 'border-neutral-200/60 dark:border-neutral-700/50 shadow-lg'
+                  ? 'border-violet-500/30 shadow-xl shadow-violet-500/10 dark:shadow-violet-500/5 mt-0' 
+                  : 'border-neutral-200/60 dark:border-neutral-700/50 shadow-lg mt-6'
               }`}
             >
               {/* Subtle Background Pattern */}
