@@ -72,7 +72,7 @@ export default function PricingSection({ onSignUp, onUpgrade }: PricingSectionPr
         </motion.div>
 
         {/* Mobile-Responsive Pricing Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 max-w-4xl mx-auto">
           {plans.map((plan, index) => (
             <motion.div
               key={plan.name}
@@ -80,10 +80,10 @@ export default function PricingSection({ onSignUp, onUpgrade }: PricingSectionPr
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.0, delay: index * 0.2, ease: [0.16, 1, 0.3, 1] }}
               viewport={{ once: true }}
-              className={`relative group bg-gradient-to-br from-white/80 via-neutral-50/60 to-white/80 dark:from-neutral-900/40 dark:via-neutral-800/20 dark:to-neutral-900/40 backdrop-blur-2xl border rounded-xl sm:rounded-2xl lg:rounded-[2rem] p-6 sm:p-8 lg:p-10 hover:bg-gradient-to-br hover:from-white/90 hover:via-neutral-50/70 hover:to-white/90 dark:hover:from-neutral-900/60 dark:hover:via-neutral-800/40 dark:hover:to-neutral-900/60 transition-all duration-700 hover:border-neutral-300/70 dark:hover:border-white/15 overflow-hidden shadow-lg dark:shadow-none ${
+              className={`relative group bg-white/90 dark:bg-neutral-900/60 backdrop-blur-xl border rounded-2xl p-8 sm:p-10 hover:bg-white dark:hover:bg-neutral-900/80 transition-all duration-500 hover:shadow-2xl overflow-hidden ${
                 plan.popular 
-                  ? 'border-violet-500/50 dark:border-violet-500/30 shadow-2xl shadow-violet-500/20' 
-                  : 'border-neutral-200/50 dark:border-white/8'
+                  ? 'border-violet-500/30 shadow-xl shadow-violet-500/10 dark:shadow-violet-500/5' 
+                  : 'border-neutral-200/60 dark:border-neutral-700/50 shadow-lg'
               }`}
             >
               {/* Subtle Background Pattern */}
@@ -95,10 +95,10 @@ export default function PricingSection({ onSignUp, onUpgrade }: PricingSectionPr
 
               {/* Popular badge */}
               {plan.popular && (
-                <div className="absolute -top-2 sm:-top-3 lg:-top-4 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-gradient-to-r from-violet-500 to-indigo-500 text-white px-3 sm:px-4 lg:px-6 py-1.5 sm:py-2 lg:py-3 rounded-lg sm:rounded-xl lg:rounded-2xl text-xs sm:text-sm font-light flex items-center space-x-1.5 sm:space-x-2 shadow-xl shadow-violet-500/30">
-                    <Star className="w-3 h-3 sm:w-4 sm:h-4" />
-                    <span className="tracking-widest uppercase luxury-caption">Most Popular</span>
+                <div className="absolute -top-2 sm:-top-3 left-1/2 transform -translate-x-1/2">
+                  <div className="bg-gradient-to-r from-violet-600/90 to-indigo-600/90 text-white px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs font-extralight flex items-center space-x-1.5 shadow-lg shadow-violet-500/25 border border-violet-400/20">
+                    <Star className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+                    <span className="tracking-wider uppercase">Popular</span>
                   </div>
                 </div>
               )}
