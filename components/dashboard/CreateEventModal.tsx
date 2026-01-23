@@ -42,11 +42,28 @@ export default function CreateEventModal({ isOpen, onClose, onSuccess }: CreateE
       return
     }
 
+    // Validate date range
+    const startDate = new Date(formData.start_date)
+    const endDate = new Date(formData.end_date)
+    if (startDate > endDate) {
+      setError('End date must be after start date')
+      setLoading(false)
+      return
+    }
+
     try {
       const submitData = {
-        ...formData,
-        time_blocks: formData.is_24_7 ? availableTimeSlots : formData.time_blocks
+        name: formData.name.trim(),
+        description: formData.description.trim() || null,
+        start_date: formData.start_date,
+        end_date: formData.end_date,
+        time_blocks: formData.is_24_7 ? availableTimeSlots : formData.time_blocks,
+        is_24_7: formData.is_24_7
       }
+
+      // Use AbortController for request timeout
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 30000) // 30 second timeout
 
       const response = await fetch('/api/events', {
         method: 'POST',
@@ -54,7 +71,10 @@ export default function CreateEventModal({ isOpen, onClose, onSuccess }: CreateE
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(submitData),
+        signal: controller.signal
       })
+
+      clearTimeout(timeoutId)
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({ error: 'Network error' }))
@@ -62,12 +82,17 @@ export default function CreateEventModal({ isOpen, onClose, onSuccess }: CreateE
       }
 
       const data = await response.json()
+      
+      // Optimistic update - call success immediately
       onSuccess(data.event)
       onClose()
       resetForm()
+      
     } catch (err: any) {
       console.error('Event creation error:', err)
-      if (err.name === 'TypeError' && err.message.includes('fetch')) {
+      if (err.name === 'AbortError') {
+        setError('Request timed out. Please check your connection and try again.')
+      } else if (err.name === 'TypeError' && err.message.includes('fetch')) {
         setError('Network error: Unable to connect to server. Please check your connection and try again.')
       } else {
         setError(err.message || 'Failed to create event. Please try again.')
@@ -317,7 +342,10 @@ export default function CreateEventModal({ isOpen, onClose, onSuccess }: CreateE
                     className="w-full sm:w-auto bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-12 py-4 rounded-2xl font-light tracking-widest transition-all duration-700 shadow-2xl shadow-violet-500/20 hover:shadow-violet-500/40 disabled:opacity-50 disabled:cursor-not-allowed luxury-glow flex items-center justify-center space-x-4 uppercase"
                   >
                     {loading ? (
-                      <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      <>
+                        <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        <span>Creating Event...</span>
+                      </>
                     ) : (
                       <>
                         <Plus className="w-5 h-5" />

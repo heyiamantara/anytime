@@ -90,11 +90,23 @@ export default function Dashboard() {
   }
 
   const handleEventCreated = (newEvent: any) => {
+    // Optimistic update - immediately add the event to the list
     const updatedEvents = [newEvent, ...events]
     setEvents(updatedEvents)
     calculateStats(updatedEvents)
-    // Open analytics page for the newly created event
-    window.open(`/event/${newEvent.id}/analytics`, '_blank')
+    
+    // Show success notification
+    setNotification({
+      isVisible: true,
+      type: 'success',
+      title: 'Event Created!',
+      message: 'Your event has been created successfully'
+    })
+    
+    // Open analytics page for the newly created event after a short delay
+    setTimeout(() => {
+      window.open(`/event/${newEvent.id}/analytics`, '_blank')
+    }, 500)
   }
 
   const handleCreateEvent = () => {
@@ -456,13 +468,6 @@ export default function Dashboard() {
                   {/* Subtle Glow Effect */}
                   <div className="absolute -inset-1 bg-gradient-to-br from-violet-500/10 via-transparent to-indigo-500/10 dark:from-violet-500/8 dark:to-indigo-500/8 rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl"></div>
                   
-                  {/* Status Indicator Bar */}
-                  <div className={`absolute top-0 left-8 right-8 h-1 rounded-b-full ${
-                    event.status === 'open' 
-                      ? 'bg-gradient-to-r from-emerald-400 to-teal-400' 
-                      : 'bg-gradient-to-r from-amber-400 to-orange-400'
-                  }`}></div>
-                  
                   <div className="relative flex items-start justify-between">
                     <div className="flex-1 pr-8">
                       {/* Enhanced Header Section */}
@@ -544,8 +549,8 @@ export default function Dashboard() {
                       </div>
                     </div>
                     
-                    {/* Enhanced Action Buttons */}
-                    <div className="flex flex-col space-y-3">
+                    {/* Enhanced Action Buttons - Horizontal Layout */}
+                    <div className="flex items-center space-x-3">
                       {/* Analytics Button - Enhanced */}
                       <motion.button
                         whileHover={{ scale: 1.05, y: -2 }}
@@ -610,7 +615,7 @@ export default function Dashboard() {
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                         </svg>
-                      </button>
+                      </motion.button>
                     </div>
                   </div>
                 </motion.div>

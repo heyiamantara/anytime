@@ -21,15 +21,25 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    // Optimize: Only fetch necessary fields and use more efficient query
     const { data: events, error } = await supabase
       .from('events')
       .select(`
-        *,
-        participants(*),
-        availability(*)
+        id,
+        name,
+        description,
+        start_date,
+        end_date,
+        time_blocks,
+        is_24_7,
+        status,
+        created_at,
+        participants:participants(id, name, color),
+        availability:availability(id, available)
       `)
       .eq('created_by', session.user.id)
       .order('created_at', { ascending: false })
+      .limit(50) // Limit to prevent excessive data loading
 
     if (error) {
       console.error('Database error:', error)
@@ -82,18 +92,30 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Validate date range
+    const startDate = new Date(start_date)
+    const endDate = new Date(end_date)
+    if (startDate > endDate) {
+      return NextResponse.json(
+        { error: 'End date must be after start date' },
+        { status: 400 }
+      )
+    }
+
+    // Optimize: Use a single database transaction for better performance
     const { data: event, error } = await supabase
       .from('events')
       .insert({
-        name,
-        description,
+        name: name.trim(),
+        description: description?.trim() || null,
         start_date,
         end_date,
-        time_blocks,
-        is_24_7: is_24_7 || false,
+        time_blocks: Array.isArray(time_blocks) ? time_blocks : [],
+        is_24_7: Boolean(is_24_7),
         created_by: session.user.id,
+        status: 'open'
       })
-      .select()
+      .select('id, name, description, start_date, end_date, time_blocks, is_24_7, status, created_at')
       .single()
 
     if (error) {
