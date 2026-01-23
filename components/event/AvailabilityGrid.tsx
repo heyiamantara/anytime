@@ -148,24 +148,27 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
   const dates = generateDateRange()
   const timeSlots = event.time_blocks || []
   
-  // Fixed cell dimensions for consistency
-  const CELL_WIDTH = 88 // Slightly larger for better touch targets
-  const CELL_HEIGHT = 72 // Taller for better proportions
-  const TIME_LABEL_WIDTH = 140 // More space for time labels
+  // Responsive cell dimensions
+  const CELL_WIDTH_MOBILE = 60 // Smaller for mobile
+  const CELL_HEIGHT_MOBILE = 56 // Smaller for mobile
+  const CELL_WIDTH_DESKTOP = 88 // Original desktop size
+  const CELL_HEIGHT_DESKTOP = 72 // Original desktop size
+  const TIME_LABEL_WIDTH_MOBILE = 80 // Smaller for mobile
+  const TIME_LABEL_WIDTH_DESKTOP = 140 // Original desktop size
 
   return (
     <div className="w-full">
-      {/* Availability Canvas - Enhanced Light Theme Container */}
-      <div className="relative w-full border border-neutral-300/60 dark:border-neutral-700/20 rounded-3xl p-8 bg-gradient-to-br from-white/80 via-neutral-50/40 to-white/60 dark:from-neutral-900/10 dark:via-transparent dark:to-neutral-900/5 shadow-lg shadow-neutral-200/30 dark:shadow-none">
-        {/* Floating Date Headers - Adaptive Layout */}
-        <div className="relative z-20 mb-8">
+      {/* Availability Canvas - Enhanced Mobile Responsive Container */}
+      <div className="relative w-full border border-neutral-300/60 dark:border-neutral-700/20 rounded-2xl sm:rounded-3xl p-4 sm:p-8 bg-gradient-to-br from-white/80 via-neutral-50/40 to-white/60 dark:from-neutral-900/10 dark:via-transparent dark:to-neutral-900/5 shadow-lg shadow-neutral-200/30 dark:shadow-none">
+        {/* Floating Date Headers - Mobile Responsive */}
+        <div className="relative z-20 mb-6 sm:mb-8">
           <div className="flex">
-            {/* Time Label Spacer */}
-            <div style={{ width: TIME_LABEL_WIDTH }} className="flex-shrink-0" />
+            {/* Time Label Spacer - Responsive */}
+            <div className="flex-shrink-0 w-20 sm:w-[140px]" />
             
             {/* Adaptive Date Headers Container */}
             <div className="flex-1 overflow-x-auto scrollbar-none">
-              <div className="flex" style={{ minWidth: '100%' }}>
+              <div className="flex gap-2 sm:gap-4" style={{ minWidth: '100%' }}>
                 {dates.map((date, index) => {
                   const formatted = formatDate(date)
                   return (
@@ -174,16 +177,12 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.8, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                      className="text-center py-6 flex-1"
-                      style={{ 
-                        minWidth: dates.length <= 7 ? `${100 / dates.length}%` : '88px',
-                        maxWidth: dates.length <= 7 ? 'none' : '120px'
-                      }}
+                      className="text-center py-3 sm:py-6 flex-1 min-w-[60px] sm:min-w-[88px]"
                     >
-                      <div className="text-sm font-medium text-neutral-800 dark:text-white mb-3 tracking-wider luxury-caption">
+                      <div className="text-xs sm:text-sm font-medium text-neutral-800 dark:text-white mb-2 sm:mb-3 tracking-wider luxury-caption">
                         {formatted.day}
                       </div>
-                      <div className="text-xs text-neutral-600 dark:text-neutral-400/70 font-medium tracking-widest luxury-caption">
+                      <div className="text-[10px] sm:text-xs text-neutral-600 dark:text-neutral-400/70 font-medium tracking-widest luxury-caption">
                         {formatted.date}
                       </div>
                     </motion.div>
@@ -194,11 +193,11 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
           </div>
         </div>
 
-        {/* Availability Canvas Body - Adaptive Grid */}
+        {/* Availability Canvas Body - Mobile Responsive */}
         <div className="relative">
           {/* Vertical Scroll Container */}
-          <div className="max-h-[65vh] overflow-y-auto scrollbar-none">
-            <div className="space-y-6">
+          <div className="max-h-[50vh] sm:max-h-[65vh] overflow-y-auto scrollbar-none">
+            <div className="space-y-3 sm:space-y-6">
               {timeSlots.map((time: string, timeIndex: number) => (
                 <motion.div 
                   key={timeIndex} 
@@ -207,19 +206,16 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
                   transition={{ duration: 0.8, delay: 0.3 + timeIndex * 0.08, ease: [0.16, 1, 0.3, 1] }}
                   className="flex items-center"
                 >
-                  {/* Floating Time Label */}
-                  <div 
-                    className="flex-shrink-0 flex items-center justify-end pr-8"
-                    style={{ width: TIME_LABEL_WIDTH, height: CELL_HEIGHT }}
-                  >
-                    <div className="text-sm font-medium text-neutral-800 dark:text-neutral-300/90 tracking-wider luxury-caption">
+                  {/* Floating Time Label - Responsive */}
+                  <div className="flex-shrink-0 flex items-center justify-end pr-3 sm:pr-8 w-20 sm:w-[140px] h-14 sm:h-[72px]">
+                    <div className="text-xs sm:text-sm font-medium text-neutral-800 dark:text-neutral-300/90 tracking-wider luxury-caption">
                       {formatTime(time)}
                     </div>
                   </div>
 
                   {/* Adaptive Availability Tiles Container */}
                   <div className="flex-1 overflow-x-auto scrollbar-none">
-                    <div className="flex gap-4" style={{ minWidth: '100%' }}>
+                    <div className="flex gap-2 sm:gap-4" style={{ minWidth: '100%' }}>
                       {dates.map((date, dateIndex) => {
                         const dateStr = date.toISOString().split('T')[0]
                         const slotKey = getSlotKey(dateStr, time)
@@ -231,13 +227,7 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
                         return (
                           <div 
                             key={dateIndex} 
-                            className="flex items-center justify-center"
-                            style={{ 
-                              minWidth: dates.length <= 7 ? `calc((100% - ${(dates.length - 1) * 16}px) / ${dates.length})` : '88px',
-                              maxWidth: dates.length <= 7 ? 'none' : '120px',
-                              height: CELL_HEIGHT,
-                              flex: dates.length <= 7 ? '1' : '0 0 auto'
-                            }}
+                            className="flex items-center justify-center flex-1 min-w-[60px] sm:min-w-[88px] h-14 sm:h-[72px]"
                           >
                             <motion.div
                               whileHover={canInteract ? { scale: 1.05, y: -2 } : {}}
@@ -246,7 +236,7 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
                               onMouseLeave={() => setHoveredSlot(null)}
                               onClick={() => toggleAvailability(dateStr, time)}
                               className={`
-                                w-full h-full rounded-2xl transition-all duration-300 flex items-center justify-center relative overflow-hidden
+                                w-full h-full rounded-xl sm:rounded-2xl transition-all duration-300 flex items-center justify-center relative overflow-hidden touch-target
                                 ${canInteract ? 'cursor-pointer' : 'cursor-default'}
                                 ${isUserAvailable 
                                   ? 'bg-gradient-to-br from-emerald-500/40 via-emerald-400/35 to-teal-500/40 dark:from-emerald-500/25 dark:via-emerald-400/20 dark:to-teal-500/25 border-2 border-emerald-500/70 dark:border-emerald-400/50 shadow-xl shadow-emerald-500/35'
@@ -264,7 +254,7 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
                               {/* Soft Atmospheric Glow */}
                               {(availableUsers.length > 0 || isUserAvailable) && (
                                 <div className={`
-                                  absolute inset-0 rounded-2xl
+                                  absolute inset-0 rounded-xl sm:rounded-2xl
                                   ${isUserAvailable 
                                     ? 'bg-gradient-to-br from-emerald-400/10 via-transparent to-teal-400/10 dark:from-emerald-400/8 dark:to-teal-400/8'
                                     : availableUsers.length === 1
@@ -279,15 +269,15 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
                               {/* Availability Count or User Selection */}
                               {isUserAvailable ? (
                                 <div className="relative flex items-center justify-center">
-                                  <div className="w-8 h-8 bg-gradient-to-br from-emerald-400 to-teal-400 rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/50">
-                                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-emerald-400 to-teal-400 rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/50">
+                                    <svg className="w-3 h-3 sm:w-4 sm:h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                                     </svg>
                                   </div>
                                 </div>
                               ) : availableUsers.length > 0 ? (
                                 <span className={`
-                                  relative text-lg font-medium tracking-wide
+                                  relative text-sm sm:text-lg font-medium tracking-wide
                                   ${availableUsers.length === 1 
                                     ? 'text-blue-700 dark:text-blue-300/90'
                                     : availableUsers.length === 2
@@ -300,7 +290,7 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
                               ) : null}
 
                               {/* Hover Atmosphere */}
-                              <div className="absolute inset-0 bg-gradient-to-br from-white/15 via-transparent to-white/10 dark:from-white/10 dark:to-white/5 rounded-2xl opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                              <div className="absolute inset-0 bg-gradient-to-br from-white/15 via-transparent to-white/10 dark:from-white/10 dark:to-white/5 rounded-xl sm:rounded-2xl opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
                             </motion.div>
                           </div>
                         )
@@ -314,69 +304,71 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
         </div>
       </div>
 
-      {/* Floating Legend - Unified with Analytics */}
-      <div className="mt-16 pt-8">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-8">
-          <div className="flex items-center space-x-12">
-            <div className="text-sm font-medium text-neutral-700 dark:text-neutral-400/80 tracking-wider luxury-caption">
-              Availability
+      {/* Floating Legend - Mobile Responsive */}
+      <div className="mt-8 sm:mt-16 pt-6 sm:pt-8">
+        <div className="flex flex-col gap-6 sm:gap-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 sm:gap-8">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-12">
+              <div className="text-sm font-medium text-neutral-700 dark:text-neutral-400/80 tracking-wider luxury-caption">
+                Availability
+              </div>
+              <div className="flex flex-wrap items-center gap-4 sm:gap-10">
+                <div className="flex items-center space-x-3 sm:space-x-4">
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-neutral-200/50 dark:bg-neutral-800/20 border border-neutral-300/50 dark:border-neutral-700/30 rounded-lg sm:rounded-xl"></div>
+                  <span className="text-xs sm:text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">None</span>
+                </div>
+                <div className="flex items-center space-x-3 sm:space-x-4">
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-blue-500/35 to-cyan-500/35 dark:from-blue-500/20 dark:to-cyan-500/20 border border-blue-500/50 dark:border-blue-400/30 rounded-lg sm:rounded-xl"></div>
+                  <span className="text-xs sm:text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">Low (1)</span>
+                </div>
+                <div className="flex items-center space-x-3 sm:space-x-4">
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-violet-500/40 to-indigo-500/40 dark:from-violet-500/25 dark:to-indigo-500/25 border border-violet-500/60 dark:border-violet-400/40 rounded-lg sm:rounded-xl"></div>
+                  <span className="text-xs sm:text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">Medium (2)</span>
+                </div>
+                <div className="flex items-center space-x-3 sm:space-x-4">
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-orange-500/40 to-amber-500/40 dark:from-orange-500/25 dark:to-amber-500/25 border border-orange-500/60 dark:border-orange-400/40 rounded-lg sm:rounded-xl"></div>
+                  <span className="text-xs sm:text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">High (3+)</span>
+                </div>
+                <div className="flex items-center space-x-3 sm:space-x-4">
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-emerald-500/40 to-teal-500/40 dark:from-emerald-500/25 dark:to-teal-500/25 border-2 border-emerald-500/70 dark:border-emerald-400/50 rounded-lg sm:rounded-xl shadow-lg shadow-emerald-500/30"></div>
+                  <span className="text-xs sm:text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">Your selection</span>
+                </div>
+              </div>
             </div>
-            <div className="flex items-center space-x-10">
-              <div className="flex items-center space-x-4">
-                <div className="w-6 h-6 bg-neutral-200/50 dark:bg-neutral-800/20 border border-neutral-300/50 dark:border-neutral-700/30 rounded-xl"></div>
-                <span className="text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">None</span>
-              </div>
-              <div className="flex items-center space-x-4">
-                <div className="w-6 h-6 bg-gradient-to-br from-blue-500/35 to-cyan-500/35 dark:from-blue-500/20 dark:to-cyan-500/20 border border-blue-500/50 dark:border-blue-400/30 rounded-xl"></div>
-                <span className="text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">Low (1)</span>
-              </div>
-              <div className="flex items-center space-x-4">
-                <div className="w-6 h-6 bg-gradient-to-br from-violet-500/40 to-indigo-500/40 dark:from-violet-500/25 dark:to-indigo-500/25 border border-violet-500/60 dark:border-violet-400/40 rounded-xl"></div>
-                <span className="text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">Medium (2)</span>
-              </div>
-              <div className="flex items-center space-x-4">
-                <div className="w-6 h-6 bg-gradient-to-br from-orange-500/40 to-amber-500/40 dark:from-orange-500/25 dark:to-amber-500/25 border border-orange-500/60 dark:border-orange-400/40 rounded-xl"></div>
-                <span className="text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">High (3+)</span>
-              </div>
-              <div className="flex items-center space-x-4">
-                <div className="w-6 h-6 bg-gradient-to-br from-emerald-500/40 to-teal-500/40 dark:from-emerald-500/25 dark:to-teal-500/25 border-2 border-emerald-500/70 dark:border-emerald-400/50 rounded-xl shadow-lg shadow-emerald-500/30"></div>
-                <span className="text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">Your selection</span>
-              </div>
-            </div>
+
+            {/* Floating Hover Context */}
+            {hoveredSlot && (
+              <motion.div 
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className="text-center sm:text-right"
+              >
+                <div className="text-xs text-neutral-500 dark:text-neutral-400/80 font-extralight tracking-wider luxury-caption">
+                  {formatTime(hoveredSlot.time)} • {new Date(hoveredSlot.date).toLocaleDateString('en-US', { 
+                    weekday: 'short', 
+                    month: 'short', 
+                    day: 'numeric' 
+                  })}
+                </div>
+                {(() => {
+                  const available = getAvailabilityForSlot(hoveredSlot.date, hoveredSlot.time)
+                  return (
+                    <div className="text-xs text-violet-600 dark:text-violet-300/90 font-light tracking-wider mt-2 luxury-caption">
+                      {available.length > 0 ? `${available.length} available` : 'No responses yet'}
+                    </div>
+                  )
+                })()}
+              </motion.div>
+            )}
           </div>
 
-          {/* Floating Hover Context */}
-          {hoveredSlot && (
-            <motion.div 
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="text-right"
-            >
-              <div className="text-xs text-neutral-500 dark:text-neutral-400/80 font-extralight tracking-wider luxury-caption">
-                {formatTime(hoveredSlot.time)} • {new Date(hoveredSlot.date).toLocaleDateString('en-US', { 
-                  weekday: 'short', 
-                  month: 'short', 
-                  day: 'numeric' 
-                })}
-              </div>
-              {(() => {
-                const available = getAvailabilityForSlot(hoveredSlot.date, hoveredSlot.time)
-                return (
-                  <div className="text-xs text-violet-600 dark:text-violet-300/90 font-light tracking-wider mt-2 luxury-caption">
-                    {available.length > 0 ? `${available.length} available` : 'No responses yet'}
-                  </div>
-                )
-              })()}
-            </motion.div>
-          )}
-        </div>
-
-        {/* Canvas Navigation Hint */}
-        <div className="mt-8 text-center">
-          <p className="text-xs text-neutral-500 dark:text-neutral-500/70 font-extralight tracking-wider luxury-caption">
-            Navigate the availability canvas • {dates.length} days • {timeSlots.length} time slots
-          </p>
+          {/* Canvas Navigation Hint */}
+          <div className="text-center">
+            <p className="text-xs text-neutral-500 dark:text-neutral-500/70 font-extralight tracking-wider luxury-caption">
+              Navigate the availability canvas • {dates.length} days • {timeSlots.length} time slots
+            </p>
+          </div>
         </div>
       </div>
 
