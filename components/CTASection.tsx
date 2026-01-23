@@ -1,74 +1,52 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Zap } from 'lucide-react'
 
-export default function CTASection() {
+interface CTASectionProps {
+  onSignUp?: () => void
+}
+
+export default function CTASection({ onSignUp }: CTASectionProps) {
   return (
-    <section className="section bg-purple-gradient text-white relative overflow-hidden">
-      {/* Grid Pattern Background */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
-          `,
-          backgroundSize: '40px 40px'
-        }}></div>
-      </div>
-      
-      {/* Animated Grid Dots */}
-      <div className="absolute inset-0 opacity-20">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-white rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              opacity: [0.2, 0.8, 0.2],
-              scale: [1, 1.5, 1],
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
-          />
-        ))}
-      </div>
-
-      <div className="max-w-4xl mx-auto text-center relative z-10 px-4 sm:px-6">
+    <section className="section bg-gradient-to-br from-primary-600 to-primary-700 dark:from-primary-700 dark:to-primary-800">
+      <div className="max-w-4xl mx-auto text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 sm:mb-8 leading-tight">
-            Stop scheduling.
-            <br />
-            Start meeting.
+          {/* Icon */}
+          <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <Zap className="w-8 h-8 text-white" />
+          </div>
+
+          {/* Headline */}
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6 leading-tight">
+            Ready to skip the scheduling chaos?
           </h2>
-          
-          <p className="text-base sm:text-lg lg:text-xl text-purple-100 mb-8 sm:mb-12 max-w-2xl mx-auto leading-relaxed">
-            Create your first event in under 60 seconds.
+
+          {/* Supporting text */}
+          <p className="text-lg sm:text-xl text-white/90 mb-8 sm:mb-10 max-w-2xl mx-auto leading-relaxed">
+            Join thousands of teams who've already ditched the endless group chats and found their perfect meeting times in seconds.
           </p>
 
           {/* CTA Button */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
+          <motion.button
+            onClick={onSignUp}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="bg-white text-primary-600 hover:bg-neutral-50 px-8 py-4 rounded-xl font-bold text-lg transition-all duration-200 hover:shadow-lg hover:shadow-black/20 flex items-center space-x-3 mx-auto"
           >
-            <button className="bg-white text-primary-600 hover:bg-neutral-50 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-base sm:text-lg transition-all duration-200 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-600 flex items-center space-x-2 mx-auto w-full sm:w-auto justify-center">
-              <span>Get Started Free</span>
-              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
-            </button>
-          </motion.div>
+            <span>Start scheduling smarter</span>
+            <ArrowRight className="w-5 h-5" />
+          </motion.button>
+
+          {/* Trust signal */}
+          <p className="text-white/70 text-sm mt-6">
+            Free forever • No credit card required • Setup in 30 seconds
+          </p>
         </motion.div>
       </div>
     </section>

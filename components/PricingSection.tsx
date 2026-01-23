@@ -53,103 +53,114 @@ export default function PricingSection({ onSignUp, onUpgrade }: PricingSectionPr
   }
 
   return (
-    <section id="pricing" className="section">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        {/* Section header */}
+    <section id="pricing" className="py-32">
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Editorial Section Header */}
         <motion.div 
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 60 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true }}
-          className="section-header"
+          className="text-center mb-24"
         >
-          <h2 className="section-title text-3xl sm:text-4xl lg:text-5xl">Simple, transparent pricing</h2>
-          <p className="section-subtitle text-base sm:text-lg lg:text-xl">
+          <h2 className="text-6xl md:text-7xl lg:text-8xl font-extralight text-neutral-900 dark:text-white mb-8 tracking-tighter leading-[0.85] luxury-heading">
+            Simple, transparent pricing
+          </h2>
+          <p className="text-2xl text-neutral-600 dark:text-neutral-300/80 max-w-3xl mx-auto leading-relaxed font-extralight tracking-wide luxury-body">
             Choose the plan that works best for your team
           </p>
         </motion.div>
 
-        {/* Pricing Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 max-w-4xl mx-auto">
+        {/* Full-Bleed Pricing Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
           {plans.map((plan, index) => (
             <motion.div
               key={plan.name}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 60 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
+              transition={{ duration: 1.0, delay: index * 0.2, ease: [0.16, 1, 0.3, 1] }}
               viewport={{ once: true }}
-              className={`relative flex flex-col ${
+              className={`relative group bg-gradient-to-br from-white/80 via-neutral-50/60 to-white/80 dark:from-neutral-900/40 dark:via-neutral-800/20 dark:to-neutral-900/40 backdrop-blur-2xl border rounded-[2rem] p-12 hover:bg-gradient-to-br hover:from-white/90 hover:via-neutral-50/70 hover:to-white/90 dark:hover:from-neutral-900/60 dark:hover:via-neutral-800/40 dark:hover:to-neutral-900/60 transition-all duration-700 hover:border-neutral-300/70 dark:hover:border-white/15 overflow-hidden shadow-lg dark:shadow-none ${
                 plan.popular 
-                  ? 'card p-6 sm:p-8 border-2 border-primary-500 shadow-xl shadow-primary-500/20' 
-                  : 'card p-6 sm:p-8'
+                  ? 'border-violet-500/50 dark:border-violet-500/30 shadow-2xl shadow-violet-500/20' 
+                  : 'border-neutral-200/50 dark:border-white/8'
               }`}
             >
+              {/* Subtle Background Pattern */}
+              <div className={`absolute inset-0 rounded-[2rem] opacity-0 group-hover:opacity-100 transition-opacity duration-700 ${
+                plan.popular 
+                  ? 'bg-gradient-to-br from-violet-500/5 to-indigo-500/5'
+                  : 'bg-gradient-to-br from-violet-500/2 to-indigo-500/2'
+              }`}></div>
+
               {/* Popular badge */}
               {plan.popular && (
-                <div className="absolute -top-3 sm:-top-4 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-primary-600 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold flex items-center space-x-1">
-                    <Star className="w-3 h-3 sm:w-4 sm:h-4" />
-                    <span>Most Popular</span>
+                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                  <div className="bg-gradient-to-r from-violet-500 to-indigo-500 text-white px-6 py-3 rounded-2xl text-sm font-light flex items-center space-x-2 shadow-xl shadow-violet-500/30">
+                    <Star className="w-4 h-4" />
+                    <span className="tracking-widest uppercase luxury-caption">Most Popular</span>
                   </div>
                 </div>
               )}
 
-              {/* Plan header */}
-              <div className="text-center mb-6 sm:mb-8">
-                <h3 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">
-                  {plan.name}
-                </h3>
-                <p className="text-neutral-600 dark:text-neutral-400 mb-4 sm:mb-6 text-sm sm:text-base">
-                  {plan.description}
-                </p>
-                <div className="mb-4 sm:mb-6">
-                  <span className="text-4xl sm:text-5xl font-bold text-neutral-900 dark:text-neutral-100">
-                    {plan.price}
-                  </span>
-                  <span className="text-neutral-500 ml-2 text-sm sm:text-base">
-                    {plan.period}
-                  </span>
-                </div>
-              </div>
-
-              {/* Features - flex-grow to push button to bottom */}
-              <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8 flex-grow">
-                {plan.features.map((feature, featureIndex) => (
-                  <div key={featureIndex} className="flex items-center space-x-3">
-                    <div className="w-4 h-4 sm:w-5 sm:h-5 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-primary-600" />
-                    </div>
-                    <span className="text-neutral-700 dark:text-neutral-300 text-sm sm:text-base">
-                      {feature}
+              <div className="relative">
+                {/* Plan header */}
+                <div className="text-center mb-12">
+                  <h3 className="text-3xl font-extralight text-neutral-900 dark:text-white mb-4 tracking-wide luxury-heading">
+                    {plan.name}
+                  </h3>
+                  <p className="text-neutral-600 dark:text-neutral-400/80 mb-8 text-lg font-extralight tracking-wide luxury-body">
+                    {plan.description}
+                  </p>
+                  <div className="mb-8">
+                    <span className="text-6xl font-extralight text-neutral-900 dark:text-white tracking-tight">
+                      {plan.price}
+                    </span>
+                    <span className="text-neutral-500 dark:text-neutral-500/80 ml-3 text-lg font-extralight tracking-wide luxury-body">
+                      {plan.period}
                     </span>
                   </div>
-                ))}
-              </div>
+                </div>
 
-              {/* CTA - aligned at bottom */}
-              <button 
-                onClick={() => handleButtonClick(plan.action)}
-                className={`w-full py-3 sm:py-4 px-4 sm:px-6 rounded-xl font-semibold transition-all duration-200 mt-auto text-sm sm:text-base ${
-                  plan.popular
-                    ? 'btn-primary'
-                    : 'btn-secondary'
-                }`}
-              >
-                {plan.cta}
-              </button>
+                {/* Features */}
+                <div className="space-y-6 mb-12">
+                  {plan.features.map((feature, featureIndex) => (
+                    <div key={featureIndex} className="flex items-center space-x-4">
+                      <div className="w-6 h-6 bg-gradient-to-br from-violet-500/15 to-indigo-500/15 border border-violet-500/20 rounded-2xl flex items-center justify-center flex-shrink-0">
+                        <Check className="w-3 h-3 text-violet-500 dark:text-violet-400/90" />
+                      </div>
+                      <span className="text-neutral-700 dark:text-neutral-300/90 font-extralight tracking-wide luxury-body">
+                        {feature}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* CTA */}
+                <button 
+                  onClick={() => handleButtonClick(plan.action)}
+                  className={`w-full py-6 px-8 rounded-3xl font-light transition-all duration-700 tracking-widest uppercase text-sm luxury-caption ${
+                    plan.popular
+                      ? 'bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white shadow-xl shadow-violet-500/20 hover:shadow-violet-500/40 luxury-glow'
+                      : 'border-2 border-violet-500/50 dark:border-violet-500/30 text-violet-600 dark:text-violet-300/90 hover:bg-violet-500/10 hover:border-violet-400/70 dark:hover:border-violet-400/50'
+                  }`}
+                >
+                  {plan.cta}
+                </button>
+              </div>
             </motion.div>
           ))}
         </div>
 
         {/* Bottom note */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true }}
-          className="text-center mt-8 sm:mt-12"
+          className="text-center mt-16"
         >
-          <p className="text-neutral-500 dark:text-neutral-500 text-sm sm:text-base">
+          <p className="text-neutral-500 dark:text-neutral-500/80 font-extralight tracking-wide luxury-body">
             Pro plan includes unlimited events and participants. No hidden fees.
           </p>
         </motion.div>

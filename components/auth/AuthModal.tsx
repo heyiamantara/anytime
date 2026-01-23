@@ -32,30 +32,33 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }: Au
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        {/* Backdrop */}
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-6">
+        {/* Luxury Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+          className="absolute inset-0 bg-gradient-to-br from-black/80 via-neutral-900/90 to-black/80 backdrop-blur-2xl"
         />
 
-        {/* Modal */}
+        {/* Atmospheric Background Pattern */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(139,92,246,0.08)_0%,transparent_70%)] pointer-events-none" />
+
+        {/* Modal Container */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          initial={{ opacity: 0, scale: 0.9, y: 40 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          transition={{ duration: 0.2 }}
-          className="relative w-full max-w-md"
+          exit={{ opacity: 0, scale: 0.9, y: 40 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="relative w-full max-w-lg"
         >
-          {/* Close Button */}
+          {/* Close Button - Luxury Style */}
           <button
             onClick={onClose}
-            className="absolute -top-4 -right-4 z-10 w-8 h-8 bg-white dark:bg-neutral-800 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow"
+            className="absolute -top-6 -right-6 z-10 w-12 h-12 bg-gradient-to-br from-neutral-900/80 via-neutral-800/60 to-neutral-900/80 backdrop-blur-xl border border-white/10 rounded-3xl flex items-center justify-center hover:border-white/20 transition-all duration-500 hover:bg-gradient-to-br hover:from-neutral-900/90 hover:via-neutral-800/70 hover:to-neutral-900/90"
           >
-            <X className="w-4 h-4 text-neutral-600 dark:text-neutral-400" />
+            <X className="w-5 h-5 text-neutral-400 hover:text-white transition-colors duration-300" />
           </button>
 
           {/* Form Content */}
@@ -63,10 +66,10 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }: Au
             {mode === 'login' ? (
               <motion.div
                 key="login"
-                initial={{ opacity: 0, x: -20 }}
+                initial={{ opacity: 0, x: -40 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 20 }}
-                transition={{ duration: 0.2 }}
+                exit={{ opacity: 0, x: 40 }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               >
                 <LoginForm
                   onSuccess={handleSuccess}
@@ -76,10 +79,10 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }: Au
             ) : (
               <motion.div
                 key="signup"
-                initial={{ opacity: 0, x: 20 }}
+                initial={{ opacity: 0, x: 40 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.2 }}
+                exit={{ opacity: 0, x: -40 }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               >
                 <SignupForm
                   onSuccess={handleSuccess}

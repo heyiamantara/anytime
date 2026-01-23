@@ -36,106 +36,113 @@ export default function LoginForm({ onSuccess, onSwitchToSignup }: LoginFormProp
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="w-full max-w-md mx-auto"
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      className="w-full max-w-lg mx-auto"
     >
-      <div className="card p-8">
-        <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">
-            Welcome back
-          </h2>
-          <p className="text-neutral-600 dark:text-neutral-400">
-            Sign in to manage your events
-          </p>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Email Field */}
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-              Email
-            </label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-400" />
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-xl bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
-                placeholder="Enter your email"
-                required
-              />
-            </div>
+      {/* Luxury Glass Container */}
+      <div className="bg-gradient-to-br from-neutral-900/60 via-neutral-800/40 to-neutral-900/60 backdrop-blur-2xl border border-white/10 rounded-[2rem] p-10 relative overflow-hidden">
+        {/* Atmospheric Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 to-indigo-500/5 rounded-[2rem]" />
+        
+        <div className="relative">
+          {/* Header */}
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-extralight text-white mb-6 tracking-tight luxury-heading">
+              Welcome back
+            </h2>
+            <p className="text-neutral-400/80 font-extralight text-lg tracking-wide luxury-body">
+              Sign in to manage your events with elegance
+            </p>
           </div>
 
-          {/* Password Field */}
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-              Password
-            </label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-400" />
-              <input
-                id="password"
-                type={showPassword ? 'text' : 'password'}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-10 pr-12 py-3 border border-neutral-300 dark:border-neutral-600 rounded-xl bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
-                placeholder="Enter your password"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors"
+          <form onSubmit={handleSubmit} className="space-y-8">
+            {/* Email Field */}
+            <div>
+              <label htmlFor="email" className="block text-sm font-extralight text-neutral-300/90 mb-4 tracking-widest luxury-caption">
+                EMAIL ADDRESS
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-5 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-500/70" />
+                <input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full pl-14 pr-6 py-5 bg-gradient-to-r from-neutral-900/50 to-neutral-800/50 border border-white/10 rounded-2xl text-white placeholder-neutral-500/70 focus:outline-none focus:border-violet-500/50 focus:bg-gradient-to-r focus:from-neutral-900/70 focus:to-neutral-800/70 transition-all duration-500 font-extralight tracking-wide"
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Password Field */}
+            <div>
+              <label htmlFor="password" className="block text-sm font-extralight text-neutral-300/90 mb-4 tracking-widest luxury-caption">
+                PASSWORD
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-5 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-500/70" />
+                <input
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full pl-14 pr-14 py-5 bg-gradient-to-r from-neutral-900/50 to-neutral-800/50 border border-white/10 rounded-2xl text-white placeholder-neutral-500/70 focus:outline-none focus:border-violet-500/50 focus:bg-gradient-to-r focus:from-neutral-900/70 focus:to-neutral-800/70 transition-all duration-500 font-extralight tracking-wide"
+                  placeholder="Enter your password"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-5 top-1/2 transform -translate-y-1/2 text-neutral-500/70 hover:text-neutral-300 transition-colors duration-300"
+                >
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
+              </div>
+            </div>
+
+            {/* Error Message */}
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="p-6 bg-gradient-to-r from-red-500/10 to-orange-500/10 border border-red-500/20 rounded-2xl"
               >
-                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-              </button>
-            </div>
-          </div>
-
-          {/* Error Message */}
-          {error && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg"
-            >
-              <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
-            </motion.div>
-          )}
-
-          {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full btn-primary flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {loading ? (
-              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-            ) : (
-              <>
-                <span>Sign In</span>
-                <ArrowRight className="w-5 h-5" />
-              </>
+                <p className="text-red-300/90 font-extralight tracking-wide luxury-body">{error}</p>
+              </motion.div>
             )}
-          </button>
-        </form>
 
-        {/* Switch to Signup */}
-        <div className="mt-6 text-center">
-          <p className="text-neutral-600 dark:text-neutral-400">
-            Don't have an account?{' '}
+            {/* Submit Button */}
             <button
-              onClick={onSwitchToSignup}
-              className="text-primary-600 hover:text-primary-700 font-medium transition-colors"
+              type="submit"
+              disabled={loading}
+              className="w-full bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white py-6 rounded-2xl font-light tracking-widest transition-all duration-700 shadow-2xl shadow-violet-500/20 hover:shadow-violet-500/40 disabled:opacity-50 disabled:cursor-not-allowed luxury-glow flex items-center justify-center space-x-4 text-lg"
             >
-              Sign up
+              {loading ? (
+                <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              ) : (
+                <>
+                  <span className="uppercase">Sign In</span>
+                  <ArrowRight className="w-5 h-5" />
+                </>
+              )}
             </button>
-          </p>
+          </form>
+
+          {/* Switch to Signup */}
+          <div className="mt-10 text-center">
+            <p className="text-neutral-400/80 font-extralight tracking-wide luxury-body">
+              Don't have an account?{' '}
+              <button
+                onClick={onSwitchToSignup}
+                className="text-violet-400/90 hover:text-violet-300 font-light transition-colors duration-300 tracking-wide"
+              >
+                Sign up
+              </button>
+            </p>
+          </div>
         </div>
       </div>
     </motion.div>

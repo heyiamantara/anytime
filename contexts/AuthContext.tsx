@@ -26,13 +26,48 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   )
 
+  // Debug: Log environment variables (remove in production)
   useEffect(() => {
+    console.log('Supabase URL:', process.env.NEXT_PUBLIC_SUPABASE_URL ? 'Set' : 'Missing')
+    console.log('Supabase Key:', process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'Set' : 'Missing')
+  }, [])
+
+  useEffect(() => {
+    let mounted = true
+
+    // Fallback timeout to prevent infinite loading
+    const timeout = setTimeout(() => {
+      if (mounted && loading) {
+        console.warn('Auth loading timeout, setting loading to false')
+        setLoading(false)
+      }
+    }, 3000) // Reduced to 3 seconds
+
     // Get initial session
     const getInitialSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      setSession(session)
-      setUser(session?.user ?? null)
-      setLoading(false)
+      try {
+        console.log('Getting initial session...')
+        const { data: { session }, error } = await supabase.auth.getSession()
+        
+        if (!mounted) return
+        
+        if (error) {
+          console.error('Error getting session:', error)
+          // Don't throw, just continue without auth
+        }
+        
+        console.log('Initial session:', session?.user?.email || 'No user')
+        setSession(session)
+        setUser(session?.user ?? null)
+        setLoading(false)
+        clearTimeout(timeout)
+      } catch (error) {
+        console.error('Error in getInitialSession:', error)
+        if (mounted) {
+          setLoading(false)
+          clearTimeout(timeout)
+        }
+      }
     }
 
     getInitialSession()
@@ -40,13 +75,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        if (!mounted) return
+        
+        console.log('Auth state changed:', event, session?.user?.email || 'No user')
         setSession(session)
         setUser(session?.user ?? null)
         setLoading(false)
+        clearTimeout(timeout)
       }
     )
 
-    return () => subscription.unsubscribe()
+    return () => {
+      mounted = false
+      subscription.unsubscribe()
+      clearTimeout(timeout)
+    }
   }, [])
 
   const signUp = async (email: string, password: string) => {

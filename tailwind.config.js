@@ -37,13 +37,27 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'system-ui', 'sans-serif'],
+      },
+      fontWeight: {
+        'extralight': '200',
+        'light': '300',
+        'normal': '400',
+        'medium': '500',
+        'semibold': '600',
+        'bold': '700',
+        'extrabold': '800',
+        'black': '900',
       },
       animation: {
         'fade-in': 'fadeIn 0.6s ease-out',
         'fade-in-up': 'fadeInUp 0.6s ease-out',
         'float': 'float 6s ease-in-out infinite',
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'grid': 'grid 15s linear infinite',
+        'grid-move': 'gridMove 20s linear infinite',
+        'slide-right': 'slideRight 8s linear infinite',
+        'slide-down': 'slideDown 10s linear infinite',
       },
       keyframes: {
         fadeIn: {
@@ -57,6 +71,27 @@ module.exports = {
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(-10px)' },
+        },
+        grid: {
+          '0%': { transform: 'translateY(-50%)' },
+          '100%': { transform: 'translateY(0)' },
+        },
+        gridMove: {
+          '0%': { transform: 'translate(0, 0)' },
+          '100%': { transform: 'translate(50px, 50px)' },
+        },
+        gridSlide: {
+          '0%': { transform: 'translate(0, 0)' },
+          '50%': { transform: 'translate(20px, 20px)' },
+          '100%': { transform: 'translate(0, 0)' },
+        },
+        slideRight: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100vw)' },
+        },
+        slideDown: {
+          '0%': { transform: 'translateY(-100%)' },
+          '100%': { transform: 'translateY(100vh)' },
         },
       },
       backgroundImage: {

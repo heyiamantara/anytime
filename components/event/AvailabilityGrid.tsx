@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Clock, Users, CheckCircle, AlertCircle } from 'lucide-react'
+import { CheckCircle } from 'lucide-react'
 
 interface AvailabilityGridProps {
   event: any
@@ -81,19 +81,6 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
     )
   }
 
-  const getSlotIntensity = (date: string, time: string) => {
-    const available = getAvailabilityForSlot(date, time)
-    const total = event.participants?.length || 1
-    const percentage = available.length / total
-    
-    if (percentage >= 0.8) return 'bg-green-500 text-white'
-    if (percentage >= 0.6) return 'bg-green-400 text-white'
-    if (percentage >= 0.4) return 'bg-yellow-400 text-neutral-900'
-    if (percentage >= 0.2) return 'bg-orange-400 text-white'
-    if (available.length > 0) return 'bg-orange-300 text-neutral-900'
-    return 'bg-neutral-200 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-400'
-  }
-
   const toggleAvailability = async (date: string, time: string) => {
     if (!currentParticipant || event.status === 'locked') return
 
@@ -169,67 +156,103 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
   }
 
   const dates = generateDateRange()
+  const timeSlots = event.time_blocks || []
+  
+  // Calculate dynamic sizing based on content
+  const getGridDimensions = () => {
+    const timeSlotCount = timeSlots.length
+    
+    // Base minimum height per slot
+    const minSlotHeight = 56 // 14 * 4 (h-14 equivalent)
+    const maxSlotHeight = 120 // Increased maximum height for better fill
+    
+    // Calculate available height (viewport minus headers, padding, etc.)
+    const availableHeight = Math.max(500, window.innerHeight * 0.7)
+    const headerHeight = 100 // Approximate header space
+    const legendHeight = 140 // Approximate legend space
+    const gridHeight = availableHeight - headerHeight - legendHeight
+    
+    // Calculate optimal slot height
+    let slotHeight = Math.max(minSlotHeight, gridHeight / timeSlotCount)
+    slotHeight = Math.min(slotHeight, maxSlotHeight)
+    
+    // Use flex layout for fewer slots to fill space better
+    const useFlex = timeSlotCount <= 8
+    
+    return {
+      slotHeight,
+      useFlex,
+      gridHeight: useFlex ? Math.max(gridHeight, 400) : 'auto'
+    }
+  }
+
+  const [gridDimensions, setGridDimensions] = useState({ slotHeight: 56, useFlex: false, gridHeight: 'auto' })
+
+  useEffect(() => {
+    const updateDimensions = () => {
+      if (typeof window !== 'undefined') {
+        setGridDimensions(getGridDimensions())
+      }
+    }
+
+    updateDimensions()
+    window.addEventListener('resize', updateDimensions)
+    return () => window.removeEventListener('resize', updateDimensions)
+  }, [timeSlots.length])
+
+  const { slotHeight, useFlex, gridHeight } = gridDimensions
 
   return (
-    <div className="card p-4 sm:p-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 gap-4 sm:gap-0">
-        <div>
-          <h2 className="text-lg sm:text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
-            Availability Grid
-          </h2>
-          <p className="text-neutral-600 dark:text-neutral-400 text-sm sm:text-base">
-            {currentParticipant 
-              ? 'Click on time slots to mark your availability' 
-              : 'Join the event to mark your availability'
-            }
-          </p>
-        </div>
-        
-        {event.status === 'locked' && (
-          <div className="flex items-center space-x-2 text-orange-600">
-            <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5" />
-            <span className="text-xs sm:text-sm font-medium">Event Locked</span>
-          </div>
-        )}
-      </div>
-
-      {/* Grid */}
-      <div className="overflow-x-auto -mx-4 sm:-mx-6 lg:mx-0 px-4 sm:px-6 lg:px-0">
-        <div className="min-w-[400px] sm:min-w-[500px] lg:min-w-[600px]">
-          {/* Header Row */}
-          <div className="grid gap-1 sm:gap-2 mb-2 sm:mb-3 lg:mb-4" style={{ gridTemplateColumns: `60px sm:80px lg:120px repeat(${dates.length}, 1fr)` }}>
-            <div></div> {/* Empty corner */}
+    <>
+      {/* Responsive Grid Container */}
+      <div className="overflow-x-auto">
+        <div className="min-w-max">
+          {/* Refined Header Row */}
+          <div className="flex mb-8">
+            <div className="w-32 flex-shrink-0"></div>
             {dates.map((date, index) => {
               const formatted = formatDate(date)
               return (
-                <div key={index} className="text-center p-1 sm:p-2 lg:p-3">
-                  <div className="text-xs sm:text-sm font-medium text-neutral-900 dark:text-neutral-100">
+                <motion.div 
+                  key={index} 
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                  className="flex-1 min-w-[6rem] text-center px-3"
+                >
+                  <div className="text-sm font-extralight text-neutral-900 dark:text-white mb-2 tracking-widest luxury-caption">
                     {formatted.day}
                   </div>
-                  <div className="text-xs text-neutral-500">
+                  <div className="text-xs text-neutral-500 dark:text-neutral-400/70 font-extralight tracking-widest luxury-caption">
                     {formatted.date}
                   </div>
-                </div>
+                </motion.div>
               )
             })}
           </div>
 
-          {/* Time Rows */}
-          <div className="space-y-1 sm:space-y-2">
-            {event.time_blocks?.map((time: string, timeIndex: number) => (
-              <div 
+          {/* Adaptive Time Slots Grid */}
+          <div 
+            className={`${useFlex ? 'flex flex-col gap-4' : 'space-y-4'}`}
+            style={useFlex ? { height: gridHeight, minHeight: '400px' } : {}}
+          >
+            {timeSlots.map((time: string, timeIndex: number) => (
+              <motion.div 
                 key={timeIndex} 
-                className="grid gap-1 sm:gap-2 items-center"
-                style={{ gridTemplateColumns: `60px sm:80px lg:120px repeat(${dates.length}, 1fr)` }}
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 + timeIndex * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                className={`flex items-center ${useFlex ? 'flex-1 min-h-[4rem]' : ''}`}
+                style={!useFlex ? { minHeight: slotHeight } : {}}
               >
-                {/* Time Label */}
-                <div className="text-right pr-2 sm:pr-3 lg:pr-4">
-                  <div className="text-xs sm:text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                {/* Refined Time Label */}
+                <div className="w-32 flex-shrink-0 text-right pr-8 flex items-center justify-end">
+                  <div className="text-sm font-extralight text-neutral-700 dark:text-neutral-300/90 tracking-widest luxury-caption">
                     {formatTime(time)}
                   </div>
                 </div>
 
-                {/* Availability Slots */}
+                {/* Responsive Availability Slots */}
                 {dates.map((date, dateIndex) => {
                   const dateStr = date.toISOString().split('T')[0]
                   const slotKey = getSlotKey(dateStr, time)
@@ -239,79 +262,125 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
                   const canInteract = currentParticipant && event.status === 'open'
 
                   return (
-                    <motion.div
-                      key={dateIndex}
-                      whileHover={canInteract ? { scale: 1.05 } : {}}
-                      whileTap={canInteract ? { scale: 0.95 } : {}}
-                      onMouseEnter={() => setHoveredSlot({ date: dateStr, time })}
-                      onMouseLeave={() => setHoveredSlot(null)}
-                      onClick={() => toggleAvailability(dateStr, time)}
-                      className={`
-                        h-8 sm:h-10 lg:h-12 rounded-md sm:rounded-lg transition-all duration-200 flex items-center justify-center relative
-                        ${canInteract ? 'cursor-pointer' : 'cursor-default'}
-                        ${getSlotIntensity(dateStr, time)}
-                        ${isUserAvailable ? 'ring-1 sm:ring-2 ring-primary-500 ring-offset-1 sm:ring-offset-2 ring-offset-white dark:ring-offset-neutral-900' : ''}
-                        ${isHovered ? 'shadow-lg' : ''}
-                        ${loading ? 'opacity-50' : ''}
-                      `}
-                    >
-                      {/* Availability Count */}
-                      <span className="text-xs sm:text-sm font-medium">
-                        {availableUsers.length > 0 ? `${availableUsers.length}/${event.participants?.length || 0}` : ''}
-                      </span>
+                    <div key={dateIndex} className="flex-1 min-w-[6rem] px-3 flex items-center">
+                      <motion.div
+                        whileHover={canInteract ? { scale: 1.05, y: -2 } : {}}
+                        whileTap={canInteract ? { scale: 0.95 } : {}}
+                        onMouseEnter={() => setHoveredSlot({ date: dateStr, time })}
+                        onMouseLeave={() => setHoveredSlot(null)}
+                        onClick={() => toggleAvailability(dateStr, time)}
+                        className={`
+                          w-full rounded-3xl transition-all duration-700 flex items-center justify-center relative overflow-hidden backdrop-blur-sm
+                          ${useFlex ? 'flex-1 min-h-[3.5rem]' : 'h-12'}
+                          ${canInteract ? 'cursor-pointer' : 'cursor-default'}
+                          ${availableUsers.length === 0 
+                            ? 'bg-neutral-200/50 dark:bg-neutral-800/20 border border-neutral-300/30 dark:border-neutral-700/20 hover:bg-neutral-300/60 dark:hover:bg-neutral-700/30 hover:border-neutral-400/40 dark:hover:border-neutral-600/30' 
+                            : availableUsers.length === 1
+                              ? 'bg-gradient-to-br from-violet-500/15 to-indigo-500/15 border border-violet-500/25 shadow-lg shadow-violet-500/10'
+                              : availableUsers.length === 2
+                                ? 'bg-gradient-to-br from-violet-500/25 to-indigo-500/25 border border-violet-400/35 shadow-lg shadow-violet-500/15'
+                                : 'bg-gradient-to-br from-violet-500/35 to-indigo-500/35 border border-violet-400/45 shadow-xl shadow-violet-500/20'
+                          }
+                          ${isUserAvailable ? 'ring-2 ring-violet-400/50 shadow-xl shadow-violet-500/25' : ''}
+                          ${isHovered ? 'shadow-2xl shadow-violet-500/30 border-violet-400/60' : ''}
+                          ${loading ? 'opacity-40' : ''}
+                        `}
+                        style={useFlex ? {} : { height: Math.max(48, slotHeight * 0.8) }}
+                      >
+                        {/* Atmospheric Background Glow */}
+                        {availableUsers.length > 0 && (
+                          <div className="absolute inset-0 bg-gradient-to-br from-violet-400/8 to-indigo-400/8 rounded-3xl"></div>
+                        )}
 
-                      {/* User's availability indicator */}
-                      {isUserAvailable && (
-                        <CheckCircle className="absolute -top-0.5 -right-0.5 sm:-top-1 sm:-right-1 w-3 h-3 sm:w-4 sm:h-4 text-primary-600 bg-white dark:bg-neutral-900 rounded-full" />
-                      )}
-                    </motion.div>
+                        {/* Availability Count */}
+                        {availableUsers.length > 0 && (
+                          <span className="relative text-sm font-extralight text-violet-600 dark:text-violet-200/90 tracking-widest">
+                            {availableUsers.length}
+                          </span>
+                        )}
+
+                        {/* User's Selection Indicator */}
+                        {isUserAvailable && (
+                          <div className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-gradient-to-br from-violet-400 to-indigo-400 rounded-full shadow-xl shadow-violet-500/50"></div>
+                        )}
+
+                        {/* Hover Atmosphere Effect */}
+                        {isHovered && canInteract && (
+                          <div className="absolute inset-0 bg-gradient-to-br from-violet-400/15 to-indigo-400/15 rounded-3xl"></div>
+                        )}
+                      </motion.div>
+                    </div>
                   )
                 })}
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Legend */}
-      <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-neutral-200 dark:border-neutral-700">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
-          <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
-            <div className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
-              Legend:
+      {/* Refined Scroll Hint */}
+      {dates.length > 4 && (
+        <div className="mt-8 text-center">
+          <p className="text-xs text-neutral-500 dark:text-neutral-500/70 font-extralight tracking-widest luxury-caption">
+            Scroll horizontally to explore all dates
+          </p>
+        </div>
+      )}
+
+      {/* Atmospheric Legend */}
+      <div className="mt-12 pt-8 border-t border-neutral-200/50 dark:border-white/8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-8">
+          <div className="flex items-center space-x-10">
+            <div className="text-sm font-extralight text-neutral-600 dark:text-neutral-400/80 tracking-widest luxury-caption">
+              Availability:
             </div>
-            <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 sm:w-4 sm:h-4 bg-green-500 rounded"></div>
-                <span className="text-xs text-neutral-600 dark:text-neutral-400">High</span>
+            <div className="flex items-center space-x-8">
+              <div className="flex items-center space-x-3">
+                <div className="w-5 h-5 bg-neutral-200/50 dark:bg-neutral-800/20 border border-neutral-300/30 dark:border-neutral-700/20 rounded-2xl"></div>
+                <span className="text-xs text-neutral-500 dark:text-neutral-500/80 font-extralight tracking-widest luxury-caption">None</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 sm:w-4 sm:h-4 bg-yellow-400 rounded"></div>
-                <span className="text-xs text-neutral-600 dark:text-neutral-400">Medium</span>
+              <div className="flex items-center space-x-3">
+                <div className="w-5 h-5 bg-gradient-to-br from-violet-500/15 to-indigo-500/15 border border-violet-500/25 rounded-2xl"></div>
+                <span className="text-xs text-neutral-500 dark:text-neutral-500/80 font-extralight tracking-widest luxury-caption">Low</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 sm:w-4 sm:h-4 bg-neutral-300 dark:bg-neutral-700 rounded"></div>
-                <span className="text-xs text-neutral-600 dark:text-neutral-400">Low</span>
+              <div className="flex items-center space-x-3">
+                <div className="w-5 h-5 bg-gradient-to-br from-violet-500/25 to-indigo-500/25 border border-violet-400/35 rounded-2xl"></div>
+                <span className="text-xs text-neutral-500 dark:text-neutral-500/80 font-extralight tracking-widest luxury-caption">Medium</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <div className="w-5 h-5 bg-gradient-to-br from-violet-500/35 to-indigo-500/35 border border-violet-400/45 rounded-2xl"></div>
+                <span className="text-xs text-neutral-500 dark:text-neutral-500/80 font-extralight tracking-widest luxury-caption">High</span>
               </div>
             </div>
           </div>
 
-          {/* Hover Info */}
+          {/* Atmospheric Hover Info */}
           {hoveredSlot && (
-            <div className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400">
-              {formatTime(hoveredSlot.time)} on {new Date(hoveredSlot.date).toLocaleDateString('en-US', { 
-                weekday: 'short', 
-                month: 'short', 
-                day: 'numeric' 
-              })}
+            <motion.div 
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="text-right"
+            >
+              <div className="text-xs text-neutral-500 dark:text-neutral-400/80 font-extralight tracking-widest luxury-caption">
+                {formatTime(hoveredSlot.time)} • {new Date(hoveredSlot.date).toLocaleDateString('en-US', { 
+                  weekday: 'short', 
+                  month: 'short', 
+                  day: 'numeric' 
+                })}
+              </div>
               {(() => {
                 const available = getAvailabilityForSlot(hoveredSlot.date, hoveredSlot.time)
-                return available.length > 0 ? ` • ${available.length} available` : ' • No responses'
+                return (
+                  <div className="text-xs text-violet-600 dark:text-violet-300/90 font-light tracking-widest mt-2 luxury-caption">
+                    {available.length > 0 ? `${available.length} available` : 'No responses yet'}
+                  </div>
+                )
               })()}
-            </div>
+            </motion.div>
           )}
         </div>
       </div>
-    </div>
+    </>
   )
 }

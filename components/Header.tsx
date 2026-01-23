@@ -62,7 +62,7 @@ export default function Header({ hideSignOut = false }: HeaderProps) {
         transition={{ duration: 0.6 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled 
-            ? 'bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md border-b border-neutral-200 dark:border-neutral-800' 
+            ? 'bg-neutral-950/80 backdrop-blur-md border-b border-neutral-800/50' 
             : 'bg-transparent'
         }`}
       >
@@ -71,7 +71,7 @@ export default function Header({ hideSignOut = false }: HeaderProps) {
             {/* Logo */}
             <button 
               onClick={goHome}
-              className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-neutral-100 hover:text-primary-600 transition-colors"
+              className="text-xl sm:text-2xl font-bold text-white hover:text-primary-400 transition-colors"
             >
               Anytime
             </button>
@@ -81,6 +81,9 @@ export default function Header({ hideSignOut = false }: HeaderProps) {
               <nav className="hidden lg:flex items-center justify-center space-x-8 absolute left-1/2 transform -translate-x-1/2">
                 <a href="#product" className="btn-ghost">
                   Product
+                </a>
+                <a href="#demo" className="btn-ghost">
+                  Demo
                 </a>
                 <a href="#pricing" className="btn-ghost">
                   Pricing
@@ -92,26 +95,30 @@ export default function Header({ hideSignOut = false }: HeaderProps) {
             <div className="flex items-center space-x-2 sm:space-x-4">
               {/* Theme toggle */}
               <button
-                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                className="p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                onClick={() => {
+                  const newTheme = theme === 'dark' ? 'light' : 'dark'
+                  console.log('Switching theme from', theme, 'to', newTheme)
+                  setTheme(newTheme)
+                }}
+                className="p-2 rounded-lg hover:bg-neutral-800/50 transition-colors"
               >
                 {theme === 'dark' ? (
-                  <Sun className="w-4 h-4 sm:w-5 sm:h-5 text-neutral-600 dark:text-neutral-400" />
+                  <Sun className="w-4 h-4 sm:w-5 sm:h-5 text-neutral-400" />
                 ) : (
-                  <Moon className="w-4 h-4 sm:w-5 sm:h-5 text-neutral-600 dark:text-neutral-400" />
+                  <Moon className="w-4 h-4 sm:w-5 sm:h-5 text-neutral-400" />
                 )}
               </button>
 
               {/* Auth buttons */}
               {loading ? (
-                <div className="w-6 h-6 sm:w-8 sm:h-8 border-2 border-primary-600 border-t-transparent rounded-full animate-spin" />
+                <div className="w-6 h-6 sm:w-8 sm:h-8 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
               ) : user ? (
                 /* Authenticated user menu */
                 <div className="flex items-center space-x-2 sm:space-x-3">
                   {!hideSignOut && (
                     <button
                       onClick={handleSignOut}
-                      className="btn-ghost flex items-center space-x-1 sm:space-x-2 text-neutral-600 hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200 text-sm sm:text-base"
+                      className="btn-ghost flex items-center space-x-1 sm:space-x-2 text-neutral-400 hover:text-neutral-200 text-sm sm:text-base"
                     >
                       <LogOut className="w-3 h-3 sm:w-4 sm:h-4" />
                       <span className="hidden sm:inline">Sign Out</span>

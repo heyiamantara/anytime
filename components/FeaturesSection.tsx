@@ -38,42 +38,55 @@ const features = [
 
 export default function FeaturesSection() {
   return (
-    <section className="section">
-      <div className="max-w-7xl mx-auto">
-        {/* Section header */}
+    <section className="py-32">
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Editorial Section Header */}
         <motion.div 
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 60 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true }}
-          className="section-header"
+          className="text-center mb-24"
         >
-          <h2 className="section-title">Everything you need</h2>
-          <p className="section-subtitle">
-            Powerful features designed to make group scheduling effortless
+          <h2 className="text-6xl md:text-7xl lg:text-8xl font-extralight text-neutral-900 dark:text-white mb-8 tracking-tighter leading-[0.85] luxury-heading">
+            Everything you need
+          </h2>
+          <p className="text-2xl text-neutral-600 dark:text-neutral-300/80 max-w-3xl mx-auto leading-relaxed font-extralight tracking-wide luxury-body">
+            Built for groups who value their time
           </p>
         </motion.div>
 
-        {/* Features grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        {/* Full-Bleed Features Layout */}
+        <div className="space-y-12">
           {features.map((feature, index) => (
             <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
+              key={feature.title}
+              initial={{ opacity: 0, y: 60 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+              transition={{ duration: 1.0, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
               viewport={{ once: true }}
-              className="card p-6 sm:p-8 text-center hover:shadow-lg transition-shadow duration-300"
+              className="group bg-white/80 dark:bg-neutral-900/30 backdrop-blur-2xl border border-neutral-200/50 dark:border-white/8 rounded-[2rem] p-12 hover:bg-white/90 dark:hover:bg-neutral-900/50 hover:border-neutral-300/50 dark:hover:border-white/15 transition-all duration-700 relative overflow-hidden"
             >
-              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary-100 dark:bg-primary-900/30 rounded-xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
-                <feature.icon className="w-6 h-6 sm:w-8 sm:h-8 text-primary-600" />
+              {/* Subtle Background Pattern */}
+              <div className="absolute inset-0 bg-gradient-to-br from-violet-500/2 to-indigo-500/2 rounded-[2rem] opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+              
+              <div className="relative flex items-center space-x-12">
+                <div className="flex-shrink-0">
+                  <div className="w-20 h-20 bg-violet-500/10 border border-violet-500/20 rounded-3xl flex items-center justify-center group-hover:bg-violet-500/15 group-hover:border-violet-400/30 transition-all duration-700">
+                    <feature.icon className="w-10 h-10 text-violet-600 dark:text-violet-400/90" />
+                  </div>
+                </div>
+                
+                <div className="flex-1">
+                  <h3 className="text-3xl font-extralight text-neutral-900 dark:text-white mb-4 tracking-wide luxury-heading">
+                    {feature.title}
+                  </h3>
+                  
+                  <p className="text-xl text-neutral-600 dark:text-neutral-400/80 leading-relaxed font-extralight tracking-wide luxury-body">
+                    {feature.description}
+                  </p>
+                </div>
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-3 sm:mb-4">
-                {feature.title}
-              </h3>
-              <p className="text-neutral-600 dark:text-neutral-400 text-sm sm:text-base leading-relaxed">
-                {feature.description}
-              </p>
             </motion.div>
           ))}
         </div>

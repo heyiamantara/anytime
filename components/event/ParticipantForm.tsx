@@ -76,67 +76,67 @@ export default function ParticipantForm({ isOpen, onClose, eventId, onSuccess, c
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        {/* Backdrop */}
+        {/* Luxury Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={handleClose}
-          className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+          className="absolute inset-0 bg-black/70 backdrop-blur-xl"
         />
 
-        {/* Modal */}
+        {/* Luxury Modal */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          initial={{ opacity: 0, scale: 0.9, y: 40 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          transition={{ duration: 0.2 }}
-          className="relative w-full max-w-md mx-4"
+          exit={{ opacity: 0, scale: 0.9, y: 40 }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="relative w-full max-w-lg mx-4"
         >
-          <div className="card p-6 sm:p-8">
-            {/* Header */}
-            <div className="flex items-center justify-between mb-4 sm:mb-6">
-              <h2 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-neutral-100">
+          <div className="bg-gradient-to-br from-neutral-900/90 via-neutral-800/80 to-neutral-900/90 backdrop-blur-2xl border border-white/10 rounded-3xl p-8 sm:p-10 shadow-2xl">
+            {/* Refined Header */}
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-2xl sm:text-3xl font-extralight text-white tracking-wide luxury-heading">
                 Join Event
               </h2>
               <button
                 onClick={handleClose}
-                className="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg transition-colors"
+                className="p-3 hover:bg-white/5 rounded-2xl transition-all duration-300"
               >
-                <X className="w-4 h-4 sm:w-5 sm:h-5 text-neutral-500" />
+                <X className="w-5 h-5 text-neutral-400" />
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-              {/* Participant Limit Warning */}
+            <form onSubmit={handleSubmit} className="space-y-8">
+              {/* Luxury Participant Limit Warning */}
               {currentParticipantCount >= MAX_PARTICIPANTS * 0.8 && (
-                <div className={`p-3 sm:p-4 rounded-lg border ${
+                <div className={`p-6 rounded-2xl border backdrop-blur-sm ${
                   isAtLimit 
-                    ? 'bg-red-500/10 border-red-500/20' 
-                    : 'bg-yellow-500/10 border-yellow-500/20'
+                    ? 'bg-gradient-to-br from-red-500/10 to-orange-500/10 border-red-500/20' 
+                    : 'bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border-yellow-500/20'
                 }`}>
-                  <div className="flex items-center space-x-2 mb-2">
-                    <AlertTriangle className={`w-4 h-4 ${
+                  <div className="flex items-center space-x-3 mb-3">
+                    <AlertTriangle className={`w-5 h-5 ${
                       isAtLimit ? 'text-red-400' : 'text-yellow-400'
                     }`} />
-                    <span className={`text-sm font-medium ${
+                    <span className={`text-sm font-light tracking-widest ${
                       isAtLimit ? 'text-red-300' : 'text-yellow-300'
-                    }`}>
-                      {isAtLimit ? 'Participant Limit Reached' : 'Approaching Limit'}
+                    } luxury-caption`}>
+                      {isAtLimit ? 'PARTICIPANT LIMIT REACHED' : 'APPROACHING LIMIT'}
                     </span>
                   </div>
-                  <p className={`text-sm ${
-                    isAtLimit ? 'text-red-200' : 'text-yellow-200'
-                  }`}>
+                  <p className={`text-sm font-extralight tracking-wide ${
+                    isAtLimit ? 'text-red-200/90' : 'text-yellow-200/90'
+                  } luxury-body`}>
                     {isAtLimit 
                       ? `This event has reached the maximum of ${MAX_PARTICIPANTS} participants on the free plan.`
                       : `This event has ${currentParticipantCount}/${MAX_PARTICIPANTS} participants.`
                     }
                   </p>
                   {isAtLimit && (
-                    <div className="mt-3 flex items-center space-x-2">
+                    <div className="mt-4 flex items-center space-x-3">
                       <Crown className="w-4 h-4 text-yellow-400" />
-                      <span className="text-sm text-yellow-300">
+                      <span className="text-sm text-yellow-300/90 font-extralight tracking-wide luxury-body">
                         Upgrade to Pro for up to 50 participants per event
                       </span>
                     </div>
@@ -144,19 +144,19 @@ export default function ParticipantForm({ isOpen, onClose, eventId, onSuccess, c
                 </div>
               )}
 
-              {/* Name Field */}
+              {/* Refined Name Field */}
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-                  Your Name *
+                <label htmlFor="name" className="block text-sm font-extralight text-neutral-300/90 mb-4 tracking-widest luxury-caption">
+                  YOUR NAME *
                 </label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-neutral-400" />
+                  <User className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-400/70" />
                   <input
                     id="name"
                     type="text"
                     value={formData.name}
                     onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                    className="w-full pl-10 sm:pl-12 pr-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-xl bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all text-sm sm:text-base"
+                    className="w-full pl-12 pr-4 py-4 border border-white/10 rounded-2xl bg-neutral-800/30 backdrop-blur-sm text-white placeholder-neutral-400/70 focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/30 transition-all duration-500 text-base font-extralight tracking-wide"
                     placeholder="Enter your name"
                     required
                     disabled={isAtLimit}
@@ -164,25 +164,26 @@ export default function ParticipantForm({ isOpen, onClose, eventId, onSuccess, c
                 </div>
               </div>
 
-              {/* Error Message */}
+              {/* Luxury Error Message */}
               {error && (
                 <motion.div
-                  initial={{ opacity: 0, y: -10 }}
+                  initial={{ opacity: 0, y: -15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg"
+                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  className="p-6 bg-gradient-to-br from-red-500/10 to-orange-500/10 border border-red-500/20 rounded-2xl backdrop-blur-sm"
                 >
-                  <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+                  <p className="text-sm text-red-300/90 font-extralight tracking-wide luxury-body">{error}</p>
                 </motion.div>
               )}
 
-              {/* Submit Button */}
-              <div className="flex flex-col sm:flex-row items-center justify-end space-y-3 sm:space-y-0 sm:space-x-4 pt-4">
+              {/* Refined Action Buttons */}
+              <div className="flex flex-col sm:flex-row items-center justify-end space-y-4 sm:space-y-0 sm:space-x-6 pt-6">
                 <button
                   type="button"
                   onClick={handleClose}
-                  className="btn-secondary w-full sm:w-auto order-2 sm:order-1"
+                  className="text-neutral-400 hover:text-white px-6 py-3 rounded-2xl hover:bg-white/5 transition-all duration-500 font-extralight tracking-widest w-full sm:w-auto order-2 sm:order-1 luxury-caption"
                 >
-                  Cancel
+                  CANCEL
                 </button>
                 
                 {isAtLimit ? (
@@ -192,23 +193,23 @@ export default function ParticipantForm({ isOpen, onClose, eventId, onSuccess, c
                       onUpgrade?.()
                       handleClose()
                     }}
-                    className="bg-gradient-to-r from-primary-500 to-purple-500 hover:from-primary-600 hover:to-purple-600 text-white px-4 sm:px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center space-x-2 w-full sm:w-auto order-1 sm:order-2"
+                    className="bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-8 py-4 rounded-2xl font-light transition-all duration-500 flex items-center space-x-3 w-full sm:w-auto order-1 sm:order-2 shadow-xl shadow-violet-500/20 hover:shadow-violet-500/40 tracking-widest"
                   >
-                    <Crown className="w-4 h-4" />
-                    <span>Upgrade</span>
+                    <Crown className="w-5 h-5" />
+                    <span className="luxury-caption">UPGRADE</span>
                   </button>
                 ) : (
                   <button
                     type="submit"
                     disabled={loading}
-                    className="btn-primary flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto order-1 sm:order-2"
+                    className="bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-8 py-4 rounded-2xl font-light transition-all duration-500 flex items-center space-x-3 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto order-1 sm:order-2 shadow-xl shadow-violet-500/20 hover:shadow-violet-500/40 tracking-widest"
                   >
                     {loading ? (
-                      <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                     ) : (
                       <>
-                        <span>Join Event</span>
-                        <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
+                        <span className="luxury-caption">JOIN EVENT</span>
+                        <ArrowRight className="w-5 h-5" />
                       </>
                     )}
                   </button>
