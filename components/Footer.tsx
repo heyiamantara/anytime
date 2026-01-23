@@ -42,33 +42,33 @@ export default function Footer() {
       {/* Atmospheric top border */}
       <div className="w-screen border-t border-neutral-300/40 dark:border-white/8 relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]"></div>
 
-      <div className="max-w-7xl mx-auto px-6 py-20">
-        {/* Main footer content */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
+        {/* Main footer content - Mobile Responsive */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12 mb-12 sm:mb-16">
           {/* Brand column */}
           <div className="lg:col-span-1">
-            <div className="mb-8">
+            <div className="mb-6 sm:mb-8">
               <Logo size="lg" animated={false} />
             </div>
-            <p className="text-neutral-700 dark:text-neutral-400/80 mb-8 leading-relaxed font-extralight tracking-wide luxury-body text-lg">
+            <p className="text-neutral-700 dark:text-neutral-400/80 mb-6 sm:mb-8 leading-relaxed font-extralight tracking-wide luxury-body text-base sm:text-lg">
               Find the perfect time for your group without the chaos.
             </p>
-            <p className="text-sm text-neutral-600 dark:text-neutral-500/80 font-extralight tracking-widest luxury-caption">
+            <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-500/80 font-extralight tracking-widest luxury-caption">
               © 2026 Anytime. All rights reserved.
             </p>
           </div>
 
           {/* Product column */}
           <div>
-            <h3 className="font-light text-neutral-900 dark:text-white mb-8 text-lg tracking-wide luxury-heading">
+            <h3 className="font-light text-neutral-900 dark:text-white mb-6 sm:mb-8 text-base sm:text-lg tracking-wide luxury-heading">
               Product
             </h3>
-            <ul className="space-y-4">
+            <ul className="space-y-3 sm:space-y-4">
               {footerLinks.product.map((link) => (
                 <li key={link.name}>
                   <a 
                     href={link.href}
-                    className="text-neutral-700 dark:text-neutral-400/80 hover:text-violet-600 dark:hover:text-violet-400 transition-all duration-500 font-extralight tracking-wide luxury-body"
+                    className="text-neutral-700 dark:text-neutral-400/80 hover:text-violet-600 dark:hover:text-violet-400 transition-all duration-500 font-extralight tracking-wide luxury-body text-sm sm:text-base touch-target"
                   >
                     {link.name}
                   </a>
