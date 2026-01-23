@@ -117,9 +117,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } else {
         console.log('Sign out successful')
       }
-      // Clear local state regardless of error
+      // Clear local state immediately
       setUser(null)
       setSession(null)
+      
+      // Clear all auth-related cookies manually
+      document.cookie.split(";").forEach((c) => {
+        const eqPos = c.indexOf("=");
+        const name = eqPos > -1 ? c.substr(0, eqPos) : c;
+        if (name.trim().includes('supabase') || name.trim().includes('auth')) {
+          document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+        }
+      });
+      
     } catch (error) {
       console.error('Sign out exception:', error)
       // Clear local state even if there's an exception

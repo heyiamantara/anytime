@@ -42,17 +42,17 @@ export default function Header({ hideSignOut = false }: HeaderProps) {
       await signOut()
       console.log('Header sign out successful, redirecting...')
       setMobileMenuOpen(false)
-      // Small delay to ensure signOut completes
+      // Longer delay to ensure cookies are cleared
       setTimeout(() => {
-        window.location.href = '/'
-      }, 100)
+        window.location.replace('/')
+      }, 500)
     } catch (error) {
       console.error('Header sign out error:', error)
       setMobileMenuOpen(false)
       // Still redirect even if there's an error
       setTimeout(() => {
-        window.location.href = '/'
-      }, 100)
+        window.location.replace('/')
+      }, 500)
     }
   }
 
