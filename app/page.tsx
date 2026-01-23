@@ -93,12 +93,12 @@ export default function Home() {
               Anytime
             </motion.div>
             
-            {/* Center Navigation Menu */}
+            {/* Center Navigation Menu - Absolutely positioned for true centering */}
             <motion.nav
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1.2, delay: 0.3 }}
-              className="hidden lg:flex items-center space-x-8"
+              className="hidden lg:flex items-center space-x-8 absolute left-1/2 transform -translate-x-1/2"
             >
               <a 
                 href="#features" 
