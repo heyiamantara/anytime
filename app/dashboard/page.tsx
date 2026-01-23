@@ -5,6 +5,7 @@ import { useTheme } from '@/components/ThemeProvider'
 import { motion } from 'framer-motion'
 import { Plus, Calendar, Users, Clock, Crown, AlertTriangle } from 'lucide-react'
 import { useState, useEffect } from 'react'
+import Logo from '@/components/Logo'
 import CreateEventModal from '@/components/dashboard/CreateEventModal'
 import RefinedEventCard from '@/components/dashboard/RefinedEventCard'
 import Notification from '@/components/Notification'
@@ -59,15 +60,45 @@ export default function Dashboard() {
 
   const fetchEvents = async () => {
     try {
-      const response = await fetch('/api/events')
+      // Add timeout to prevent hanging requests
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 12000) // 12 second timeout
+
+      const response = await fetch('/api/events', {
+        signal: controller.signal,
+        headers: {
+          'Cache-Control': 'no-cache', // Ensure fresh data
+        }
+      })
+      
+      clearTimeout(timeoutId)
       const data = await response.json()
       
       if (response.ok) {
         setEvents(data.events)
         calculateStats(data.events)
+      } else {
+        throw new Error(data.error || 'Failed to fetch events')
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to fetch events:', error)
+      
+      // Show user-friendly error message
+      if (error.name === 'AbortError') {
+        setNotification({
+          isVisible: true,
+          type: 'error',
+          title: 'Loading Timeout',
+          message: 'Events are taking longer to load. Please check your connection and refresh.'
+        })
+      } else {
+        setNotification({
+          isVisible: true,
+          type: 'error',
+          title: 'Loading Error',
+          message: 'Failed to load events. Please refresh the page.'
+        })
+      }
     } finally {
       setEventsLoading(false)
     }
@@ -280,14 +311,7 @@ export default function Dashboard() {
       <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-white/90 via-white/60 to-transparent dark:from-black/90 dark:via-black/60 dark:to-transparent backdrop-blur-xl border-b border-neutral-200/60 dark:border-white/10">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.2, delay: 0.2 }}
-              className="text-xl font-extralight text-neutral-900 dark:text-white tracking-wider"
-            >
-              Anytime
-            </motion.div>
+            <Logo size="md" animated={true} />
             
             <motion.div
               initial={{ opacity: 0 }}

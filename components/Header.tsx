@@ -5,6 +5,7 @@ import { useTheme } from './ThemeProvider'
 import { useAuth } from '@/contexts/AuthContext'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
+import Logo from './Logo'
 import AuthModal from './auth/AuthModal'
 import { useRouter, usePathname } from 'next/navigation'
 
@@ -71,9 +72,9 @@ export default function Header({ hideSignOut = false }: HeaderProps) {
             {/* Logo */}
             <button 
               onClick={goHome}
-              className="text-xl sm:text-2xl font-bold text-white hover:text-primary-400 transition-colors"
+              className="hover:opacity-80 transition-opacity duration-300"
             >
-              Anytime
+              <Logo size="md" animated={false} />
             </button>
 
             {/* Navigation - Centered (only show on landing page for non-authenticated users) */}

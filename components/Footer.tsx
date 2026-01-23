@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { Twitter, Github, Linkedin } from 'lucide-react'
+import Logo from './Logo'
 
 const footerLinks = {
   product: [
@@ -46,8 +47,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand column */}
           <div className="lg:col-span-1">
-            <div className="text-3xl font-extralight text-neutral-900 dark:text-white mb-8 tracking-wider luxury-heading">
-              Anytime
+            <div className="mb-8">
+              <Logo size="lg" animated={false} />
             </div>
             <p className="text-neutral-700 dark:text-neutral-400/80 mb-8 leading-relaxed font-extralight tracking-wide luxury-body text-lg">
               Find the perfect time for your group without the chaos.

@@ -6,6 +6,7 @@ import { Calendar, Users, Clock, Share2, CheckCircle } from 'lucide-react'
 import { useParams, useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { useTheme } from '@/components/ThemeProvider'
+import Logo from '@/components/Logo'
 import AvailabilityGrid from '@/components/event/AvailabilityGrid'
 import ParticipantForm from '@/components/event/ParticipantForm'
 import Notification from '@/components/Notification'
@@ -155,14 +156,7 @@ export default function EventPage() {
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
             {/* Minimal Logo */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.2, delay: 0.2 }}
-              className="text-xl font-extralight text-neutral-900 dark:text-white tracking-wider"
-            >
-              Anytime
-            </motion.div>
+            <Logo size="md" animated={true} />
             
             {/* Minimal Actions */}
             <motion.div
@@ -227,8 +221,8 @@ export default function EventPage() {
             className="text-center"
           >
             {/* Exclusive Badge */}
-            <div className="inline-flex items-center space-x-3 bg-gradient-to-r from-violet-500/8 to-indigo-500/8 border border-violet-500/15 text-violet-300/90 px-8 py-4 rounded-full text-sm font-light mb-12 backdrop-blur-sm">
-              <div className="w-2 h-2 bg-violet-400 rounded-full animate-pulse"></div>
+            <div className="inline-flex items-center space-x-3 bg-gradient-to-r from-violet-500/8 to-indigo-500/8 dark:from-violet-500/8 dark:to-indigo-500/8 border border-violet-500/15 dark:border-violet-500/15 text-violet-700 dark:text-violet-300/90 px-8 py-4 rounded-full text-sm font-light mb-12 backdrop-blur-sm">
+              <div className="w-2 h-2 bg-violet-500 dark:bg-violet-400 rounded-full animate-pulse"></div>
               <span className="tracking-widest uppercase text-xs">Private Event</span>
             </div>
             
@@ -285,12 +279,12 @@ export default function EventPage() {
                   </span>
                 </motion.button>
               ) : currentParticipant ? (
-                <div className="flex items-center space-x-4 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border border-emerald-500/20 text-emerald-300/90 px-12 py-6 rounded-3xl backdrop-blur-sm">
+                <div className="flex items-center space-x-4 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 dark:from-emerald-500/10 dark:to-teal-500/10 border border-emerald-500/20 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-300/90 px-12 py-6 rounded-3xl backdrop-blur-sm">
                   <CheckCircle className="w-6 h-6" />
                   <span className="font-light tracking-widest text-lg">Welcome, {currentParticipant.name}</span>
                 </div>
               ) : (
-                <div className="flex items-center space-x-4 bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/20 text-amber-300/90 px-12 py-6 rounded-3xl backdrop-blur-sm">
+                <div className="flex items-center space-x-4 bg-gradient-to-r from-amber-500/10 to-orange-500/10 dark:from-amber-500/10 dark:to-orange-500/10 border border-amber-500/20 dark:border-amber-500/20 text-amber-700 dark:text-amber-300/90 px-12 py-6 rounded-3xl backdrop-blur-sm">
                   <CheckCircle className="w-6 h-6" />
                   <span className="font-light tracking-widest text-lg">Event concluded</span>
                 </div>
@@ -349,7 +343,7 @@ export default function EventPage() {
               <h3 className="text-2xl font-extralight text-neutral-900 dark:text-white tracking-wide luxury-heading">
                 Attendees
               </h3>
-              <div className="bg-gradient-to-r from-violet-500/20 to-indigo-500/20 dark:from-violet-500/15 dark:to-indigo-500/15 text-violet-700 dark:text-violet-300/90 px-6 py-3 rounded-2xl text-sm font-light border border-violet-500/30 dark:border-violet-500/20 tracking-widest">
+              <div className="bg-gradient-to-r from-violet-500/20 to-indigo-500/20 dark:from-violet-500/15 dark:to-indigo-500/15 text-violet-800 dark:text-violet-300/90 px-6 py-3 rounded-2xl text-sm font-light border border-violet-500/30 dark:border-violet-500/20 tracking-widest">
                 {event.participants?.length || 0}
               </div>
             </div>

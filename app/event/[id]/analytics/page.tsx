@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { Users, Calendar, Clock, Star, ArrowLeft, Share2, TrendingUp, BarChart3, Activity } from 'lucide-react'
 import { useParams, useRouter } from 'next/navigation'
 import { useTheme } from '@/components/ThemeProvider'
+import Logo from '@/components/Logo'
 import Notification from '@/components/Notification'
 import Header from '@/components/Header'
 
@@ -227,14 +228,7 @@ export default function EventAnalyticsPage() {
       <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-white/90 via-white/60 to-transparent dark:from-black/90 dark:via-black/60 dark:to-transparent backdrop-blur-xl border-b border-neutral-200/60 dark:border-white/10">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.2, delay: 0.2 }}
-              className="text-xl font-extralight text-neutral-900 dark:text-white tracking-wider"
-            >
-              Anytime
-            </motion.div>
+            <Logo size="md" animated={true} />
             
             <motion.div
               initial={{ opacity: 0 }}
@@ -419,116 +413,234 @@ export default function EventAnalyticsPage() {
           </div>
         </motion.div>
 
-        {/* Availability Heatmap - Atmospheric Panel */}
-        <motion.div
-          initial={{ opacity: 0, y: 60 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.6, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-gradient-to-br from-white/90 via-neutral-50/70 to-white/90 dark:from-neutral-900/30 dark:via-neutral-800/15 dark:to-neutral-900/30 backdrop-blur-2xl border border-neutral-300/50 dark:border-white/8 rounded-[2rem] p-12 shadow-xl shadow-neutral-200/40 dark:shadow-xl mb-12 relative overflow-hidden"
-        >
-          {/* Subtle Background Pattern */}
-          <div className="absolute inset-0 bg-gradient-to-br from-violet-500/3 to-indigo-500/3 dark:from-violet-500/2 dark:to-indigo-500/2 rounded-[2rem]"></div>
-          
-          <div className="relative">
-            <div className="flex items-center justify-between mb-12">
-              <div>
-                <h2 className="text-3xl font-extralight text-neutral-900 dark:text-white mb-4 tracking-wide luxury-heading">
-                  Availability Heatmap
-                </h2>
-                <p className="text-neutral-700 dark:text-neutral-400/80 font-extralight tracking-wide text-lg luxury-body">
-                  Interactive overview of participant availability
-                </p>
-              </div>
-              
-              <div className="flex items-center space-x-8 text-sm">
-                <div className="flex items-center space-x-3">
-                  <div className="w-4 h-4 bg-neutral-300/60 dark:bg-neutral-800/50 border border-neutral-400/40 dark:border-neutral-700/30 rounded-lg"></div>
-                  <span className="text-neutral-600 dark:text-neutral-500/80 font-extralight tracking-widest luxury-caption">No responses</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-4 h-4 bg-gradient-to-br from-violet-500/40 to-indigo-500/40 dark:from-violet-500/30 dark:to-indigo-500/30 border border-violet-500/50 dark:border-violet-500/40 rounded-lg"></div>
-                  <span className="text-neutral-600 dark:text-neutral-500/80 font-extralight tracking-widest luxury-caption">Available</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <Star className="w-4 h-4 text-yellow-600 dark:text-yellow-400/80 fill-current" />
-                  <span className="text-neutral-600 dark:text-neutral-500/80 font-extralight tracking-widest luxury-caption">Best match</span>
-                </div>
-              </div>
-            </div>
+        {/* Availability Timeline - Unified Container Structure */}
+        <div className="mb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.6, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="mb-16"
+          >
+            <h2 className="text-3xl font-extralight text-neutral-900 dark:text-white mb-4 tracking-wide luxury-heading">
+              Availability Timeline
+            </h2>
+            <p className="text-neutral-700 dark:text-neutral-400/80 font-extralight tracking-wide text-lg luxury-body">
+              Interactive overview of participant availability
+            </p>
+          </motion.div>
 
-            <div className="overflow-x-auto">
-              <div className="min-w-full">
-                {/* Header Row */}
-                <div className="grid gap-3 mb-6" style={{ gridTemplateColumns: `140px repeat(${dates.length}, 1fr)` }}>
-                  <div></div>
-                  {dates.map((date, index) => {
-                    const formatted = formatDate(date.toISOString().split('T')[0])
-                    return (
-                      <div key={index} className="text-center">
-                        <div className="text-xs font-extralight text-neutral-600 dark:text-neutral-400/80 mb-1 tracking-widest luxury-caption">
-                          {formatted.day}
-                        </div>
-                        <div className="text-sm font-light text-neutral-900 dark:text-white tracking-wide">
-                          {formatted.date}
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
-
-                {/* Time Rows */}
-                {event.time_blocks.map((timeBlock, timeIndex) => (
-                  <div key={timeIndex} className="grid gap-3 mb-3" style={{ gridTemplateColumns: `140px repeat(${dates.length}, 1fr)` }}>
-                    {/* Time Label */}
-                    <div className="flex items-center justify-end pr-6">
-                      <span className="text-sm font-extralight text-neutral-700 dark:text-neutral-300/90 tracking-widest luxury-caption">
-                        {formatTime(timeBlock)}
-                      </span>
-                    </div>
-
-                    {/* Availability Cells */}
-                    {dates.map((date, dateIndex) => {
-                      const dateStr = date.toISOString().split('T')[0]
-                      const slot = availabilityData[dateStr]?.[timeBlock] || { count: 0, participants: [] }
-                      const isHighlight = bestMatches.some(match => 
-                        match.date === dateStr && match.timeBlock === timeBlock
-                      )
-
+          {/* Unified Availability Container - Enhanced Light Theme */}
+          <motion.div
+            initial={{ opacity: 0, y: 60 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.6, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="relative w-full border border-neutral-300/60 dark:border-neutral-700/20 rounded-3xl p-8 bg-gradient-to-br from-white/80 via-neutral-50/40 to-white/60 dark:from-neutral-900/10 dark:via-transparent dark:to-neutral-900/5 shadow-lg shadow-neutral-200/30 dark:shadow-none"
+          >
+            {/* Floating Date Headers - Adaptive Layout */}
+            <div className="relative z-20 mb-8">
+              <div className="flex">
+                {/* Time Label Spacer */}
+                <div style={{ width: '140px' }} className="flex-shrink-0" />
+                
+                {/* Adaptive Date Headers Container */}
+                <div className="flex-1 overflow-x-auto scrollbar-none">
+                  <div className="flex" style={{ minWidth: '100%' }}>
+                    {dates.map((date, index) => {
+                      const formatted = formatDate(date.toISOString().split('T')[0])
                       return (
-                        <div
-                          key={dateIndex}
-                          className={`
-                            relative h-14 rounded-3xl flex items-center justify-center text-sm font-extralight
-                            transition-all duration-700 cursor-pointer hover:scale-105 hover:shadow-xl
-                            ${slot.count === 0 
-                              ? 'bg-neutral-300/60 dark:bg-neutral-800/20 border border-neutral-400/40 dark:border-neutral-700/20 hover:bg-neutral-400/70 dark:hover:bg-neutral-700/30' 
-                              : slot.count === 1
-                                ? 'bg-gradient-to-br from-violet-500/20 to-indigo-500/20 dark:from-violet-500/15 dark:to-indigo-500/15 border border-violet-500/35 dark:border-violet-500/25 shadow-lg shadow-violet-500/15 dark:shadow-violet-500/10'
-                                : slot.count === 2
-                                  ? 'bg-gradient-to-br from-violet-500/30 to-indigo-500/30 dark:from-violet-500/25 dark:to-indigo-500/25 border border-violet-400/45 dark:border-violet-400/35 shadow-lg shadow-violet-500/20 dark:shadow-violet-500/15'
-                                  : 'bg-gradient-to-br from-violet-500/40 to-indigo-500/40 dark:from-violet-500/35 dark:to-indigo-500/35 border border-violet-400/55 dark:border-violet-400/45 shadow-xl shadow-violet-500/25 dark:shadow-violet-500/20'
-                            }
-                            ${isHighlight ? 'ring-2 ring-yellow-500/70 dark:ring-yellow-400/60 shadow-2xl shadow-yellow-500/30 dark:shadow-yellow-500/20' : ''}
-                          `}
-                          title={`${slot.count}/${totalParticipants} available${slot.participants.length > 0 ? '\n' + slot.participants.map((p: any) => p.name).join(', ') : ''}`}
+                        <motion.div 
+                          key={index} 
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.8, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                          className="text-center py-6 flex-1"
+                          style={{ 
+                            minWidth: dates.length <= 7 ? `${100 / dates.length}%` : '88px',
+                            maxWidth: dates.length <= 7 ? 'none' : '120px'
+                          }}
                         >
-                          {slot.count > 0 && (
-                            <>
-                              <span className="text-violet-700 dark:text-violet-200/90 tracking-widest">{slot.count}/{totalParticipants}</span>
-                              {isHighlight && (
-                                <Star className="w-3 h-3 absolute -top-1 -right-1 text-yellow-600 dark:text-yellow-400 fill-current" />
-                              )}
-                            </>
-                          )}
-                        </div>
+                          <div className="text-sm font-medium text-neutral-800 dark:text-white mb-3 tracking-wider luxury-caption">
+                            {formatted.day}
+                          </div>
+                          <div className="text-xs text-neutral-600 dark:text-neutral-400/70 font-medium tracking-widest luxury-caption">
+                            {formatted.date}
+                          </div>
+                        </motion.div>
                       )
                     })}
                   </div>
-                ))}
+                </div>
               </div>
             </div>
-          </div>
-        </motion.div>
+
+            {/* Unified Availability Canvas Body */}
+            <div className="relative mb-12">
+              {/* Vertical Scroll Container */}
+              <div className="max-h-[65vh] overflow-y-auto scrollbar-none">
+                <div className="space-y-6">
+                  {event.time_blocks.map((timeBlock, timeIndex) => (
+                    <motion.div 
+                      key={timeIndex} 
+                      initial={{ opacity: 0, x: -30 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.8, delay: 0.3 + timeIndex * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                      className="flex items-center"
+                    >
+                      {/* Floating Time Label */}
+                      <div 
+                        className="flex-shrink-0 flex items-center justify-end pr-8"
+                        style={{ width: '140px', height: '72px' }}
+                      >
+                        <div className="text-sm font-medium text-neutral-800 dark:text-neutral-300/90 tracking-wider luxury-caption">
+                          {formatTime(timeBlock)}
+                        </div>
+                      </div>
+
+                      {/* Adaptive Availability Tiles Container */}
+                      <div className="flex-1 overflow-x-auto scrollbar-none">
+                        <div className="flex gap-4" style={{ minWidth: '100%' }}>
+                          {dates.map((date, dateIndex) => {
+                            const dateStr = date.toISOString().split('T')[0]
+                            const slot = availabilityData[dateStr]?.[timeBlock] || { count: 0, participants: [] }
+                            
+                            // Only highlight if this slot is in the top 3 AND has the highest count
+                            const maxCount = bestMatches.length > 0 ? bestMatches[0].count : 0
+                            const isHighlight = bestMatches.some(match => 
+                              match.date === dateStr && 
+                              match.timeBlock === timeBlock &&
+                              match.count === maxCount
+                            )
+
+                            return (
+                              <div 
+                                key={dateIndex} 
+                                className="flex items-center justify-center"
+                                style={{ 
+                                  minWidth: dates.length <= 7 ? `calc((100% - ${(dates.length - 1) * 16}px) / ${dates.length})` : '88px',
+                                  maxWidth: dates.length <= 7 ? 'none' : '120px',
+                                  height: '72px',
+                                  flex: dates.length <= 7 ? '1' : '0 0 auto'
+                                }}
+                              >
+                                <motion.div
+                                  whileHover={{ scale: 1.05, y: -2 }}
+                                  className={`
+                                    w-full h-full rounded-2xl transition-all duration-300 flex items-center justify-center relative overflow-hidden
+                                    ${slot.count === 0 
+                                      ? 'bg-neutral-200/50 dark:bg-neutral-800/20 border border-neutral-300/50 dark:border-neutral-700/30 hover:bg-neutral-300/60 dark:hover:bg-neutral-700/30 hover:border-neutral-400/60 dark:hover:border-neutral-600/40' 
+                                      : slot.count === 1
+                                        ? 'bg-gradient-to-br from-blue-500/35 via-blue-400/30 to-cyan-500/35 dark:from-blue-500/20 dark:via-blue-400/15 dark:to-cyan-500/20 border border-blue-500/50 dark:border-blue-400/30 shadow-lg shadow-blue-500/25'
+                                        : slot.count === 2
+                                          ? 'bg-gradient-to-br from-violet-500/40 via-violet-400/35 to-indigo-500/40 dark:from-violet-500/25 dark:via-violet-400/20 dark:to-indigo-500/25 border border-violet-500/60 dark:border-violet-400/40 shadow-lg shadow-violet-500/30'
+                                          : 'bg-gradient-to-br from-orange-500/40 via-yellow-400/35 to-amber-500/40 dark:from-orange-500/25 dark:via-yellow-400/20 dark:to-amber-500/25 border border-orange-500/60 dark:border-orange-400/40 shadow-xl shadow-orange-500/30'
+                                    }
+                                    ${isHighlight ? 'ring-3 ring-yellow-400 shadow-2xl shadow-yellow-500/60' : ''}
+                                  `}
+                                  title={`${slot.count}/${totalParticipants} available${slot.participants.length > 0 ? '\n' + slot.participants.map((p: any) => p.name).join(', ') : ''}`}
+                                >
+                                  {/* Soft Atmospheric Glow */}
+                                  {slot.count > 0 && (
+                                    <div className={`
+                                      absolute inset-0 rounded-2xl
+                                      ${slot.count === 1
+                                        ? 'bg-gradient-to-br from-blue-400/8 via-transparent to-cyan-400/8 dark:from-blue-400/6 dark:to-cyan-400/6'
+                                        : slot.count === 2
+                                          ? 'bg-gradient-to-br from-violet-400/8 via-transparent to-indigo-400/8 dark:from-violet-400/6 dark:to-indigo-400/6'
+                                          : 'bg-gradient-to-br from-orange-400/8 via-transparent to-amber-400/8 dark:from-orange-400/6 dark:to-amber-400/6'
+                                      }
+                                    `}></div>
+                                  )}
+
+                                  {/* Availability Count */}
+                                  {slot.count > 0 && (
+                                    <>
+                                      <span className={`
+                                        relative text-lg font-medium tracking-wide
+                                        ${slot.count === 1 
+                                          ? 'text-blue-700 dark:text-blue-300/90'
+                                          : slot.count === 2
+                                            ? 'text-violet-700 dark:text-violet-300/90'
+                                            : 'text-orange-700 dark:text-orange-300/90'
+                                        }
+                                      `}>
+                                        {slot.count}
+                                      </span>
+                                    </>
+                                  )}
+
+                                  {/* Hover Atmosphere */}
+                                  <div className="absolute inset-0 bg-gradient-to-br from-white/15 via-transparent to-white/10 dark:from-white/10 dark:to-white/5 rounded-2xl opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                                </motion.div>
+                              </div>
+                            )
+                          })}
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Unified Legend - Inside Same Container */}
+            <div className="pt-8 border-t border-neutral-300/30 dark:border-white/5">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-8">
+                <div className="flex items-center space-x-12">
+                  <div className="text-sm font-medium text-neutral-700 dark:text-neutral-400/80 tracking-wider luxury-caption">
+                    Availability
+                  </div>
+                  <div className="flex items-center space-x-10">
+                    <div className="flex items-center space-x-4">
+                      <div className="w-6 h-6 bg-neutral-200/50 dark:bg-neutral-800/20 border border-neutral-300/50 dark:border-neutral-700/30 rounded-xl"></div>
+                      <span className="text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">None</span>
+                    </div>
+                    <div className="flex items-center space-x-4">
+                      <div className="w-6 h-6 bg-gradient-to-br from-blue-500/35 to-cyan-500/35 dark:from-blue-500/20 dark:to-cyan-500/20 border border-blue-500/50 dark:border-blue-400/30 rounded-xl"></div>
+                      <span className="text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">Low (1)</span>
+                    </div>
+                    <div className="flex items-center space-x-4">
+                      <div className="w-6 h-6 bg-gradient-to-br from-violet-500/40 to-indigo-500/40 dark:from-violet-500/25 dark:to-indigo-500/25 border border-violet-500/60 dark:border-violet-400/40 rounded-xl"></div>
+                      <span className="text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">Medium (2)</span>
+                    </div>
+                    <div className="flex items-center space-x-4">
+                      <div className="w-6 h-6 bg-gradient-to-br from-orange-500/40 to-amber-500/40 dark:from-orange-500/25 dark:to-amber-500/25 border border-orange-500/60 dark:border-orange-400/40 rounded-xl"></div>
+                      <span className="text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">High (3+)</span>
+                    </div>
+                    <div className="flex items-center space-x-4">
+                      <div className="w-6 h-6 bg-gradient-to-br from-orange-500/40 to-amber-500/40 dark:from-orange-500/25 dark:to-amber-500/25 border border-orange-500/60 dark:border-orange-400/40 rounded-xl ring-2 ring-yellow-400/60 shadow-lg shadow-yellow-500/30"></div>
+                      <span className="text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">Best match</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Canvas Navigation Hint */}
+              <div className="mt-8 text-center">
+                <p className="text-xs text-neutral-500 dark:text-neutral-500/70 font-extralight tracking-wider luxury-caption">
+                  Navigate the availability canvas • {dates.length} days • {event.time_blocks?.length || 0} time slots
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          <style jsx>{`
+            /* Hide scrollbars completely for clean aesthetic */
+            .scrollbar-none {
+              -ms-overflow-style: none;
+              scrollbar-width: none;
+            }
+            .scrollbar-none::-webkit-scrollbar {
+              display: none;
+            }
+            
+            /* Smooth, premium scrolling */
+            .overflow-x-auto,
+            .overflow-y-auto {
+              scroll-behavior: smooth;
+              -webkit-overflow-scrolling: touch;
+            }
+          `}</style>
+        </div>
 
         {/* Best Matches - Atmospheric Panel */}
         {bestMatches.length > 0 && (
@@ -558,10 +670,10 @@ export default function EventAnalyticsPage() {
                       initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.9 + index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                      className="bg-gradient-to-br from-yellow-500/15 to-orange-500/15 dark:from-yellow-500/10 dark:to-orange-500/10 border border-yellow-500/25 dark:border-yellow-500/20 rounded-3xl p-8 hover:bg-gradient-to-br hover:from-yellow-500/20 hover:to-orange-500/20 dark:hover:from-yellow-500/15 dark:hover:to-orange-500/15 transition-all duration-700"
+                      className="bg-gradient-to-br from-yellow-500/15 to-orange-500/15 dark:from-yellow-500/10 dark:to-orange-500/10 border border-neutral-300 dark:border-neutral-600 rounded-3xl p-8 hover:bg-gradient-to-br hover:from-yellow-500/20 hover:to-orange-500/20 dark:hover:from-yellow-500/15 dark:hover:to-orange-500/15 transition-all duration-700"
                     >
                       <div className="flex items-center justify-between mb-6">
-                        <div className="w-12 h-12 bg-gradient-to-br from-yellow-500/25 to-orange-500/25 dark:from-yellow-500/20 dark:to-orange-500/20 border border-yellow-500/35 dark:border-yellow-500/30 rounded-2xl flex items-center justify-center">
+                        <div className="w-12 h-12 bg-gradient-to-br from-yellow-500/25 to-orange-500/25 dark:from-yellow-500/20 dark:to-orange-500/20 border border-neutral-300 dark:border-neutral-600 rounded-2xl flex items-center justify-center">
                           <Clock className="w-6 h-6 text-yellow-600 dark:text-yellow-400/90" />
                         </div>
                         <div className="text-right">

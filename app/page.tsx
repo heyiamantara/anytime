@@ -4,6 +4,7 @@ import { useAuth } from '@/contexts/AuthContext'
 import { useTheme } from '@/components/ThemeProvider'
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import Logo from '@/components/Logo'
 import HeroSection from '@/components/HeroSection'
 import HowItWorksSection from '@/components/HowItWorksSection'
 import FeaturesSection from '@/components/FeaturesSection'
@@ -84,14 +85,7 @@ export default function Home() {
       <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-white/90 via-white/60 to-transparent dark:from-black/90 dark:via-black/60 dark:to-transparent backdrop-blur-xl border-b border-neutral-200/60 dark:border-white/10">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.2, delay: 0.2 }}
-              className="text-xl font-extralight text-neutral-900 dark:text-white tracking-wider"
-            >
-              Anytime
-            </motion.div>
+            <Logo size="md" animated={true} />
             
             {/* Center Navigation Menu - Absolutely positioned for true centering */}
             <motion.nav

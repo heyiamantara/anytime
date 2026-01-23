@@ -1,8 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { CheckCircle } from 'lucide-react'
 
 interface AvailabilityGridProps {
   event: any
@@ -15,6 +14,7 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
   const [userAvailability, setUserAvailability] = useState<{[key: string]: boolean}>({})
   const [loading, setLoading] = useState(false)
   const [hoveredSlot, setHoveredSlot] = useState<{date: string, time: string} | null>(null)
+  const gridRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     fetchAvailability()
@@ -87,31 +87,14 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
     const slotKey = getSlotKey(date, time)
     const newValue = !userAvailability[slotKey]
     
+    // Immediate visual feedback - update state first
     setUserAvailability(prev => ({
       ...prev,
       [slotKey]: newValue
     }))
 
-    // Prepare availability data for all slots
-    const availabilityData = []
-    const dates = generateDateRange()
-    
-    for (const dateObj of dates) {
-      const dateStr = dateObj.toISOString().split('T')[0]
-      for (const timeBlock of event.time_blocks) {
-        const key = getSlotKey(dateStr, timeBlock)
-        const available = key === slotKey ? newValue : (userAvailability[key] || false)
-        
-        availabilityData.push({
-          date: dateStr,
-          time_block: timeBlock,
-          available
-        })
-      }
-    }
-
+    // Debounced API call to avoid too many requests
     try {
-      setLoading(true)
       const response = await fetch('/api/availability', {
         method: 'POST',
         headers: {
@@ -120,13 +103,22 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
         body: JSON.stringify({
           participant_id: currentParticipant.id,
           event_id: event.id,
-          availability_data: availabilityData
+          date: date,
+          time_block: time,
+          available: newValue
         }),
       })
 
       if (response.ok) {
         onAvailabilityUpdate()
-        fetchAvailability()
+        // Only refresh if needed
+        setTimeout(() => fetchAvailability(), 500)
+      } else {
+        // Revert on error
+        setUserAvailability(prev => ({
+          ...prev,
+          [slotKey]: !newValue
+        }))
       }
     } catch (error) {
       console.error('Failed to update availability:', error)
@@ -135,8 +127,6 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
         ...prev,
         [slotKey]: !newValue
       }))
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -158,211 +148,212 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
   const dates = generateDateRange()
   const timeSlots = event.time_blocks || []
   
-  // Calculate dynamic sizing based on content
-  const getGridDimensions = () => {
-    const timeSlotCount = timeSlots.length
-    
-    // Base minimum height per slot
-    const minSlotHeight = 56 // 14 * 4 (h-14 equivalent)
-    const maxSlotHeight = 120 // Increased maximum height for better fill
-    
-    // Calculate available height (viewport minus headers, padding, etc.)
-    const availableHeight = Math.max(500, window.innerHeight * 0.7)
-    const headerHeight = 100 // Approximate header space
-    const legendHeight = 140 // Approximate legend space
-    const gridHeight = availableHeight - headerHeight - legendHeight
-    
-    // Calculate optimal slot height
-    let slotHeight = Math.max(minSlotHeight, gridHeight / timeSlotCount)
-    slotHeight = Math.min(slotHeight, maxSlotHeight)
-    
-    // Use flex layout for fewer slots to fill space better
-    const useFlex = timeSlotCount <= 8
-    
-    return {
-      slotHeight,
-      useFlex,
-      gridHeight: useFlex ? Math.max(gridHeight, 400) : 'auto'
-    }
-  }
-
-  const [gridDimensions, setGridDimensions] = useState({ slotHeight: 56, useFlex: false, gridHeight: 'auto' })
-
-  useEffect(() => {
-    const updateDimensions = () => {
-      if (typeof window !== 'undefined') {
-        setGridDimensions(getGridDimensions())
-      }
-    }
-
-    updateDimensions()
-    window.addEventListener('resize', updateDimensions)
-    return () => window.removeEventListener('resize', updateDimensions)
-  }, [timeSlots.length])
-
-  const { slotHeight, useFlex, gridHeight } = gridDimensions
+  // Fixed cell dimensions for consistency
+  const CELL_WIDTH = 88 // Slightly larger for better touch targets
+  const CELL_HEIGHT = 72 // Taller for better proportions
+  const TIME_LABEL_WIDTH = 140 // More space for time labels
 
   return (
-    <>
-      {/* Responsive Grid Container */}
-      <div className="overflow-x-auto">
-        <div className="min-w-max">
-          {/* Refined Header Row */}
-          <div className="flex mb-8">
-            <div className="w-32 flex-shrink-0"></div>
-            {dates.map((date, index) => {
-              const formatted = formatDate(date)
-              return (
-                <motion.div 
-                  key={index} 
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                  className="flex-1 min-w-[6rem] text-center px-3"
-                >
-                  <div className="text-sm font-extralight text-neutral-900 dark:text-white mb-2 tracking-widest luxury-caption">
-                    {formatted.day}
-                  </div>
-                  <div className="text-xs text-neutral-500 dark:text-neutral-400/70 font-extralight tracking-widest luxury-caption">
-                    {formatted.date}
-                  </div>
-                </motion.div>
-              )
-            })}
-          </div>
-
-          {/* Adaptive Time Slots Grid */}
-          <div 
-            className={`${useFlex ? 'flex flex-col gap-4' : 'space-y-4'}`}
-            style={useFlex ? { height: gridHeight, minHeight: '400px' } : {}}
-          >
-            {timeSlots.map((time: string, timeIndex: number) => (
-              <motion.div 
-                key={timeIndex} 
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 + timeIndex * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className={`flex items-center ${useFlex ? 'flex-1 min-h-[4rem]' : ''}`}
-                style={!useFlex ? { minHeight: slotHeight } : {}}
-              >
-                {/* Refined Time Label */}
-                <div className="w-32 flex-shrink-0 text-right pr-8 flex items-center justify-end">
-                  <div className="text-sm font-extralight text-neutral-700 dark:text-neutral-300/90 tracking-widest luxury-caption">
-                    {formatTime(time)}
-                  </div>
-                </div>
-
-                {/* Responsive Availability Slots */}
-                {dates.map((date, dateIndex) => {
-                  const dateStr = date.toISOString().split('T')[0]
-                  const slotKey = getSlotKey(dateStr, time)
-                  const availableUsers = getAvailabilityForSlot(dateStr, time)
-                  const isUserAvailable = userAvailability[slotKey]
-                  const isHovered = hoveredSlot?.date === dateStr && hoveredSlot?.time === time
-                  const canInteract = currentParticipant && event.status === 'open'
-
+    <div className="w-full">
+      {/* Availability Canvas - Enhanced Light Theme Container */}
+      <div className="relative w-full border border-neutral-300/60 dark:border-neutral-700/20 rounded-3xl p-8 bg-gradient-to-br from-white/80 via-neutral-50/40 to-white/60 dark:from-neutral-900/10 dark:via-transparent dark:to-neutral-900/5 shadow-lg shadow-neutral-200/30 dark:shadow-none">
+        {/* Floating Date Headers - Adaptive Layout */}
+        <div className="relative z-20 mb-8">
+          <div className="flex">
+            {/* Time Label Spacer */}
+            <div style={{ width: TIME_LABEL_WIDTH }} className="flex-shrink-0" />
+            
+            {/* Adaptive Date Headers Container */}
+            <div className="flex-1 overflow-x-auto scrollbar-none">
+              <div className="flex" style={{ minWidth: '100%' }}>
+                {dates.map((date, index) => {
+                  const formatted = formatDate(date)
                   return (
-                    <div key={dateIndex} className="flex-1 min-w-[6rem] px-3 flex items-center">
-                      <motion.div
-                        whileHover={canInteract ? { scale: 1.05, y: -2 } : {}}
-                        whileTap={canInteract ? { scale: 0.95 } : {}}
-                        onMouseEnter={() => setHoveredSlot({ date: dateStr, time })}
-                        onMouseLeave={() => setHoveredSlot(null)}
-                        onClick={() => toggleAvailability(dateStr, time)}
-                        className={`
-                          w-full rounded-3xl transition-all duration-700 flex items-center justify-center relative overflow-hidden backdrop-blur-sm
-                          ${useFlex ? 'flex-1 min-h-[3.5rem]' : 'h-12'}
-                          ${canInteract ? 'cursor-pointer' : 'cursor-default'}
-                          ${availableUsers.length === 0 
-                            ? 'bg-neutral-200/50 dark:bg-neutral-800/20 border border-neutral-300/30 dark:border-neutral-700/20 hover:bg-neutral-300/60 dark:hover:bg-neutral-700/30 hover:border-neutral-400/40 dark:hover:border-neutral-600/30' 
-                            : availableUsers.length === 1
-                              ? 'bg-gradient-to-br from-violet-500/15 to-indigo-500/15 border border-violet-500/25 shadow-lg shadow-violet-500/10'
-                              : availableUsers.length === 2
-                                ? 'bg-gradient-to-br from-violet-500/25 to-indigo-500/25 border border-violet-400/35 shadow-lg shadow-violet-500/15'
-                                : 'bg-gradient-to-br from-violet-500/35 to-indigo-500/35 border border-violet-400/45 shadow-xl shadow-violet-500/20'
-                          }
-                          ${isUserAvailable ? 'ring-2 ring-violet-400/50 shadow-xl shadow-violet-500/25' : ''}
-                          ${isHovered ? 'shadow-2xl shadow-violet-500/30 border-violet-400/60' : ''}
-                          ${loading ? 'opacity-40' : ''}
-                        `}
-                        style={useFlex ? {} : { height: Math.max(48, slotHeight * 0.8) }}
-                      >
-                        {/* Atmospheric Background Glow */}
-                        {availableUsers.length > 0 && (
-                          <div className="absolute inset-0 bg-gradient-to-br from-violet-400/8 to-indigo-400/8 rounded-3xl"></div>
-                        )}
-
-                        {/* Availability Count */}
-                        {availableUsers.length > 0 && (
-                          <span className="relative text-sm font-extralight text-violet-600 dark:text-violet-200/90 tracking-widest">
-                            {availableUsers.length}
-                          </span>
-                        )}
-
-                        {/* User's Selection Indicator */}
-                        {isUserAvailable && (
-                          <div className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-gradient-to-br from-violet-400 to-indigo-400 rounded-full shadow-xl shadow-violet-500/50"></div>
-                        )}
-
-                        {/* Hover Atmosphere Effect */}
-                        {isHovered && canInteract && (
-                          <div className="absolute inset-0 bg-gradient-to-br from-violet-400/15 to-indigo-400/15 rounded-3xl"></div>
-                        )}
-                      </motion.div>
-                    </div>
+                    <motion.div 
+                      key={index} 
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.8, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                      className="text-center py-6 flex-1"
+                      style={{ 
+                        minWidth: dates.length <= 7 ? `${100 / dates.length}%` : '88px',
+                        maxWidth: dates.length <= 7 ? 'none' : '120px'
+                      }}
+                    >
+                      <div className="text-sm font-medium text-neutral-800 dark:text-white mb-3 tracking-wider luxury-caption">
+                        {formatted.day}
+                      </div>
+                      <div className="text-xs text-neutral-600 dark:text-neutral-400/70 font-medium tracking-widest luxury-caption">
+                        {formatted.date}
+                      </div>
+                    </motion.div>
                   )
                 })}
-              </motion.div>
-            ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Availability Canvas Body - Adaptive Grid */}
+        <div className="relative">
+          {/* Vertical Scroll Container */}
+          <div className="max-h-[65vh] overflow-y-auto scrollbar-none">
+            <div className="space-y-6">
+              {timeSlots.map((time: string, timeIndex: number) => (
+                <motion.div 
+                  key={timeIndex} 
+                  initial={{ opacity: 0, x: -30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8, delay: 0.3 + timeIndex * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                  className="flex items-center"
+                >
+                  {/* Floating Time Label */}
+                  <div 
+                    className="flex-shrink-0 flex items-center justify-end pr-8"
+                    style={{ width: TIME_LABEL_WIDTH, height: CELL_HEIGHT }}
+                  >
+                    <div className="text-sm font-medium text-neutral-800 dark:text-neutral-300/90 tracking-wider luxury-caption">
+                      {formatTime(time)}
+                    </div>
+                  </div>
+
+                  {/* Adaptive Availability Tiles Container */}
+                  <div className="flex-1 overflow-x-auto scrollbar-none">
+                    <div className="flex gap-4" style={{ minWidth: '100%' }}>
+                      {dates.map((date, dateIndex) => {
+                        const dateStr = date.toISOString().split('T')[0]
+                        const slotKey = getSlotKey(dateStr, time)
+                        const availableUsers = getAvailabilityForSlot(dateStr, time)
+                        const isUserAvailable = userAvailability[slotKey]
+                        const isHovered = hoveredSlot?.date === dateStr && hoveredSlot?.time === time
+                        const canInteract = currentParticipant && event.status === 'open'
+
+                        return (
+                          <div 
+                            key={dateIndex} 
+                            className="flex items-center justify-center"
+                            style={{ 
+                              minWidth: dates.length <= 7 ? `calc((100% - ${(dates.length - 1) * 16}px) / ${dates.length})` : '88px',
+                              maxWidth: dates.length <= 7 ? 'none' : '120px',
+                              height: CELL_HEIGHT,
+                              flex: dates.length <= 7 ? '1' : '0 0 auto'
+                            }}
+                          >
+                            <motion.div
+                              whileHover={canInteract ? { scale: 1.05, y: -2 } : {}}
+                              whileTap={canInteract ? { scale: 0.95 } : {}}
+                              onMouseEnter={() => setHoveredSlot({ date: dateStr, time })}
+                              onMouseLeave={() => setHoveredSlot(null)}
+                              onClick={() => toggleAvailability(dateStr, time)}
+                              className={`
+                                w-full h-full rounded-2xl transition-all duration-300 flex items-center justify-center relative overflow-hidden
+                                ${canInteract ? 'cursor-pointer' : 'cursor-default'}
+                                ${isUserAvailable 
+                                  ? 'bg-gradient-to-br from-emerald-500/40 via-emerald-400/35 to-teal-500/40 dark:from-emerald-500/25 dark:via-emerald-400/20 dark:to-teal-500/25 border-2 border-emerald-500/70 dark:border-emerald-400/50 shadow-xl shadow-emerald-500/35'
+                                  : availableUsers.length === 0 
+                                    ? 'bg-neutral-200/50 dark:bg-neutral-800/20 border border-neutral-300/50 dark:border-neutral-700/30 hover:bg-neutral-300/60 dark:hover:bg-neutral-700/30 hover:border-neutral-400/60 dark:hover:border-neutral-600/40' 
+                                    : availableUsers.length === 1
+                                      ? 'bg-gradient-to-br from-blue-500/35 via-blue-400/30 to-cyan-500/35 dark:from-blue-500/20 dark:via-blue-400/15 dark:to-cyan-500/20 border border-blue-500/50 dark:border-blue-400/30 shadow-lg shadow-blue-500/25'
+                                      : availableUsers.length === 2
+                                        ? 'bg-gradient-to-br from-violet-500/40 via-violet-400/35 to-indigo-500/40 dark:from-violet-500/25 dark:via-violet-400/20 dark:to-indigo-500/25 border border-violet-500/60 dark:border-violet-400/40 shadow-lg shadow-violet-500/30'
+                                        : 'bg-gradient-to-br from-orange-500/40 via-yellow-400/35 to-amber-500/40 dark:from-orange-500/25 dark:via-yellow-400/20 dark:to-amber-500/25 border border-orange-500/60 dark:border-orange-400/40 shadow-xl shadow-orange-500/30'
+                                }
+                                ${isHovered ? 'shadow-2xl transform scale-105' : ''}
+                              `}
+                            >
+                              {/* Soft Atmospheric Glow */}
+                              {(availableUsers.length > 0 || isUserAvailable) && (
+                                <div className={`
+                                  absolute inset-0 rounded-2xl
+                                  ${isUserAvailable 
+                                    ? 'bg-gradient-to-br from-emerald-400/10 via-transparent to-teal-400/10 dark:from-emerald-400/8 dark:to-teal-400/8'
+                                    : availableUsers.length === 1
+                                      ? 'bg-gradient-to-br from-blue-400/8 via-transparent to-cyan-400/8 dark:from-blue-400/6 dark:to-cyan-400/6'
+                                      : availableUsers.length === 2
+                                        ? 'bg-gradient-to-br from-violet-400/8 via-transparent to-indigo-400/8 dark:from-violet-400/6 dark:to-indigo-400/6'
+                                        : 'bg-gradient-to-br from-orange-400/8 via-transparent to-amber-400/8 dark:from-orange-400/6 dark:to-amber-400/6'
+                                  }
+                                `}></div>
+                              )}
+
+                              {/* Availability Count or User Selection */}
+                              {isUserAvailable ? (
+                                <div className="relative flex items-center justify-center">
+                                  <div className="w-8 h-8 bg-gradient-to-br from-emerald-400 to-teal-400 rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/50">
+                                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                    </svg>
+                                  </div>
+                                </div>
+                              ) : availableUsers.length > 0 ? (
+                                <span className={`
+                                  relative text-lg font-medium tracking-wide
+                                  ${availableUsers.length === 1 
+                                    ? 'text-blue-700 dark:text-blue-300/90'
+                                    : availableUsers.length === 2
+                                      ? 'text-violet-700 dark:text-violet-300/90'
+                                      : 'text-orange-700 dark:text-orange-300/90'
+                                  }
+                                `}>
+                                  {availableUsers.length}
+                                </span>
+                              ) : null}
+
+                              {/* Hover Atmosphere */}
+                              <div className="absolute inset-0 bg-gradient-to-br from-white/15 via-transparent to-white/10 dark:from-white/10 dark:to-white/5 rounded-2xl opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                            </motion.div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Refined Scroll Hint */}
-      {dates.length > 4 && (
-        <div className="mt-8 text-center">
-          <p className="text-xs text-neutral-500 dark:text-neutral-500/70 font-extralight tracking-widest luxury-caption">
-            Scroll horizontally to explore all dates
-          </p>
-        </div>
-      )}
-
-      {/* Atmospheric Legend */}
-      <div className="mt-12 pt-8 border-t border-neutral-200/50 dark:border-white/8">
+      {/* Floating Legend - Unified with Analytics */}
+      <div className="mt-16 pt-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-8">
-          <div className="flex items-center space-x-10">
-            <div className="text-sm font-extralight text-neutral-600 dark:text-neutral-400/80 tracking-widest luxury-caption">
-              Availability:
+          <div className="flex items-center space-x-12">
+            <div className="text-sm font-medium text-neutral-700 dark:text-neutral-400/80 tracking-wider luxury-caption">
+              Availability
             </div>
-            <div className="flex items-center space-x-8">
-              <div className="flex items-center space-x-3">
-                <div className="w-5 h-5 bg-neutral-200/50 dark:bg-neutral-800/20 border border-neutral-300/30 dark:border-neutral-700/20 rounded-2xl"></div>
-                <span className="text-xs text-neutral-500 dark:text-neutral-500/80 font-extralight tracking-widest luxury-caption">None</span>
+            <div className="flex items-center space-x-10">
+              <div className="flex items-center space-x-4">
+                <div className="w-6 h-6 bg-neutral-200/50 dark:bg-neutral-800/20 border border-neutral-300/50 dark:border-neutral-700/30 rounded-xl"></div>
+                <span className="text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">None</span>
               </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-5 h-5 bg-gradient-to-br from-violet-500/15 to-indigo-500/15 border border-violet-500/25 rounded-2xl"></div>
-                <span className="text-xs text-neutral-500 dark:text-neutral-500/80 font-extralight tracking-widest luxury-caption">Low</span>
+              <div className="flex items-center space-x-4">
+                <div className="w-6 h-6 bg-gradient-to-br from-blue-500/35 to-cyan-500/35 dark:from-blue-500/20 dark:to-cyan-500/20 border border-blue-500/50 dark:border-blue-400/30 rounded-xl"></div>
+                <span className="text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">Low (1)</span>
               </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-5 h-5 bg-gradient-to-br from-violet-500/25 to-indigo-500/25 border border-violet-400/35 rounded-2xl"></div>
-                <span className="text-xs text-neutral-500 dark:text-neutral-500/80 font-extralight tracking-widest luxury-caption">Medium</span>
+              <div className="flex items-center space-x-4">
+                <div className="w-6 h-6 bg-gradient-to-br from-violet-500/40 to-indigo-500/40 dark:from-violet-500/25 dark:to-indigo-500/25 border border-violet-500/60 dark:border-violet-400/40 rounded-xl"></div>
+                <span className="text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">Medium (2)</span>
               </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-5 h-5 bg-gradient-to-br from-violet-500/35 to-indigo-500/35 border border-violet-400/45 rounded-2xl"></div>
-                <span className="text-xs text-neutral-500 dark:text-neutral-500/80 font-extralight tracking-widest luxury-caption">High</span>
+              <div className="flex items-center space-x-4">
+                <div className="w-6 h-6 bg-gradient-to-br from-orange-500/40 to-amber-500/40 dark:from-orange-500/25 dark:to-amber-500/25 border border-orange-500/60 dark:border-orange-400/40 rounded-xl"></div>
+                <span className="text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">High (3+)</span>
+              </div>
+              <div className="flex items-center space-x-4">
+                <div className="w-6 h-6 bg-gradient-to-br from-emerald-500/40 to-teal-500/40 dark:from-emerald-500/25 dark:to-teal-500/25 border-2 border-emerald-500/70 dark:border-emerald-400/50 rounded-xl shadow-lg shadow-emerald-500/30"></div>
+                <span className="text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">Your selection</span>
               </div>
             </div>
           </div>
 
-          {/* Atmospheric Hover Info */}
+          {/* Floating Hover Context */}
           {hoveredSlot && (
             <motion.div 
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               className="text-right"
             >
-              <div className="text-xs text-neutral-500 dark:text-neutral-400/80 font-extralight tracking-widest luxury-caption">
+              <div className="text-xs text-neutral-500 dark:text-neutral-400/80 font-extralight tracking-wider luxury-caption">
                 {formatTime(hoveredSlot.time)} • {new Date(hoveredSlot.date).toLocaleDateString('en-US', { 
                   weekday: 'short', 
                   month: 'short', 
@@ -372,7 +363,7 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
               {(() => {
                 const available = getAvailabilityForSlot(hoveredSlot.date, hoveredSlot.time)
                 return (
-                  <div className="text-xs text-violet-600 dark:text-violet-300/90 font-light tracking-widest mt-2 luxury-caption">
+                  <div className="text-xs text-violet-600 dark:text-violet-300/90 font-light tracking-wider mt-2 luxury-caption">
                     {available.length > 0 ? `${available.length} available` : 'No responses yet'}
                   </div>
                 )
@@ -380,7 +371,32 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
             </motion.div>
           )}
         </div>
+
+        {/* Canvas Navigation Hint */}
+        <div className="mt-8 text-center">
+          <p className="text-xs text-neutral-500 dark:text-neutral-500/70 font-extralight tracking-wider luxury-caption">
+            Navigate the availability canvas • {dates.length} days • {timeSlots.length} time slots
+          </p>
+        </div>
       </div>
-    </>
+
+      <style jsx>{`
+        /* Hide scrollbars completely for clean aesthetic */
+        .scrollbar-none {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+        .scrollbar-none::-webkit-scrollbar {
+          display: none;
+        }
+        
+        /* Smooth, premium scrolling */
+        .overflow-x-auto,
+        .overflow-y-auto {
+          scroll-behavior: smooth;
+          -webkit-overflow-scrolling: touch;
+        }
+      `}</style>
+    </div>
   )
 }

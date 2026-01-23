@@ -7,7 +7,7 @@ import { AuthProvider } from '@/contexts/AuthContext'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: "Anytime - The fastest way to find a time that works for everyone",
+  title: "Anytime - The best time for everyone",
   description: 'Lightweight availability coordination tool that helps individuals and teams quickly find overlapping free time without back-and-forth messaging.',
 }
 

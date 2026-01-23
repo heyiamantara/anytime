@@ -30,11 +30,25 @@ export default function ParticipantForm({ isOpen, onClose, eventId, onSuccess, c
       setError('This event has reached the maximum of 7 participants. Upgrade to Pro for up to 50 participants per event.')
       return
     }
+
+    if (!formData.name.trim()) {
+      setError('Please enter your name')
+      return
+    }
+
+    if (formData.name.trim().length > 100) {
+      setError('Name must be less than 100 characters')
+      return
+    }
     
     setLoading(true)
     setError('')
 
     try {
+      // Add timeout to prevent hanging requests
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 15000) // 15 second timeout
+
       const response = await fetch('/api/participants', {
         method: 'POST',
         headers: {
@@ -42,20 +56,32 @@ export default function ParticipantForm({ isOpen, onClose, eventId, onSuccess, c
         },
         body: JSON.stringify({
           event_id: eventId,
-          name: formData.name,
+          name: formData.name.trim(),
         }),
+        signal: controller.signal,
       })
 
+      clearTimeout(timeoutId)
       const data = await response.json()
 
       if (!response.ok) {
         throw new Error(data.error || 'Failed to join event')
       }
 
+      // Show success state briefly before closing
       onSuccess(data.participant)
-      resetForm()
+      
+      // Small delay to show success state
+      setTimeout(() => {
+        resetForm()
+      }, 500)
+      
     } catch (err: any) {
-      setError(err.message)
+      if (err.name === 'AbortError') {
+        setError('Request timed out. Please check your connection and try again.')
+      } else {
+        setError(err.message || 'Failed to join event. Please try again.')
+      }
     } finally {
       setLoading(false)
     }

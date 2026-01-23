@@ -16,12 +16,66 @@ export async function POST(request: NextRequest) {
     )
 
     const body = await request.json()
-    const { participant_id, event_id, availability_data } = body
+    const { participant_id, event_id, availability_data, date, time_block, available } = body
 
     // Validate required fields
-    if (!participant_id || !event_id || !availability_data) {
+    if (!participant_id || !event_id) {
       return NextResponse.json(
         { error: 'Missing required fields' },
+        { status: 400 }
+      )
+    }
+
+    // Handle single slot update (faster)
+    if (date && time_block !== undefined && available !== undefined) {
+      // Check if record exists
+      const { data: existing } = await supabase
+        .from('availability')
+        .select('id')
+        .eq('participant_id', participant_id)
+        .eq('event_id', event_id)
+        .eq('date', date)
+        .eq('time_block', time_block)
+        .single()
+
+      if (existing) {
+        // Update existing record
+        const { data: availability, error } = await supabase
+          .from('availability')
+          .update({ available })
+          .eq('id', existing.id)
+          .select()
+
+        if (error) {
+          return NextResponse.json({ error: error.message }, { status: 500 })
+        }
+
+        return NextResponse.json({ availability }, { status: 200 })
+      } else {
+        // Insert new record
+        const { data: availability, error } = await supabase
+          .from('availability')
+          .insert({
+            participant_id,
+            event_id,
+            date,
+            time_block,
+            available,
+          })
+          .select()
+
+        if (error) {
+          return NextResponse.json({ error: error.message }, { status: 500 })
+        }
+
+        return NextResponse.json({ availability }, { status: 201 })
+      }
+    }
+
+    // Handle full availability array (legacy support)
+    if (!availability_data) {
+      return NextResponse.json(
+        { error: 'Missing availability data' },
         { status: 400 }
       )
     }
