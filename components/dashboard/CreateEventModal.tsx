@@ -137,7 +137,7 @@ export default function CreateEventModal({ isOpen, onClose, onSuccess }: CreateE
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-6">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
         {/* Luxury Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -159,37 +159,37 @@ export default function CreateEventModal({ isOpen, onClose, onSuccess }: CreateE
           className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto"
         >
           {/* Luxury Glass Container */}
-          <div className="bg-gradient-to-br from-neutral-900/60 via-neutral-800/40 to-neutral-900/60 backdrop-blur-2xl border border-white/10 rounded-[2rem] p-10 relative overflow-hidden">
+          <div className="bg-gradient-to-br from-neutral-900/60 via-neutral-800/40 to-neutral-900/60 backdrop-blur-2xl border border-white/10 rounded-2xl sm:rounded-[2rem] p-6 sm:p-10 relative overflow-hidden">
             {/* Atmospheric Background */}
-            <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 to-indigo-500/5 rounded-[2rem]" />
+            <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 to-indigo-500/5 rounded-2xl sm:rounded-[2rem]" />
             
             <div className="relative">
               {/* Header */}
-              <div className="flex items-center justify-between mb-12">
-                <h2 className="text-4xl font-extralight text-white tracking-tight luxury-heading">
+              <div className="flex items-center justify-between mb-8 sm:mb-12">
+                <h2 className="text-2xl sm:text-4xl font-extralight text-white tracking-tight luxury-heading">
                   Create New Event
                 </h2>
                 <button
                   onClick={onClose}
-                  className="p-4 hover:bg-white/5 rounded-2xl transition-all duration-500 text-neutral-400 hover:text-white"
+                  className="p-3 sm:p-4 hover:bg-white/5 rounded-xl sm:rounded-2xl transition-all duration-500 text-neutral-400 hover:text-white"
                 >
-                  <X className="w-6 h-6" />
+                  <X className="w-5 h-5 sm:w-6 sm:h-6" />
                 </button>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-10">
+              <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-10">
                 {/* Event Details Section */}
-                <div className="space-y-8">
+                <div className="space-y-6 sm:space-y-8">
                   {/* Event Name */}
                   <div>
-                    <label className="block text-sm font-extralight text-neutral-300/90 mb-4 tracking-widest luxury-caption">
+                    <label className="block text-sm font-extralight text-neutral-300/90 mb-3 sm:mb-4 tracking-widest luxury-caption">
                       EVENT NAME *
                     </label>
                     <input
                       type="text"
                       value={formData.name}
                       onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                      className="w-full px-6 py-5 bg-gradient-to-r from-neutral-900/50 to-neutral-800/50 border border-white/10 rounded-2xl text-white placeholder-neutral-500/70 focus:outline-none focus:border-violet-500/50 focus:bg-gradient-to-r focus:from-neutral-900/70 focus:to-neutral-800/70 transition-all duration-500 font-extralight tracking-wide text-lg"
+                      className="w-full px-4 py-4 sm:px-6 sm:py-5 bg-gradient-to-r from-neutral-900/50 to-neutral-800/50 border border-white/10 rounded-xl sm:rounded-2xl text-white placeholder-neutral-500/70 focus:outline-none focus:border-violet-500/50 focus:bg-gradient-to-r focus:from-neutral-900/70 focus:to-neutral-800/70 transition-all duration-500 font-extralight tracking-wide text-base sm:text-lg"
                       placeholder="Team Planning Session"
                       required
                     />
@@ -197,13 +197,13 @@ export default function CreateEventModal({ isOpen, onClose, onSuccess }: CreateE
 
                   {/* Description */}
                   <div>
-                    <label className="block text-sm font-extralight text-neutral-300/90 mb-4 tracking-widest luxury-caption">
+                    <label className="block text-sm font-extralight text-neutral-300/90 mb-3 sm:mb-4 tracking-widest luxury-caption">
                       DESCRIPTION
                     </label>
                     <textarea
                       value={formData.description}
                       onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                      className="w-full px-6 py-5 bg-gradient-to-r from-neutral-900/50 to-neutral-800/50 border border-white/10 rounded-2xl text-white placeholder-neutral-500/70 focus:outline-none focus:border-violet-500/50 focus:bg-gradient-to-r focus:from-neutral-900/70 focus:to-neutral-800/70 transition-all duration-500 font-extralight tracking-wide resize-none"
+                      className="w-full px-4 py-4 sm:px-6 sm:py-5 bg-gradient-to-r from-neutral-900/50 to-neutral-800/50 border border-white/10 rounded-xl sm:rounded-2xl text-white placeholder-neutral-500/70 focus:outline-none focus:border-violet-500/50 focus:bg-gradient-to-r focus:from-neutral-900/70 focus:to-neutral-800/70 transition-all duration-500 font-extralight tracking-wide resize-none"
                       rows={4}
                       placeholder="Brief description of the event..."
                     />
@@ -211,34 +211,34 @@ export default function CreateEventModal({ isOpen, onClose, onSuccess }: CreateE
                 </div>
 
                 {/* Date Range Section */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
                   <div>
-                    <label className="block text-sm font-extralight text-neutral-300/90 mb-4 tracking-widest luxury-caption">
+                    <label className="block text-sm font-extralight text-neutral-300/90 mb-3 sm:mb-4 tracking-widest luxury-caption">
                       START DATE *
                     </label>
                     <div className="relative">
-                      <Calendar className="absolute left-5 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-500/70" />
+                      <Calendar className="absolute left-4 sm:left-5 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-neutral-500/70" />
                       <input
                         type="date"
                         value={formData.start_date}
                         onChange={(e) => setFormData(prev => ({ ...prev, start_date: e.target.value }))}
-                        className="w-full pl-14 pr-6 py-5 bg-gradient-to-r from-neutral-900/50 to-neutral-800/50 border border-white/10 rounded-2xl text-white focus:outline-none focus:border-violet-500/50 focus:bg-gradient-to-r focus:from-neutral-900/70 focus:to-neutral-800/70 transition-all duration-500 font-extralight tracking-wide"
+                        className="w-full pl-12 sm:pl-14 pr-4 sm:pr-6 py-4 sm:py-5 bg-gradient-to-r from-neutral-900/50 to-neutral-800/50 border border-white/10 rounded-xl sm:rounded-2xl text-white focus:outline-none focus:border-violet-500/50 focus:bg-gradient-to-r focus:from-neutral-900/70 focus:to-neutral-800/70 transition-all duration-500 font-extralight tracking-wide"
                         required
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-extralight text-neutral-300/90 mb-4 tracking-widest luxury-caption">
+                    <label className="block text-sm font-extralight text-neutral-300/90 mb-3 sm:mb-4 tracking-widest luxury-caption">
                       END DATE *
                     </label>
                     <div className="relative">
-                      <Calendar className="absolute left-5 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-500/70" />
+                      <Calendar className="absolute left-4 sm:left-5 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-neutral-500/70" />
                       <input
                         type="date"
                         value={formData.end_date}
                         onChange={(e) => setFormData(prev => ({ ...prev, end_date: e.target.value }))}
-                        className="w-full pl-14 pr-6 py-5 bg-gradient-to-r from-neutral-900/50 to-neutral-800/50 border border-white/10 rounded-2xl text-white focus:outline-none focus:border-violet-500/50 focus:bg-gradient-to-r focus:from-neutral-900/70 focus:to-neutral-800/70 transition-all duration-500 font-extralight tracking-wide"
+                        className="w-full pl-12 sm:pl-14 pr-4 sm:pr-6 py-4 sm:py-5 bg-gradient-to-r from-neutral-900/50 to-neutral-800/50 border border-white/10 rounded-xl sm:rounded-2xl text-white focus:outline-none focus:border-violet-500/50 focus:bg-gradient-to-r focus:from-neutral-900/70 focus:to-neutral-800/70 transition-all duration-500 font-extralight tracking-wide"
                         required
                       />
                     </div>
@@ -247,17 +247,17 @@ export default function CreateEventModal({ isOpen, onClose, onSuccess }: CreateE
 
                 {/* Time Slots Section */}
                 <div>
-                  <div className="flex items-center justify-between mb-8">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 sm:mb-8 space-y-4 sm:space-y-0">
                     <label className="block text-sm font-extralight text-neutral-300/90 tracking-widest luxury-caption">
                       AVAILABLE TIME SLOTS *
                     </label>
                     {/* 24/7 Toggle */}
-                    <label className="flex items-center space-x-4 cursor-pointer">
+                    <label className="flex items-center space-x-3 sm:space-x-4 cursor-pointer">
                       <input
                         type="checkbox"
                         checked={formData.is_24_7}
                         onChange={toggle24_7}
-                        className="w-5 h-5 text-violet-600 bg-neutral-900/50 border-white/20 rounded focus:ring-violet-500 focus:ring-2"
+                        className="w-4 h-4 sm:w-5 sm:h-5 text-violet-600 bg-neutral-900/50 border-white/20 rounded focus:ring-violet-500 focus:ring-2"
                       />
                       <span className="text-sm font-light text-violet-400/90 tracking-widest luxury-caption">24/7 AVAILABLE</span>
                     </label>
@@ -265,9 +265,9 @@ export default function CreateEventModal({ isOpen, onClose, onSuccess }: CreateE
 
                   {formData.is_24_7 ? (
                     /* 24/7 Mode */
-                    <div className="p-8 bg-gradient-to-br from-violet-500/10 to-indigo-500/10 border border-violet-500/20 rounded-3xl text-center">
-                      <Clock className="w-12 h-12 text-violet-400/80 mx-auto mb-6" />
-                      <h3 className="text-2xl font-extralight text-white mb-4 tracking-wide luxury-heading">
+                    <div className="p-6 sm:p-8 bg-gradient-to-br from-violet-500/10 to-indigo-500/10 border border-violet-500/20 rounded-2xl sm:rounded-3xl text-center">
+                      <Clock className="w-10 h-10 sm:w-12 sm:h-12 text-violet-400/80 mx-auto mb-4 sm:mb-6" />
+                      <h3 className="text-xl sm:text-2xl font-extralight text-white mb-3 sm:mb-4 tracking-wide luxury-heading">
                         24/7 Availability Enabled
                       </h3>
                       <p className="text-neutral-400/80 font-extralight tracking-wide luxury-body">
@@ -277,11 +277,11 @@ export default function CreateEventModal({ isOpen, onClose, onSuccess }: CreateE
                   ) : (
                     /* Manual Selection Mode */
                     <>
-                      <p className="text-neutral-500/80 font-extralight tracking-wide mb-8 luxury-body">
+                      <p className="text-neutral-500/80 font-extralight tracking-wide mb-6 sm:mb-8 luxury-body">
                         Choose the time slots when participants can be available
                       </p>
 
-                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-8">
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4 mb-6 sm:mb-8">
                         {availableTimeSlots.map((timeSlot) => {
                           const isSelected = formData.time_blocks.includes(timeSlot)
                           return (
@@ -289,13 +289,13 @@ export default function CreateEventModal({ isOpen, onClose, onSuccess }: CreateE
                               key={timeSlot}
                               type="button"
                               onClick={() => toggleTimeSlot(timeSlot)}
-                              className={`flex items-center justify-center px-4 py-4 rounded-2xl border-2 transition-all duration-500 font-extralight tracking-wide ${
+                              className={`flex items-center justify-center px-3 py-3 sm:px-4 sm:py-4 rounded-xl sm:rounded-2xl border-2 transition-all duration-500 font-extralight tracking-wide ${
                                 isSelected
                                   ? 'border-violet-500/60 bg-gradient-to-br from-violet-500/20 to-indigo-500/20 text-violet-300/90'
                                   : 'border-white/10 hover:border-violet-500/30 hover:bg-gradient-to-br hover:from-violet-500/5 hover:to-indigo-500/5 text-neutral-400/80 hover:text-neutral-300'
                               }`}
                             >
-                              <span className="text-sm">
+                              <span className="text-xs sm:text-sm">
                                 {new Date(`2000-01-01T${timeSlot}`).toLocaleTimeString([], {
                                   hour: 'numeric',
                                   minute: '2-digit',
@@ -321,34 +321,34 @@ export default function CreateEventModal({ isOpen, onClose, onSuccess }: CreateE
                   <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="p-6 bg-gradient-to-r from-red-500/10 to-orange-500/10 border border-red-500/20 rounded-2xl"
+                    className="p-4 sm:p-6 bg-gradient-to-r from-red-500/10 to-orange-500/10 border border-red-500/20 rounded-xl sm:rounded-2xl"
                   >
                     <p className="text-red-300/90 font-extralight tracking-wide luxury-body">{error}</p>
                   </motion.div>
                 )}
 
                 {/* Submit Buttons */}
-                <div className="flex flex-col sm:flex-row items-center justify-end space-y-4 sm:space-y-0 sm:space-x-6 pt-8">
+                <div className="flex flex-col sm:flex-row items-center justify-end space-y-4 sm:space-y-0 sm:space-x-6 pt-6 sm:pt-8">
                   <button
                     type="button"
                     onClick={onClose}
-                    className="w-full sm:w-auto bg-gradient-to-r from-neutral-700/50 to-neutral-600/50 hover:from-neutral-600/60 hover:to-neutral-500/60 text-white px-10 py-4 rounded-2xl font-light tracking-widest transition-all duration-500 border border-white/10 hover:border-white/20 uppercase"
+                    className="w-full sm:w-auto bg-gradient-to-r from-neutral-700/50 to-neutral-600/50 hover:from-neutral-600/60 hover:to-neutral-500/60 text-white px-8 py-3 sm:px-10 sm:py-4 rounded-xl sm:rounded-2xl font-light tracking-widest transition-all duration-500 border border-white/10 hover:border-white/20 uppercase"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full sm:w-auto bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-12 py-4 rounded-2xl font-light tracking-widest transition-all duration-700 shadow-2xl shadow-violet-500/20 hover:shadow-violet-500/40 disabled:opacity-50 disabled:cursor-not-allowed luxury-glow flex items-center justify-center space-x-4 uppercase"
+                    className="w-full sm:w-auto bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-10 py-3 sm:px-12 sm:py-4 rounded-xl sm:rounded-2xl font-light tracking-widest transition-all duration-700 shadow-2xl shadow-violet-500/20 hover:shadow-violet-500/40 disabled:opacity-50 disabled:cursor-not-allowed luxury-glow flex items-center justify-center space-x-3 sm:space-x-4 uppercase"
                   >
                     {loading ? (
                       <>
-                        <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                         <span>Creating Event...</span>
                       </>
                     ) : (
                       <>
-                        <Plus className="w-5 h-5" />
+                        <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
                         <span>Create Event</span>
                       </>
                     )}

@@ -58,7 +58,7 @@ export default function ConfirmationModal({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
         {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -76,18 +76,18 @@ export default function ConfirmationModal({
           transition={{ duration: 0.2 }}
           className="relative w-full max-w-md"
         >
-          <div className="card p-6">
+          <div className="card p-4 sm:p-6">
             {/* Header */}
-            <div className="flex items-start space-x-4 mb-6">
-              <div className={`w-12 h-12 rounded-full flex items-center justify-center ${styles.iconBg}`}>
-                <AlertTriangle className={`w-6 h-6 ${styles.icon}`} />
+            <div className="flex items-start space-x-3 sm:space-x-4 mb-4 sm:mb-6">
+              <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center ${styles.iconBg}`}>
+                <AlertTriangle className={`w-5 h-5 sm:w-6 sm:h-6 ${styles.icon}`} />
               </div>
               
               <div className="flex-1">
-                <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
+                <h3 className="text-base sm:text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
                   {title}
                 </h3>
-                <p className="text-neutral-600 dark:text-neutral-400">
+                <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400">
                   {message}
                 </p>
               </div>
@@ -96,21 +96,21 @@ export default function ConfirmationModal({
                 onClick={onClose}
                 className="p-1 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg transition-colors"
               >
-                <X className="w-5 h-5 text-neutral-500" />
+                <X className="w-4 h-4 sm:w-5 sm:h-5 text-neutral-500" />
               </button>
             </div>
 
             {/* Actions */}
-            <div className="flex items-center justify-end space-x-3">
+            <div className="flex flex-col sm:flex-row items-center justify-end space-y-3 sm:space-y-0 sm:space-x-3">
               <button
                 onClick={onClose}
-                className="btn-secondary"
+                className="btn-secondary w-full sm:w-auto order-2 sm:order-1"
               >
                 {cancelText}
               </button>
               <button
                 onClick={handleConfirm}
-                className={`px-4 py-2 rounded-xl font-medium transition-all duration-200 ${styles.confirmBtn}`}
+                className={`px-4 py-2 rounded-xl font-medium transition-all duration-200 w-full sm:w-auto order-1 sm:order-2 ${styles.confirmBtn}`}
               >
                 {confirmText}
               </button>

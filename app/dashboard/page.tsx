@@ -307,59 +307,61 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-neutral-100 dark:from-neutral-950 dark:via-neutral-900 dark:to-black">
-      {/* Invisible Navigation Integration */}
+      {/* Mobile-Responsive Navigation */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-white/90 via-white/60 to-transparent dark:from-black/90 dark:via-black/60 dark:to-transparent backdrop-blur-xl border-b border-neutral-200/60 dark:border-white/10">
-        <div className="max-w-7xl mx-auto px-6 py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
           <div className="flex items-center justify-between">
-            <Logo size="md" animated={true} />
+            <Logo size="sm" animated={true} className="sm:hidden" />
+            <Logo size="md" animated={true} className="hidden sm:block" />
             
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1.2, delay: 0.4 }}
-              className="flex items-center space-x-6"
+              className="flex items-center space-x-2 sm:space-x-6"
             >
-              {/* Theme Switcher - Subtle Integration */}
+              {/* Theme Switcher - Mobile Responsive */}
               <button
                 onClick={() => {
                   const newTheme = theme === 'dark' ? 'light' : 'dark'
                   setTheme(newTheme)
                 }}
-                className="p-3 hover:bg-neutral-200/60 dark:hover:bg-white/10 rounded-2xl transition-all duration-500 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
+                className="p-2 sm:p-3 hover:bg-neutral-200/60 dark:hover:bg-white/10 rounded-xl sm:rounded-2xl transition-all duration-500 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
                 title="Toggle theme"
               >
                 {theme === 'dark' ? (
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                   </svg>
                 ) : (
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                   </svg>
                 )}
               </button>
 
-              {/* Sign Out - Subtle Integration */}
+              {/* Sign Out - Mobile Responsive */}
               <button
                 onClick={async () => {
                   await signOut()
                   router.push('/')
                 }}
-                className="p-3 hover:bg-neutral-200/60 dark:hover:bg-white/10 rounded-2xl transition-all duration-500 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
+                className="p-2 sm:p-3 hover:bg-neutral-200/60 dark:hover:bg-white/10 rounded-xl sm:rounded-2xl transition-all duration-500 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
                 title="Sign out"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                 </svg>
               </button>
 
-              {/* Create Event Button */}
+              {/* Create Event Button - Mobile Responsive */}
               {canCreateEvent ? (
                 <button 
                   onClick={handleCreateEvent}
-                  className="bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-8 py-4 rounded-3xl font-light text-sm tracking-widest transition-all duration-700 shadow-xl shadow-violet-500/20 hover:shadow-violet-500/40 luxury-glow uppercase"
+                  className="bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-4 py-2 sm:px-8 sm:py-4 rounded-2xl sm:rounded-3xl font-light text-xs sm:text-sm tracking-widest transition-all duration-700 shadow-xl shadow-violet-500/20 hover:shadow-violet-500/40 luxury-glow uppercase"
                 >
-                  Create Event
+                  <span className="hidden sm:inline">Create Event</span>
+                  <span className="sm:hidden">Create</span>
                 </button>
               ) : (
                 <button 
@@ -367,9 +369,10 @@ export default function Dashboard() {
                     setUpgradeReason('events')
                     setUpgradeModalOpen(true)
                   }}
-                  className="bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-8 py-4 rounded-3xl font-light text-sm tracking-widest transition-all duration-700 shadow-xl shadow-violet-500/20 hover:shadow-violet-500/40 luxury-glow uppercase"
+                  className="bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-4 py-2 sm:px-8 sm:py-4 rounded-2xl sm:rounded-3xl font-light text-xs sm:text-sm tracking-widest transition-all duration-700 shadow-xl shadow-violet-500/20 hover:shadow-violet-500/40 luxury-glow uppercase"
                 >
-                  Upgrade
+                  <span className="hidden sm:inline">Upgrade</span>
+                  <span className="sm:hidden">Pro</span>
                 </button>
               )}
             </motion.div>
@@ -377,50 +380,50 @@ export default function Dashboard() {
         </div>
       </div>
       
-      {/* Immersive Hero Section */}
-      <div className="pt-32 pb-20">
-        <div className="max-w-7xl mx-auto px-6">
+      {/* Mobile-Responsive Hero Section */}
+      <div className="pt-20 sm:pt-32 pb-12 sm:pb-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 60 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
-            className="text-center mb-20"
+            className="text-center mb-12 sm:mb-20"
           >
-            <h1 className="text-6xl md:text-8xl lg:text-9xl font-extralight text-neutral-900 dark:text-white mb-8 tracking-tighter leading-[0.85] luxury-heading">
+            <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-extralight text-neutral-900 dark:text-white mb-6 sm:mb-8 tracking-tighter leading-[0.85] luxury-heading">
               Your Events
             </h1>
             
-            <p className="text-2xl text-neutral-600 dark:text-neutral-300/80 max-w-3xl mx-auto mb-16 leading-relaxed font-extralight tracking-wide luxury-body">
+            <p className="text-lg sm:text-2xl text-neutral-600 dark:text-neutral-300/80 max-w-3xl mx-auto mb-8 sm:mb-16 leading-relaxed font-extralight tracking-wide luxury-body px-4">
               Manage your schedule coordination with elegance
             </p>
 
-            {/* Refined Metadata */}
-            <div className="flex flex-wrap items-center justify-center gap-16 text-neutral-500 dark:text-neutral-400/70 mb-20">
-              <div className="flex items-center space-x-4">
+            {/* Mobile-Responsive Metadata */}
+            <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-16 text-neutral-500 dark:text-neutral-400/70 mb-12 sm:mb-20 px-4">
+              <div className="flex items-center space-x-2 sm:space-x-4">
                 <div className="w-1.5 h-1.5 bg-violet-500/80 dark:bg-violet-400/60 rounded-full"></div>
-                <span className="text-sm tracking-widest font-extralight luxury-caption">
+                <span className="text-xs sm:text-sm tracking-widest font-extralight luxury-caption">
                   {stats.activeEvents} Active
                 </span>
               </div>
               
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2 sm:space-x-4">
                 <div className="w-1.5 h-1.5 bg-violet-500/80 dark:bg-violet-400/60 rounded-full"></div>
-                <span className="text-sm tracking-widest font-extralight luxury-caption">
+                <span className="text-xs sm:text-sm tracking-widest font-extralight luxury-caption">
                   {stats.totalParticipants} Participants
                 </span>
               </div>
               
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2 sm:space-x-4">
                 <div className="w-1.5 h-1.5 bg-violet-500/80 dark:bg-violet-400/60 rounded-full"></div>
-                <span className="text-sm tracking-widest font-extralight luxury-caption">
+                <span className="text-xs sm:text-sm tracking-widest font-extralight luxury-caption">
                   {stats.completedEvents} Completed
                 </span>
               </div>
 
               {!canCreateEvent && (
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2 sm:space-x-4">
                   <div className="w-1.5 h-1.5 bg-yellow-500/80 dark:bg-yellow-400/60 rounded-full"></div>
-                  <span className="text-sm tracking-widest font-extralight luxury-caption text-yellow-600 dark:text-yellow-300/80">
+                  <span className="text-xs sm:text-sm tracking-widest font-extralight luxury-caption text-yellow-600 dark:text-yellow-300/80">
                     {eventsThisWeek}/{maxEvents} This Week
                   </span>
                 </div>
@@ -430,53 +433,53 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Full-Bleed Events Section */}
-      <div className="max-w-7xl mx-auto px-6 pb-24">
+      {/* Mobile-Responsive Events Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24">
         <motion.div
           initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
         >
           {events.length === 0 ? (
-            /* Atmospheric Empty State */
-            <div className="text-center py-24">
-              <div className="w-20 h-20 bg-gradient-to-br from-violet-500/15 to-indigo-500/15 rounded-3xl flex items-center justify-center mx-auto mb-12">
-                <Calendar className="w-10 h-10 text-violet-400/70" />
+            /* Mobile-Responsive Empty State */
+            <div className="text-center py-16 sm:py-24 px-4">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-violet-500/15 to-indigo-500/15 rounded-2xl sm:rounded-3xl flex items-center justify-center mx-auto mb-8 sm:mb-12">
+                <Calendar className="w-8 h-8 sm:w-10 sm:h-10 text-violet-400/70" />
               </div>
-              <h3 className="text-3xl font-extralight text-neutral-900 dark:text-white mb-6 tracking-wide luxury-heading">
+              <h3 className="text-2xl sm:text-3xl font-extralight text-neutral-900 dark:text-white mb-4 sm:mb-6 tracking-wide luxury-heading">
                 No events yet
               </h3>
-              <p className="text-xl text-neutral-600 dark:text-neutral-400/80 max-w-md mx-auto mb-12 font-extralight tracking-wide luxury-body">
+              <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400/80 max-w-md mx-auto mb-8 sm:mb-12 font-extralight tracking-wide luxury-body">
                 Create your first event to start coordinating schedules with elegance
               </p>
               
               {canCreateEvent ? (
                 <button 
                   onClick={handleCreateEvent}
-                  className="bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-12 py-6 rounded-3xl font-light text-lg tracking-widest transition-all duration-700 shadow-2xl shadow-violet-500/20 hover:shadow-violet-500/40 luxury-glow uppercase"
+                  className="bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-8 py-4 sm:px-12 sm:py-6 rounded-2xl sm:rounded-3xl font-light text-base sm:text-lg tracking-widest transition-all duration-700 shadow-2xl shadow-violet-500/20 hover:shadow-violet-500/40 luxury-glow uppercase"
                 >
                   Create Event
                 </button>
               ) : (
-                <div className="space-y-6">
+                <div className="space-y-4 sm:space-y-6">
                   <button 
                     onClick={() => {
                       setUpgradeReason('events')
                       setUpgradeModalOpen(true)
                     }}
-                    className="bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-12 py-6 rounded-3xl font-light text-lg tracking-widest transition-all duration-700 shadow-2xl shadow-violet-500/20 hover:shadow-violet-500/40 luxury-glow uppercase"
+                    className="bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-8 py-4 sm:px-12 sm:py-6 rounded-2xl sm:rounded-3xl font-light text-base sm:text-lg tracking-widest transition-all duration-700 shadow-2xl shadow-violet-500/20 hover:shadow-violet-500/40 luxury-glow uppercase"
                   >
                     Upgrade
                   </button>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-500/80 font-extralight tracking-widest luxury-caption">
+                  <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-500/80 font-extralight tracking-widest luxury-caption">
                     You've reached your limit of {maxEvents} events this week
                   </p>
                 </div>
               )}
             </div>
           ) : (
-            /* Enhanced Editorial Events Layout */
-            <div className="space-y-6">
+            /* Mobile-Responsive Events Layout */
+            <div className="space-y-4 sm:space-y-6">
               {events.map((event: any, index: number) => (
                 <motion.div
                   key={event.id}
@@ -484,24 +487,24 @@ export default function Dashboard() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1.0, delay: 0.6 + index * 0.1, ease: [0.16, 1, 0.3, 1] }}
                   onClick={() => window.open(`/event/${event.id}/analytics`, '_blank')}
-                  className="group relative bg-gradient-to-br from-white/98 via-neutral-50/95 to-white/98 dark:from-neutral-900/60 dark:via-neutral-800/40 dark:to-neutral-900/60 backdrop-blur-3xl border border-neutral-300/70 dark:border-white/12 rounded-[2.5rem] p-10 hover:bg-gradient-to-br hover:from-white hover:via-neutral-50 hover:to-white dark:hover:from-neutral-900/80 dark:hover:via-neutral-800/60 dark:hover:to-neutral-900/80 transition-all duration-700 cursor-pointer hover:border-neutral-400/90 dark:hover:border-white/20 overflow-hidden shadow-2xl shadow-neutral-300/30 dark:shadow-black/20 hover:shadow-3xl hover:shadow-neutral-400/40 dark:hover:shadow-black/40 hover:-translate-y-1"
+                  className="group relative bg-gradient-to-br from-white/98 via-neutral-50/95 to-white/98 dark:from-neutral-900/60 dark:via-neutral-800/40 dark:to-neutral-900/60 backdrop-blur-3xl border border-neutral-300/70 dark:border-white/12 rounded-2xl sm:rounded-[2.5rem] p-6 sm:p-10 hover:bg-gradient-to-br hover:from-white hover:via-neutral-50 hover:to-white dark:hover:from-neutral-900/80 dark:hover:via-neutral-800/60 dark:hover:to-neutral-900/80 transition-all duration-700 cursor-pointer hover:border-neutral-400/90 dark:hover:border-white/20 overflow-hidden shadow-2xl shadow-neutral-300/30 dark:shadow-black/20 hover:shadow-3xl hover:shadow-neutral-400/40 dark:hover:shadow-black/40 hover:-translate-y-1"
                 >
                   {/* Enhanced Background Patterns */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-violet-500/4 to-indigo-500/4 dark:from-violet-500/3 dark:to-indigo-500/3 rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-violet-500/4 to-indigo-500/4 dark:from-violet-500/3 dark:to-indigo-500/3 rounded-2xl sm:rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                   
                   {/* Subtle Glow Effect */}
-                  <div className="absolute -inset-1 bg-gradient-to-br from-violet-500/10 via-transparent to-indigo-500/10 dark:from-violet-500/8 dark:to-indigo-500/8 rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl"></div>
+                  <div className="absolute -inset-1 bg-gradient-to-br from-violet-500/10 via-transparent to-indigo-500/10 dark:from-violet-500/8 dark:to-indigo-500/8 rounded-2xl sm:rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl"></div>
                   
-                  <div className="relative flex items-start justify-between">
-                    <div className="flex-1 pr-8">
-                      {/* Enhanced Header Section */}
-                      <div className="flex items-start justify-between mb-6">
-                        <div className="flex-1">
-                          <div className="flex items-center space-x-4 mb-3">
-                            <h3 className="text-3xl font-extralight text-neutral-900 dark:text-white tracking-wide luxury-heading group-hover:text-violet-700 dark:group-hover:text-violet-300 transition-colors duration-500">
+                  <div className="relative flex flex-col lg:flex-row lg:items-start lg:justify-between">
+                    <div className="flex-1 lg:pr-8">
+                      {/* Mobile-Responsive Header Section */}
+                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 sm:mb-6">
+                        <div className="flex-1 mb-4 sm:mb-0">
+                          <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 mb-2 sm:mb-3">
+                            <h3 className="text-2xl sm:text-3xl font-extralight text-neutral-900 dark:text-white tracking-wide luxury-heading group-hover:text-violet-700 dark:group-hover:text-violet-300 transition-colors duration-500 mb-2 sm:mb-0">
                               {event.name}
                             </h3>
-                            <div className={`px-5 py-2.5 rounded-2xl text-xs font-light tracking-widest luxury-caption border backdrop-blur-sm ${
+                            <div className={`inline-flex px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-xl sm:rounded-2xl text-xs font-light tracking-widest luxury-caption border backdrop-blur-sm ${
                               event.status === 'open' 
                                 ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/20 dark:from-emerald-500/15 dark:to-teal-500/15 text-emerald-700 dark:text-emerald-300/90 border-emerald-500/30 dark:border-emerald-500/25'
                                 : 'bg-gradient-to-r from-amber-500/20 to-orange-500/20 dark:from-amber-500/15 dark:to-orange-500/15 text-amber-700 dark:text-amber-300/90 border-amber-500/30 dark:border-amber-500/25'
@@ -511,7 +514,7 @@ export default function Dashboard() {
                           </div>
                           
                           {/* Event Type Badge */}
-                          <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-violet-500/10 to-indigo-500/10 dark:from-violet-500/8 dark:to-indigo-500/8 border border-violet-500/20 dark:border-violet-500/15 text-violet-700 dark:text-violet-300/90 px-4 py-2 rounded-xl text-xs font-light tracking-widest luxury-caption mb-4">
+                          <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-violet-500/10 to-indigo-500/10 dark:from-violet-500/8 dark:to-indigo-500/8 border border-violet-500/20 dark:border-violet-500/15 text-violet-700 dark:text-violet-300/90 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl text-xs font-light tracking-widest luxury-caption mb-3 sm:mb-4">
                             <div className="w-2 h-2 bg-violet-500 dark:bg-violet-400 rounded-full animate-pulse"></div>
                             <span>COORDINATION EVENT</span>
                           </div>
@@ -520,22 +523,22 @@ export default function Dashboard() {
                       
                       {/* Enhanced Description */}
                       {event.description && (
-                        <div className="mb-8">
-                          <p className="text-neutral-700 dark:text-neutral-400/90 font-extralight tracking-wide text-lg leading-relaxed luxury-body">
+                        <div className="mb-6 sm:mb-8">
+                          <p className="text-neutral-700 dark:text-neutral-400/90 font-extralight tracking-wide text-base sm:text-lg leading-relaxed luxury-body">
                             {event.description}
                           </p>
                         </div>
                       )}
                       
-                      {/* Enhanced Metadata Grid */}
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
-                        <div className="flex items-center space-x-4 p-4 bg-gradient-to-br from-neutral-100/60 to-neutral-200/60 dark:from-neutral-800/30 dark:to-neutral-900/30 rounded-2xl border border-neutral-300/40 dark:border-white/8 backdrop-blur-sm">
-                          <div className="w-3 h-3 bg-gradient-to-br from-violet-500 to-indigo-500 rounded-full shadow-lg shadow-violet-500/30"></div>
+                      {/* Mobile-Responsive Metadata Grid */}
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-4 sm:mb-6">
+                        <div className="flex items-center space-x-3 sm:space-x-4 p-3 sm:p-4 bg-gradient-to-br from-neutral-100/60 to-neutral-200/60 dark:from-neutral-800/30 dark:to-neutral-900/30 rounded-xl sm:rounded-2xl border border-neutral-300/40 dark:border-white/8 backdrop-blur-sm">
+                          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-gradient-to-br from-violet-500 to-indigo-500 rounded-full shadow-lg shadow-violet-500/30"></div>
                           <div>
                             <div className="text-xs text-neutral-600 dark:text-neutral-500/80 font-extralight tracking-widest luxury-caption mb-1">
                               DURATION
                             </div>
-                            <div className="text-sm font-light text-neutral-900 dark:text-white tracking-wide">
+                            <div className="text-xs sm:text-sm font-light text-neutral-900 dark:text-white tracking-wide">
                               {new Date(event.start_date).toLocaleDateString('en-US', { 
                                 month: 'short', 
                                 day: 'numeric' 
@@ -547,25 +550,25 @@ export default function Dashboard() {
                           </div>
                         </div>
                         
-                        <div className="flex items-center space-x-4 p-4 bg-gradient-to-br from-neutral-100/60 to-neutral-200/60 dark:from-neutral-800/30 dark:to-neutral-900/30 rounded-2xl border border-neutral-300/40 dark:border-white/8 backdrop-blur-sm">
-                          <div className="w-3 h-3 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-full shadow-lg shadow-emerald-500/30"></div>
+                        <div className="flex items-center space-x-3 sm:space-x-4 p-3 sm:p-4 bg-gradient-to-br from-neutral-100/60 to-neutral-200/60 dark:from-neutral-800/30 dark:to-neutral-900/30 rounded-xl sm:rounded-2xl border border-neutral-300/40 dark:border-white/8 backdrop-blur-sm">
+                          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-full shadow-lg shadow-emerald-500/30"></div>
                           <div>
                             <div className="text-xs text-neutral-600 dark:text-neutral-500/80 font-extralight tracking-widest luxury-caption mb-1">
                               PARTICIPANTS
                             </div>
-                            <div className="text-sm font-light text-neutral-900 dark:text-white tracking-wide">
+                            <div className="text-xs sm:text-sm font-light text-neutral-900 dark:text-white tracking-wide">
                               {event.participants?.length || 0} people
                             </div>
                           </div>
                         </div>
                         
-                        <div className="flex items-center space-x-4 p-4 bg-gradient-to-br from-neutral-100/60 to-neutral-200/60 dark:from-neutral-800/30 dark:to-neutral-900/30 rounded-2xl border border-neutral-300/40 dark:border-white/8 backdrop-blur-sm">
-                          <div className="w-3 h-3 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full shadow-lg shadow-blue-500/30"></div>
+                        <div className="flex items-center space-x-3 sm:space-x-4 p-3 sm:p-4 bg-gradient-to-br from-neutral-100/60 to-neutral-200/60 dark:from-neutral-800/30 dark:to-neutral-900/30 rounded-xl sm:rounded-2xl border border-neutral-300/40 dark:border-white/8 backdrop-blur-sm">
+                          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full shadow-lg shadow-blue-500/30"></div>
                           <div>
                             <div className="text-xs text-neutral-600 dark:text-neutral-500/80 font-extralight tracking-widest luxury-caption mb-1">
                               TIME SLOTS
                             </div>
-                            <div className="text-sm font-light text-neutral-900 dark:text-white tracking-wide">
+                            <div className="text-xs sm:text-sm font-light text-neutral-900 dark:text-white tracking-wide">
                               {event.time_blocks?.length || 0} options
                             </div>
                           </div>
@@ -573,8 +576,8 @@ export default function Dashboard() {
                       </div>
                     </div>
                     
-                    {/* Enhanced Action Buttons - Horizontal Layout */}
-                    <div className="flex items-center space-x-3">
+                    {/* Mobile-Responsive Action Buttons */}
+                    <div className="flex flex-row lg:flex-col items-center justify-center lg:justify-start space-x-2 lg:space-x-0 lg:space-y-3 pt-4 lg:pt-0">
                       {/* Analytics Button - Enhanced */}
                       <motion.button
                         whileHover={{ scale: 1.05, y: -2 }}
@@ -583,12 +586,13 @@ export default function Dashboard() {
                           e.stopPropagation()
                           window.open(`/event/${event.id}/analytics`, '_blank')
                         }}
-                        className="p-4 bg-gradient-to-br from-violet-500/15 to-indigo-500/15 dark:from-violet-500/10 dark:to-indigo-500/10 hover:from-violet-500/25 hover:to-indigo-500/25 dark:hover:from-violet-500/20 dark:hover:to-indigo-500/20 border border-violet-500/30 dark:border-violet-500/20 hover:border-violet-500/50 dark:hover:border-violet-500/40 rounded-2xl transition-all duration-500 text-violet-700 dark:text-violet-400 hover:text-violet-800 dark:hover:text-violet-300 backdrop-blur-sm shadow-lg shadow-violet-500/10 hover:shadow-violet-500/20"
+                        className="p-3 sm:p-4 bg-gradient-to-br from-violet-500/15 to-indigo-500/15 dark:from-violet-500/10 dark:to-indigo-500/10 hover:from-violet-500/25 hover:to-indigo-500/25 dark:hover:from-violet-500/20 dark:hover:to-indigo-500/20 border border-violet-500/30 dark:border-violet-500/20 hover:border-violet-500/50 dark:hover:border-violet-500/40 rounded-xl sm:rounded-2xl transition-all duration-500 text-violet-700 dark:text-violet-400 hover:text-violet-800 dark:hover:text-violet-300 backdrop-blur-sm shadow-lg shadow-violet-500/10 hover:shadow-violet-500/20"
                         title="View analytics"
                       >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                         </svg>
+                      </motion.button>
                       </motion.button>
 
                       {/* Share Button - Enhanced */}
@@ -599,10 +603,10 @@ export default function Dashboard() {
                           e.stopPropagation()
                           handleShareEvent(event.id)
                         }}
-                        className="p-4 bg-gradient-to-br from-neutral-200/60 to-neutral-300/60 dark:from-neutral-700/40 dark:to-neutral-800/40 hover:from-neutral-300/80 hover:to-neutral-400/80 dark:hover:from-neutral-600/60 dark:hover:to-neutral-700/60 border border-neutral-300/50 dark:border-neutral-600/30 hover:border-neutral-400/70 dark:hover:border-neutral-500/50 rounded-2xl transition-all duration-500 text-neutral-700 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-200 backdrop-blur-sm shadow-lg shadow-neutral-300/20 dark:shadow-black/20 hover:shadow-neutral-400/30 dark:hover:shadow-black/40"
+                        className="p-3 sm:p-4 bg-gradient-to-br from-neutral-200/60 to-neutral-300/60 dark:from-neutral-700/40 dark:to-neutral-800/40 hover:from-neutral-300/80 hover:to-neutral-400/80 dark:hover:from-neutral-600/60 dark:hover:to-neutral-700/60 border border-neutral-300/50 dark:border-neutral-600/30 hover:border-neutral-400/70 dark:hover:border-neutral-500/50 rounded-xl sm:rounded-2xl transition-all duration-500 text-neutral-700 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-200 backdrop-blur-sm shadow-lg shadow-neutral-300/20 dark:shadow-black/20 hover:shadow-neutral-400/30 dark:hover:shadow-black/40"
                         title="Share event"
                       >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
                         </svg>
                       </motion.button>
@@ -616,10 +620,10 @@ export default function Dashboard() {
                             e.stopPropagation()
                             handleMarkCompleted(event.id)
                           }}
-                          className="p-4 bg-gradient-to-br from-emerald-500/15 to-teal-500/15 dark:from-emerald-500/10 dark:to-teal-500/10 hover:from-emerald-500/25 hover:to-teal-500/25 dark:hover:from-emerald-500/20 dark:hover:to-teal-500/20 border border-emerald-500/30 dark:border-emerald-500/20 hover:border-emerald-500/50 dark:hover:border-emerald-500/40 rounded-2xl transition-all duration-500 text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 backdrop-blur-sm shadow-lg shadow-emerald-500/10 hover:shadow-emerald-500/20"
+                          className="p-3 sm:p-4 bg-gradient-to-br from-emerald-500/15 to-teal-500/15 dark:from-emerald-500/10 dark:to-teal-500/10 hover:from-emerald-500/25 hover:to-teal-500/25 dark:hover:from-emerald-500/20 dark:hover:to-teal-500/20 border border-emerald-500/30 dark:border-emerald-500/20 hover:border-emerald-500/50 dark:hover:border-emerald-500/40 rounded-xl sm:rounded-2xl transition-all duration-500 text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 backdrop-blur-sm shadow-lg shadow-emerald-500/10 hover:shadow-emerald-500/20"
                           title="Mark as completed"
                         >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 13l4 4L19 7" />
                           </svg>
                         </motion.button>
@@ -633,10 +637,10 @@ export default function Dashboard() {
                           e.stopPropagation()
                           handleDeleteEvent(event.id)
                         }}
-                        className="p-4 bg-gradient-to-br from-red-500/15 to-rose-500/15 dark:from-red-500/10 dark:to-rose-500/10 hover:from-red-500/25 hover:to-rose-500/25 dark:hover:from-red-500/20 dark:hover:to-rose-500/20 border border-red-500/30 dark:border-red-500/20 hover:border-red-500/50 dark:hover:border-red-500/40 rounded-2xl transition-all duration-500 text-red-700 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 backdrop-blur-sm shadow-lg shadow-red-500/10 hover:shadow-red-500/20"
+                        className="p-3 sm:p-4 bg-gradient-to-br from-red-500/15 to-rose-500/15 dark:from-red-500/10 dark:to-rose-500/10 hover:from-red-500/25 hover:to-rose-500/25 dark:hover:from-red-500/20 dark:hover:to-rose-500/20 border border-red-500/30 dark:border-red-500/20 hover:border-red-500/50 dark:hover:border-red-500/40 rounded-xl sm:rounded-2xl transition-all duration-500 text-red-700 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 backdrop-blur-sm shadow-lg shadow-red-500/10 hover:shadow-red-500/20"
                         title="Delete event"
                       >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                         </svg>
                       </motion.button>

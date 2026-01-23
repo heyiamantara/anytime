@@ -219,6 +219,119 @@ a:focus-visible,
   }
 }
 
+/* Responsive utility classes */
+.p-responsive {
+  @apply p-4 sm:p-6 lg:p-8;
+}
+
+.px-responsive {
+  @apply px-4 sm:px-6 lg:px-8;
+}
+
+.py-responsive {
+  @apply py-4 sm:py-6 lg:py-8;
+}
+
+.gap-responsive {
+  @apply gap-4 sm:gap-6 lg:gap-8;
+}
+
+.space-responsive > * + * {
+  @apply mt-4 sm:mt-6 lg:mt-8;
+}
+
+.text-responsive-xs {
+  @apply text-xs sm:text-sm;
+}
+
+.text-responsive-sm {
+  @apply text-sm sm:text-base;
+}
+
+.text-responsive-base {
+  @apply text-base sm:text-lg;
+}
+
+.text-responsive-lg {
+  @apply text-lg sm:text-xl lg:text-2xl;
+}
+
+.text-responsive-xl {
+  @apply text-xl sm:text-2xl lg:text-3xl;
+}
+
+.text-responsive-2xl {
+  @apply text-2xl sm:text-3xl lg:text-4xl;
+}
+
+.text-responsive-3xl {
+  @apply text-3xl sm:text-4xl lg:text-5xl;
+}
+
+.text-responsive-4xl {
+  @apply text-4xl sm:text-5xl lg:text-6xl;
+}
+
+.text-responsive-5xl {
+  @apply text-5xl sm:text-6xl lg:text-7xl;
+}
+
+.text-responsive-6xl {
+  @apply text-6xl sm:text-7xl lg:text-8xl;
+}
+
+.text-responsive-7xl {
+  @apply text-7xl sm:text-8xl lg:text-9xl;
+}
+
+.grid-responsive-1 {
+  @apply grid-cols-1;
+}
+
+.grid-responsive-2 {
+  @apply grid-cols-1 sm:grid-cols-2;
+}
+
+.grid-responsive-3 {
+  @apply grid-cols-1 sm:grid-cols-2 lg:grid-cols-3;
+}
+
+.grid-responsive-4 {
+  @apply grid-cols-1 sm:grid-cols-2 lg:grid-cols-4;
+}
+
+.grid-responsive-6 {
+  @apply grid-cols-2 sm:grid-cols-3 lg:grid-cols-6;
+}
+
+.flex-responsive {
+  @apply flex-col sm:flex-row;
+}
+
+.items-responsive {
+  @apply items-start sm:items-center;
+}
+
+.justify-responsive {
+  @apply justify-start sm:justify-between;
+}
+
+.w-responsive-full {
+  @apply w-full sm:w-auto;
+}
+
+.max-w-responsive {
+  @apply max-w-full sm:max-w-md lg:max-w-lg;
+}
+
+.rounded-responsive {
+  @apply rounded-xl sm:rounded-2xl lg:rounded-3xl;
+}
+
+.shadow-responsive {
+  @apply shadow-lg sm:shadow-xl lg:shadow-2xl;
+}
+
 /* Luxury animations */
 @keyframes luxuryFadeIn {
   from {
