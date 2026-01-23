@@ -48,7 +48,7 @@ export default function FeaturesSection() {
           viewport={{ once: true }}
           className="text-center mb-16 sm:mb-24"
         >
-          <h2 className="text-responsive-hero font-extralight text-neutral-900 dark:text-white mb-6 sm:mb-8 tracking-tighter leading-[0.85] luxury-heading">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extralight text-neutral-900 dark:text-white mb-6 sm:mb-8 tracking-tighter leading-[0.85] luxury-heading">
             Everything you need
           </h2>
           <p className="text-responsive-lg text-neutral-600 dark:text-neutral-300/80 max-w-3xl mx-auto leading-relaxed font-extralight tracking-wide luxury-body">

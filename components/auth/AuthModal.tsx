@@ -32,7 +32,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }: Au
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         {/* Luxury Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -45,20 +45,20 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }: Au
         {/* Atmospheric Background Pattern */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(139,92,246,0.08)_0%,transparent_70%)] pointer-events-none" />
 
-        {/* Modal Container - Mobile Responsive */}
+        {/* Modal Container - Compact Dialog */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9, y: 40 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.9, y: 40 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-full max-w-sm sm:max-w-lg"
+          className="relative w-full max-w-md"
         >
-          {/* Close Button - Mobile Responsive */}
+          {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute -top-4 -right-4 sm:-top-6 sm:-right-6 z-10 w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-neutral-900/80 via-neutral-800/60 to-neutral-900/80 backdrop-blur-xl border border-white/10 rounded-2xl sm:rounded-3xl flex items-center justify-center hover:border-white/20 transition-all duration-500 hover:bg-gradient-to-br hover:from-neutral-900/90 hover:via-neutral-800/70 hover:to-neutral-900/90 touch-target"
+            className="absolute -top-3 -right-3 z-10 w-8 h-8 bg-gradient-to-br from-neutral-900/80 via-neutral-800/60 to-neutral-900/80 backdrop-blur-xl border border-white/10 rounded-xl flex items-center justify-center hover:border-white/20 transition-all duration-500 hover:bg-gradient-to-br hover:from-neutral-900/90 hover:via-neutral-800/70 hover:to-neutral-900/90"
           >
-            <X className="w-4 h-4 sm:w-5 sm:h-5 text-neutral-400 hover:text-white transition-colors duration-300" />
+            <X className="w-4 h-4 text-neutral-400 hover:text-white transition-colors duration-300" />
           </button>
 
           {/* Form Content */}

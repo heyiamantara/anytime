@@ -389,7 +389,7 @@ export default function Dashboard() {
             transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
             className="text-center mb-12 sm:mb-20"
           >
-            <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-extralight text-neutral-900 dark:text-white mb-6 sm:mb-8 tracking-tighter leading-[0.85] luxury-heading">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extralight text-neutral-900 dark:text-white mb-6 sm:mb-8 tracking-tighter leading-[0.85] luxury-heading">
               Your Events
             </h1>
             

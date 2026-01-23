@@ -63,7 +63,7 @@ export default function PricingSection({ onSignUp, onUpgrade }: PricingSectionPr
           viewport={{ once: true }}
           className="text-center mb-16 sm:mb-24"
         >
-          <h2 className="text-responsive-hero font-extralight text-neutral-900 dark:text-white mb-6 sm:mb-8 tracking-tighter leading-[0.85] luxury-heading">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extralight text-neutral-900 dark:text-white mb-6 sm:mb-8 tracking-tighter leading-[0.85] luxury-heading">
             Simple, transparent pricing
           </h2>
           <p className="text-responsive-lg text-neutral-600 dark:text-neutral-300/80 max-w-3xl mx-auto leading-relaxed font-extralight tracking-wide luxury-body">
@@ -113,10 +113,10 @@ export default function PricingSection({ onSignUp, onUpgrade }: PricingSectionPr
                     {plan.description}
                   </p>
                   <div className="mb-6 sm:mb-8">
-                    <span className="text-4xl sm:text-6xl font-extralight text-neutral-900 dark:text-white tracking-tight">
+                    <span className="text-responsive-2xl font-extralight text-neutral-900 dark:text-white tracking-tight">
                       {plan.price}
                     </span>
-                    <span className="text-neutral-500 dark:text-neutral-500/80 ml-2 sm:ml-3 text-base sm:text-lg font-extralight tracking-wide luxury-body">
+                    <span className="text-responsive-base text-neutral-500 dark:text-neutral-500/80 ml-2 sm:ml-3 font-extralight tracking-wide luxury-body">
                       {plan.period}
                     </span>
                   </div>

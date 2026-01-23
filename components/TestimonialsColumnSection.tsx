@@ -75,7 +75,7 @@ function TestimonialCard({ testimonial, delay = 0 }: { testimonial: typeof testi
           <svg className="w-8 h-8 text-violet-500/40 dark:text-violet-400/30 mb-4" fill="currentColor" viewBox="0 0 24 24">
             <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z"/>
           </svg>
-          <p className="text-neutral-800 dark:text-white/90 font-extralight text-lg leading-relaxed tracking-wide luxury-body">
+          <p className="text-responsive-base text-neutral-800 dark:text-white/90 font-extralight leading-relaxed tracking-wide luxury-body">
             "{testimonial.text}"
           </p>
         </div>
@@ -106,7 +106,7 @@ function TestimonialCard({ testimonial, delay = 0 }: { testimonial: typeof testi
 
 // Animated column component
 function TestimonialColumn({ testimonials, duration, className = "" }: { 
-  testimonials: typeof testimonials, 
+  testimonials: any[], 
   duration: number,
   className?: string 
 }) {
@@ -153,11 +153,11 @@ export default function TestimonialsColumnSection() {
             viewport={{ once: true }}
             className="text-center"
           >
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extralight text-neutral-900 dark:text-white mb-8 tracking-tight luxury-heading">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extralight text-neutral-900 dark:text-white mb-8 tracking-tighter leading-[0.85] luxury-heading">
               Loved by teams
               <span className="block text-violet-600 dark:text-violet-400/80 font-light">everywhere</span>
             </h2>
-            <p className="text-neutral-600 dark:text-neutral-400/80 font-extralight text-xl tracking-wide max-w-2xl mx-auto luxury-body">
+            <p className="text-responsive-lg text-neutral-600 dark:text-neutral-400/80 font-extralight tracking-wide max-w-2xl mx-auto luxury-body">
               See what our customers have to say about their experience with Anytime.
             </p>
           </motion.div>

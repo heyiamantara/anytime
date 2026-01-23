@@ -50,10 +50,10 @@ export default function DemoSection() {
           viewport={{ once: true }}
           className="text-center mb-24"
         >
-          <h2 className="text-6xl md:text-7xl lg:text-8xl font-extralight text-neutral-900 dark:text-white mb-8 tracking-tighter leading-[0.85] luxury-heading">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extralight text-neutral-900 dark:text-white mb-8 tracking-tighter leading-[0.85] luxury-heading">
             See it in action
           </h2>
-          <p className="text-2xl text-neutral-600 dark:text-neutral-300/80 max-w-3xl mx-auto leading-relaxed font-extralight tracking-wide luxury-body">
+          <p className="text-responsive-lg text-neutral-600 dark:text-neutral-300/80 max-w-3xl mx-auto leading-relaxed font-extralight tracking-wide luxury-body">
             Interactive demo showing real scheduling in action
           </p>
         </motion.div>
@@ -73,10 +73,10 @@ export default function DemoSection() {
             {/* Demo Header */}
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-12 space-y-6 lg:space-y-0">
               <div>
-                <h3 className="text-3xl font-extralight text-neutral-900 dark:text-white mb-4 tracking-wide luxury-heading">
+                <h3 className="text-responsive-xl font-extralight text-neutral-900 dark:text-white mb-4 tracking-wide luxury-heading">
                   Team Planning Session
                 </h3>
-                <p className="text-neutral-600 dark:text-neutral-400/80 font-extralight tracking-wide text-lg luxury-body">
+                <p className="text-responsive-base text-neutral-600 dark:text-neutral-400/80 font-extralight tracking-wide luxury-body">
                   Interactive preview • hover over cells to explore
                 </p>
               </div>
@@ -224,7 +224,7 @@ export default function DemoSection() {
           <motion.button 
             whileHover={{ scale: 1.02, y: -2 }}
             whileTap={{ scale: 0.98 }}
-            className="group bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-12 py-6 rounded-3xl font-light text-lg tracking-widest transition-all duration-700 shadow-2xl shadow-violet-500/20 hover:shadow-violet-500/40 luxury-glow uppercase"
+            className="group bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-12 py-6 rounded-3xl font-light text-responsive-base tracking-widest transition-all duration-700 shadow-2xl shadow-violet-500/20 hover:shadow-violet-500/40 luxury-glow uppercase"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-violet-400/20 to-indigo-400/20 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
             <span className="relative flex items-center space-x-4">

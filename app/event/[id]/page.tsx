@@ -228,7 +228,7 @@ export default function EventPage() {
             
             {/* Luxury Event Title */}
             <div className="w-full overflow-hidden">
-              <h1 className="text-6xl md:text-8xl lg:text-9xl font-extralight text-neutral-900 dark:text-white mb-8 tracking-tighter leading-[0.85] luxury-heading break-words hyphens-none">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extralight text-neutral-900 dark:text-white mb-8 tracking-tighter leading-[0.85] luxury-heading break-words hyphens-none">
                 {event.name}
               </h1>
             </div>

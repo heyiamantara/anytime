@@ -33,7 +33,7 @@ export default function HeroSection({ onSignUp }: HeroSectionProps) {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="text-responsive-mega font-extralight mb-8 sm:mb-12 leading-[0.85] text-center luxury-heading tracking-tighter"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-extralight mb-8 sm:mb-12 leading-[0.85] text-center luxury-heading tracking-tighter"
           >
             <span className="text-neutral-900 dark:text-white block">
               The best time
@@ -64,7 +64,7 @@ export default function HeroSection({ onSignUp }: HeroSectionProps) {
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
               onClick={onSignUp}
-              className="group bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-8 sm:px-16 py-4 sm:py-6 rounded-2xl sm:rounded-3xl font-light text-base sm:text-xl tracking-widest transition-all duration-700 shadow-2xl shadow-violet-500/20 hover:shadow-violet-500/40 luxury-glow uppercase touch-target-lg"
+              className="group bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-8 sm:px-16 py-4 sm:py-6 rounded-2xl sm:rounded-3xl font-light text-responsive-base tracking-widest transition-all duration-700 shadow-2xl shadow-violet-500/20 hover:shadow-violet-500/40 luxury-glow uppercase touch-target-lg"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-violet-400/20 to-indigo-400/20 rounded-2xl sm:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
               <span className="relative flex items-center space-x-3 sm:space-x-4">

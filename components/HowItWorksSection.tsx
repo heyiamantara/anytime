@@ -38,7 +38,7 @@ export default function HowItWorksSection() {
           viewport={{ once: true }}
           className="text-center mb-16 sm:mb-24"
         >
-          <h2 className="text-responsive-hero font-extralight text-neutral-900 dark:text-white mb-6 sm:mb-8 tracking-tighter leading-[0.85] luxury-heading">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extralight text-neutral-900 dark:text-white mb-6 sm:mb-8 tracking-tighter leading-[0.85] luxury-heading">
             How it works
           </h2>
           <p className="text-responsive-lg text-neutral-600 dark:text-neutral-300/80 max-w-3xl mx-auto leading-relaxed font-extralight tracking-wide luxury-body">
@@ -66,7 +66,7 @@ export default function HowItWorksSection() {
                   <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-violet-500/15 to-indigo-500/15 border border-violet-500/20 rounded-2xl sm:rounded-3xl flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-violet-500/25 group-hover:to-indigo-500/25 group-hover:border-violet-400/30 transition-all duration-700 mb-0 sm:mb-6">
                     <step.icon className="w-6 h-6 sm:w-8 sm:h-8 text-violet-500 dark:text-violet-400/90" />
                   </div>
-                  <div className="text-4xl sm:text-6xl font-extralight text-violet-500/40 dark:text-violet-400/30 tracking-tighter luxury-heading">
+                  <div className="text-2xl sm:text-4xl font-extralight text-violet-500/40 dark:text-violet-400/30 tracking-tighter luxury-heading">
                     {String(index + 1).padStart(2, '0')}
                   </div>
                 </div>
