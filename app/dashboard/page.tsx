@@ -311,9 +311,13 @@ export default function Dashboard() {
       <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-white/90 via-white/60 to-transparent dark:from-black/90 dark:via-black/60 dark:to-transparent backdrop-blur-xl border-b border-neutral-200/60 dark:border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
           <div className="flex items-center justify-between">
-            <Logo size="sm" animated={true} className="sm:hidden" />
-            <Logo size="md" animated={true} className="hidden sm:block" />
+            {/* Logo - Always on the left */}
+            <div className="flex-shrink-0">
+              <Logo size="sm" animated={true} className="sm:hidden" />
+              <Logo size="md" animated={true} className="hidden sm:block" />
+            </div>
             
+            {/* Right side buttons */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

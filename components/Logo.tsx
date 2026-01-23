@@ -17,9 +17,9 @@ export default function Logo({ size = 'md', className = '', animated = true }: L
   }
 
   const LogoContent = () => (
-    <div className={`font-extralight tracking-wider luxury-heading ${sizeClasses[size]} ${className}`}>
-      <span className="text-neutral-900 dark:text-white">Any</span>
-      <span className="text-violet-600 dark:text-violet-400 font-light italic">time</span>
+    <div className={`font-bold tracking-wider luxury-heading ${sizeClasses[size]} ${className}`}>
+      <span className="text-neutral-900 dark:text-white font-bold">Any</span>
+      <span className="text-violet-600 dark:text-violet-400 font-bold italic">time</span>
     </div>
   )
 
@@ -49,9 +49,9 @@ export function LogoMark({ size = 'md', className = '' }: Omit<LogoProps, 'anima
   }
 
   return (
-    <div className={`font-light tracking-widest luxury-heading ${sizeClasses[size]} ${className}`}>
-      <span className="text-neutral-900 dark:text-white">A</span>
-      <span className="text-violet-600 dark:text-violet-400 italic">T</span>
+    <div className={`font-bold tracking-widest luxury-heading ${sizeClasses[size]} ${className}`}>
+      <span className="text-neutral-900 dark:text-white font-bold">A</span>
+      <span className="text-violet-600 dark:text-violet-400 font-bold italic">T</span>
     </div>
   )
 }
@@ -74,9 +74,9 @@ export function LogoWithTagline({ size = 'lg', className = '' }: Omit<LogoProps,
 
   return (
     <div className={`${className}`}>
-      <div className={`font-extralight tracking-wider luxury-heading ${sizeClasses[size]}`}>
-        <span className="text-neutral-900 dark:text-white">Any</span>
-        <span className="text-violet-600 dark:text-violet-400 font-light italic">time</span>
+      <div className={`font-bold tracking-wider luxury-heading ${sizeClasses[size]}`}>
+        <span className="text-neutral-900 dark:text-white font-bold">Any</span>
+        <span className="text-violet-600 dark:text-violet-400 font-bold italic">time</span>
       </div>
       <div className={`${taglineSizes[size]} text-neutral-600 dark:text-neutral-400/80 font-extralight tracking-widest luxury-caption mt-1`}>
         THE BEST TIME FOR EVERYONE
