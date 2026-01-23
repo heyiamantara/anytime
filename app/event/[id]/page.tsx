@@ -89,11 +89,16 @@ export default function EventPage() {
       console.log('Event page sign out clicked')
       await signOut()
       console.log('Event page sign out successful, redirecting...')
-      router.push('/')
+      // Small delay to ensure signOut completes
+      setTimeout(() => {
+        window.location.href = '/'
+      }, 100)
     } catch (error) {
       console.error('Event page sign out error:', error)
       // Still redirect even if there's an error
-      router.push('/')
+      setTimeout(() => {
+        window.location.href = '/'
+      }, 100)
     }
   }
 
