@@ -69,32 +69,32 @@ function TestimonialCard({ testimonial, delay = 0 }: { testimonial: typeof testi
       viewport={{ once: true }}
       className="group relative"
     >
-      <div className="bg-gradient-to-br from-white/80 via-neutral-50/60 to-white/80 dark:from-neutral-900/40 dark:via-neutral-800/30 dark:to-neutral-900/40 backdrop-blur-xl border border-neutral-200/50 dark:border-white/5 rounded-3xl p-8 hover:border-neutral-300/70 dark:hover:border-white/10 transition-all duration-700 hover:bg-gradient-to-br hover:from-white/90 hover:via-neutral-50/70 hover:to-white/90 dark:hover:from-neutral-900/60 dark:hover:via-neutral-800/40 dark:hover:to-neutral-900/60 shadow-lg dark:shadow-none">
+      <div className="bg-gradient-to-br from-white/80 via-neutral-50/60 to-white/80 dark:from-neutral-900/40 dark:via-neutral-800/30 dark:to-neutral-900/40 backdrop-blur-xl border border-neutral-200/50 dark:border-white/5 rounded-2xl sm:rounded-3xl p-4 sm:p-8 hover:border-neutral-300/70 dark:hover:border-white/10 transition-all duration-700 hover:bg-gradient-to-br hover:from-white/90 hover:via-neutral-50/70 hover:to-white/90 dark:hover:from-neutral-900/60 dark:hover:via-neutral-800/40 dark:hover:to-neutral-900/60 shadow-lg dark:shadow-none">
         {/* Quote */}
-        <div className="mb-8">
-          <svg className="w-8 h-8 text-violet-500/40 dark:text-violet-400/30 mb-4" fill="currentColor" viewBox="0 0 24 24">
+        <div className="mb-6 sm:mb-8">
+          <svg className="w-6 h-6 sm:w-8 sm:h-8 text-violet-500/40 dark:text-violet-400/30 mb-3 sm:mb-4" fill="currentColor" viewBox="0 0 24 24">
             <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z"/>
           </svg>
-          <p className="text-responsive-base text-neutral-800 dark:text-white/90 font-extralight leading-relaxed tracking-wide luxury-body">
+          <p className="text-sm sm:text-lg text-neutral-800 dark:text-white/90 font-extralight leading-relaxed tracking-wide luxury-body">
             "{testimonial.text}"
           </p>
         </div>
 
         {/* Author */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-3 sm:space-x-4">
           <div className="relative">
             <img
               src={testimonial.image}
               alt={testimonial.name}
-              className="w-12 h-12 rounded-2xl object-cover border border-neutral-200/50 dark:border-white/10"
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl object-cover border border-neutral-200/50 dark:border-white/10"
             />
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-violet-500/10 to-transparent" />
+            <div className="absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-br from-violet-500/10 to-transparent" />
           </div>
           <div>
-            <p className="text-neutral-700 dark:text-white/80 font-light tracking-wide luxury-caption">
+            <p className="text-neutral-700 dark:text-white/80 font-light tracking-wide luxury-caption text-sm sm:text-base">
               {testimonial.name}
             </p>
-            <p className="text-neutral-500 dark:text-neutral-400/70 font-extralight text-sm tracking-wider luxury-caption">
+            <p className="text-neutral-500 dark:text-neutral-400/70 font-extralight text-xs sm:text-sm tracking-wider luxury-caption">
               {testimonial.role}
             </p>
           </div>
@@ -137,7 +137,7 @@ export default function TestimonialsColumnSection() {
   const thirdColumn = testimonials.slice(6, 9);
 
   return (
-    <section className="relative py-24 sm:py-32 lg:py-40 overflow-hidden">
+    <section className="relative py-16 sm:py-32 lg:py-40 overflow-hidden">
       {/* Full-bleed atmospheric background - Light/Dark responsive */}
       <div className="absolute inset-0 bg-gradient-to-br from-neutral-50 via-white to-neutral-100 dark:from-neutral-950 dark:via-neutral-900 dark:to-black" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(139,92,246,0.03)_0%,transparent_70%)]" />
@@ -145,7 +145,7 @@ export default function TestimonialsColumnSection() {
       {/* Editorial content layout */}
       <div className="relative z-10">
         {/* Header - Editorial style */}
-        <div className="max-w-4xl mx-auto px-6 mb-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 mb-12 sm:mb-20">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -153,11 +153,11 @@ export default function TestimonialsColumnSection() {
             viewport={{ once: true }}
             className="text-center"
           >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extralight text-neutral-900 dark:text-white mb-8 tracking-tighter leading-[0.85] luxury-heading">
+            <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-extralight text-neutral-900 dark:text-white mb-4 sm:mb-8 tracking-tighter leading-[0.85] luxury-heading">
               Loved by teams
               <span className="block text-violet-600 dark:text-violet-400/80 font-light">everywhere</span>
             </h2>
-            <p className="text-responsive-lg text-neutral-600 dark:text-neutral-400/80 font-extralight tracking-wide max-w-2xl mx-auto luxury-body">
+            <p className="text-base sm:text-xl md:text-2xl text-neutral-600 dark:text-neutral-400/80 font-extralight tracking-wide max-w-2xl mx-auto luxury-body">
               See what our customers have to say about their experience with Anytime.
             </p>
           </motion.div>

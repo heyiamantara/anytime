@@ -139,7 +139,7 @@ export default function PricingSection({ onSignUp, onUpgrade }: PricingSectionPr
                 {/* CTA */}
                 <button 
                   onClick={() => handleButtonClick(plan.action)}
-                  className={`w-full py-3 sm:py-4 lg:py-6 px-4 sm:px-6 lg:px-8 rounded-xl sm:rounded-2xl lg:rounded-3xl font-light transition-all duration-700 tracking-widest uppercase text-xs sm:text-sm luxury-caption touch-target ${
+                  className={`w-full py-2 sm:py-4 lg:py-6 px-3 sm:px-6 lg:px-8 rounded-lg sm:rounded-2xl lg:rounded-3xl font-light transition-all duration-700 tracking-widest uppercase text-xs sm:text-sm luxury-caption touch-target ${
                     plan.popular
                       ? 'bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white shadow-xl shadow-violet-500/20 hover:shadow-violet-500/40 luxury-glow'
                       : 'border-2 border-violet-500/50 dark:border-violet-500/30 text-violet-600 dark:text-violet-300/90 hover:bg-violet-500/10 hover:border-violet-400/70 dark:hover:border-violet-400/50'

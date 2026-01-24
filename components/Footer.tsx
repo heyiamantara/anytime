@@ -42,15 +42,16 @@ export default function Footer() {
       {/* Atmospheric top border */}
       <div className="w-screen border-t border-neutral-300/40 dark:border-white/8 relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]"></div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 py-12 sm:py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 py-8 sm:py-20">
         {/* Main footer content - Mobile Responsive */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12 mb-12 sm:mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-12 mb-8 sm:mb-16">
           {/* Brand column */}
           <div className="lg:col-span-1">
-            <div className="mb-6 sm:mb-8">
-              <Logo size="lg" animated={false} />
+            <div className="mb-4 sm:mb-8">
+              <Logo size="nav" animated={false} className="sm:hidden" />
+              <Logo size="lg" animated={false} className="hidden sm:block" />
             </div>
-            <p className="text-neutral-700 dark:text-neutral-400/80 mb-6 sm:mb-8 leading-relaxed font-extralight tracking-wide luxury-body text-base sm:text-lg">
+            <p className="text-neutral-700 dark:text-neutral-400/80 mb-4 sm:mb-8 leading-relaxed font-extralight tracking-wide luxury-body text-sm sm:text-lg">
               Find the perfect time for your event without the chaos.
             </p>
             <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-500/80 font-extralight tracking-widest luxury-caption">
@@ -60,15 +61,15 @@ export default function Footer() {
 
           {/* Product column */}
           <div>
-            <h3 className="font-light text-neutral-900 dark:text-white mb-6 sm:mb-8 text-base sm:text-lg tracking-wide luxury-heading">
+            <h3 className="font-light text-neutral-900 dark:text-white mb-4 sm:mb-8 text-sm sm:text-lg tracking-wide luxury-heading">
               Product
             </h3>
-            <ul className="space-y-3 sm:space-y-4">
+            <ul className="space-y-2 sm:space-y-4">
               {footerLinks.product.map((link) => (
                 <li key={link.name}>
                   <a 
                     href={link.href}
-                    className="text-neutral-700 dark:text-neutral-400/80 hover:text-violet-600 dark:hover:text-violet-400 transition-all duration-500 font-extralight tracking-wide luxury-body text-sm sm:text-base touch-target"
+                    className="text-neutral-700 dark:text-neutral-400/80 hover:text-violet-600 dark:hover:text-violet-400 transition-all duration-500 font-extralight tracking-wide luxury-body text-xs sm:text-base touch-target"
                   >
                     {link.name}
                   </a>
@@ -79,15 +80,15 @@ export default function Footer() {
 
           {/* Company column */}
           <div>
-            <h3 className="font-light text-neutral-900 dark:text-white mb-8 text-lg tracking-wide luxury-heading">
+            <h3 className="font-light text-neutral-900 dark:text-white mb-4 sm:mb-8 text-sm sm:text-lg tracking-wide luxury-heading">
               Company
             </h3>
-            <ul className="space-y-4">
+            <ul className="space-y-2 sm:space-y-4">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
                   <a 
                     href={link.href}
-                    className="text-neutral-700 dark:text-neutral-400/80 hover:text-violet-600 dark:hover:text-violet-400 transition-all duration-500 font-extralight tracking-wide luxury-body"
+                    className="text-neutral-700 dark:text-neutral-400/80 hover:text-violet-600 dark:hover:text-violet-400 transition-all duration-500 font-extralight tracking-wide luxury-body text-xs sm:text-base"
                   >
                     {link.name}
                   </a>
@@ -98,15 +99,15 @@ export default function Footer() {
 
           {/* Legal column */}
           <div>
-            <h3 className="font-light text-neutral-900 dark:text-white mb-8 text-lg tracking-wide luxury-heading">
+            <h3 className="font-light text-neutral-900 dark:text-white mb-4 sm:mb-8 text-sm sm:text-lg tracking-wide luxury-heading">
               Legal
             </h3>
-            <ul className="space-y-4">
+            <ul className="space-y-2 sm:space-y-4">
               {footerLinks.legal.map((link) => (
                 <li key={link.name}>
                   <a 
                     href={link.href}
-                    className="text-neutral-700 dark:text-neutral-400/80 hover:text-violet-600 dark:hover:text-violet-400 transition-all duration-500 font-extralight tracking-wide luxury-body"
+                    className="text-neutral-700 dark:text-neutral-400/80 hover:text-violet-600 dark:hover:text-violet-400 transition-all duration-500 font-extralight tracking-wide luxury-body text-xs sm:text-base"
                   >
                     {link.name}
                   </a>
@@ -120,26 +121,26 @@ export default function Footer() {
       {/* Atmospheric middle border */}
       <div className="w-screen border-t border-neutral-300/30 dark:border-white/6 relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]"></div>
 
-      <div className="max-w-7xl mx-auto px-6 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         {/* Bottom section */}
-        <div className="flex flex-col sm:flex-row items-center justify-between space-y-8 sm:space-y-0 mb-12">
+        <div className="flex flex-col sm:flex-row items-center justify-between space-y-6 sm:space-y-0 mb-8 sm:mb-12">
           {/* Left side */}
-          <div className="text-neutral-600 dark:text-neutral-500/80 text-lg text-center sm:text-left font-extralight tracking-wide luxury-body">
+          <div className="text-neutral-600 dark:text-neutral-500/80 text-sm sm:text-lg text-center sm:text-left font-extralight tracking-wide luxury-body">
             Made for teams, friends, and communities worldwide
           </div>
 
           {/* Right side - Social icons */}
-          <div className="flex items-center space-x-6">
+          <div className="flex items-center space-x-4 sm:space-x-6">
             {socialLinks.map((social) => (
               <motion.a
                 key={social.name}
                 href={social.href}
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="w-12 h-12 bg-gradient-to-br from-neutral-200/60 to-neutral-300/60 dark:from-neutral-800/40 dark:to-neutral-900/40 backdrop-blur-sm rounded-2xl flex items-center justify-center text-neutral-700 dark:text-neutral-400/80 hover:bg-gradient-to-br hover:from-violet-500/15 hover:to-indigo-500/15 hover:text-violet-600 dark:hover:text-violet-400 transition-all duration-700 border border-neutral-300/40 dark:border-white/8 hover:border-violet-500/30 dark:hover:border-violet-500/20 shadow-lg shadow-neutral-200/50 dark:shadow-none"
+                className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-neutral-200/60 to-neutral-300/60 dark:from-neutral-800/40 dark:to-neutral-900/40 backdrop-blur-sm rounded-xl sm:rounded-2xl flex items-center justify-center text-neutral-700 dark:text-neutral-400/80 hover:bg-gradient-to-br hover:from-violet-500/15 hover:to-indigo-500/15 hover:text-violet-600 dark:hover:text-violet-400 transition-all duration-700 border border-neutral-300/40 dark:border-white/8 hover:border-violet-500/30 dark:hover:border-violet-500/20 shadow-lg shadow-neutral-200/50 dark:shadow-none"
                 aria-label={social.name}
               >
-                <social.icon className="w-5 h-5" />
+                <social.icon className="w-4 h-4 sm:w-5 sm:h-5" />
               </motion.a>
             ))}
           </div>

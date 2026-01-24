@@ -368,7 +368,7 @@ export default function Dashboard() {
             {canCreateEvent ? (
               <button 
                 onClick={handleCreateEvent}
-                className="bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-2 sm:px-4 py-1 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-all duration-300"
+                className="bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-1.5 sm:px-4 py-0.5 sm:py-2 rounded-md sm:rounded-xl text-xs sm:text-sm font-medium transition-all duration-300"
               >
                 <span className="hidden sm:inline">Create Event</span>
                 <span className="sm:hidden">Create</span>
@@ -465,7 +465,7 @@ export default function Dashboard() {
               {canCreateEvent ? (
                 <button 
                   onClick={handleCreateEvent}
-                  className="bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-6 py-3 sm:px-12 sm:py-6 rounded-xl sm:rounded-3xl font-light text-sm sm:text-lg tracking-widest transition-all duration-700 shadow-2xl shadow-violet-500/20 hover:shadow-violet-500/40 luxury-glow uppercase"
+                  className="bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-4 py-2 sm:px-12 sm:py-6 rounded-lg sm:rounded-3xl font-light text-xs sm:text-lg tracking-widest transition-all duration-700 shadow-2xl shadow-violet-500/20 hover:shadow-violet-500/40 luxury-glow uppercase"
                 >
                   Create Event
                 </button>
@@ -509,16 +509,35 @@ export default function Dashboard() {
                       {/* Mobile-Responsive Header Section */}
                       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 sm:mb-6">
                         <div className="flex-1 mb-4 sm:mb-0">
-                          <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 mb-2 sm:mb-3">
+                          <div className="mb-2 sm:mb-3">
+                            {/* Title */}
                             <h3 className="text-2xl sm:text-3xl font-extralight text-neutral-900 dark:text-white tracking-wide luxury-heading group-hover:text-violet-700 dark:group-hover:text-violet-300 transition-colors duration-500 mb-2 sm:mb-0">
                               {event.name}
                             </h3>
-                            <div className={`inline-flex px-2 py-1 sm:px-5 sm:py-2.5 rounded-lg sm:rounded-2xl text-xs font-light tracking-widest luxury-caption border backdrop-blur-sm ${
-                              event.status === 'open' 
-                                ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/20 dark:from-emerald-500/15 dark:to-teal-500/15 text-emerald-700 dark:text-emerald-300/90 border-emerald-500/30 dark:border-emerald-500/25'
-                                : 'bg-gradient-to-r from-amber-500/20 to-orange-500/20 dark:from-amber-500/15 dark:to-orange-500/15 text-amber-700 dark:text-amber-300/90 border-amber-500/30 dark:border-amber-500/25'
-                            }`}>
-                              {event.status === 'open' ? 'ACTIVE' : 'COMPLETED'}
+                            
+                            {/* Status Badge - Stacked on mobile, inline on desktop */}
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4">
+                              <div className="sm:hidden">
+                                {/* Mobile: Badge below title */}
+                                <div className={`inline-flex w-fit px-2 py-1 rounded-md text-xs font-light tracking-widest luxury-caption border backdrop-blur-sm ${
+                                  event.status === 'open' 
+                                    ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/20 dark:from-emerald-500/15 dark:to-teal-500/15 text-emerald-700 dark:text-emerald-300/90 border-emerald-500/30 dark:border-emerald-500/25'
+                                    : 'bg-gradient-to-r from-amber-500/20 to-orange-500/20 dark:from-amber-500/15 dark:to-orange-500/15 text-amber-700 dark:text-amber-300/90 border-amber-500/30 dark:border-amber-500/25'
+                                }`}>
+                                  {event.status === 'open' ? 'ACTIVE' : 'COMPLETED'}
+                                </div>
+                              </div>
+                              
+                              <div className="hidden sm:block">
+                                {/* Desktop: Badge inline with title */}
+                                <div className={`inline-flex w-fit px-5 py-2.5 rounded-2xl text-xs font-light tracking-widest luxury-caption border backdrop-blur-sm ${
+                                  event.status === 'open' 
+                                    ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/20 dark:from-emerald-500/15 dark:to-teal-500/15 text-emerald-700 dark:text-emerald-300/90 border-emerald-500/30 dark:border-emerald-500/25'
+                                    : 'bg-gradient-to-r from-amber-500/20 to-orange-500/20 dark:from-amber-500/15 dark:to-orange-500/15 text-amber-700 dark:text-amber-300/90 border-amber-500/30 dark:border-amber-500/25'
+                                }`}>
+                                  {event.status === 'open' ? 'ACTIVE' : 'COMPLETED'}
+                                </div>
+                              </div>
                             </div>
                           </div>
                           

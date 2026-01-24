@@ -46,18 +46,18 @@ export default function FeaturesSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true }}
-          className="text-center mb-16 sm:mb-24"
+          className="text-center mb-12 sm:mb-24"
         >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extralight text-neutral-900 dark:text-white mb-6 sm:mb-8 tracking-tighter leading-[0.85] luxury-heading">
+          <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-extralight text-neutral-900 dark:text-white mb-4 sm:mb-8 tracking-tighter leading-[0.85] luxury-heading">
             Everything you need
           </h2>
-          <p className="text-responsive-lg text-neutral-600 dark:text-neutral-300/80 max-w-3xl mx-auto leading-relaxed font-extralight tracking-wide luxury-body">
+          <p className="text-base sm:text-xl md:text-2xl text-neutral-600 dark:text-neutral-300/80 max-w-3xl mx-auto leading-relaxed font-extralight tracking-wide luxury-body">
             Built for groups who value their time
           </p>
         </motion.div>
 
         {/* Mobile-Responsive Features Layout */}
-        <div className="space-y-6 sm:space-y-12">
+        <div className="space-y-4 sm:space-y-12">
           {features.map((feature, index) => (
             <motion.div
               key={feature.title}
@@ -65,24 +65,24 @@ export default function FeaturesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.0, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
               viewport={{ once: true }}
-              className="group bg-white/80 dark:bg-neutral-900/30 backdrop-blur-2xl border border-neutral-200/50 dark:border-white/8 rounded-2xl sm:rounded-[2rem] p-responsive hover:bg-white/90 dark:hover:bg-neutral-900/50 hover:border-neutral-300/50 dark:hover:border-white/15 transition-all duration-700 relative overflow-hidden"
+              className="group bg-white/80 dark:bg-neutral-900/30 backdrop-blur-2xl border border-neutral-200/50 dark:border-white/8 rounded-xl sm:rounded-[2rem] p-4 sm:p-8 hover:bg-white/90 dark:hover:bg-neutral-900/50 hover:border-neutral-300/50 dark:hover:border-white/15 transition-all duration-700 relative overflow-hidden"
             >
               {/* Subtle Background Pattern */}
-              <div className="absolute inset-0 bg-gradient-to-br from-violet-500/2 to-indigo-500/2 rounded-2xl sm:rounded-[2rem] opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-violet-500/2 to-indigo-500/2 rounded-xl sm:rounded-[2rem] opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
               
-              <div className="relative flex flex-col sm:flex-row items-start sm:items-center space-y-6 sm:space-y-0 sm:space-x-8 lg:space-x-12">
+              <div className="relative flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-8 lg:space-x-12">
                 <div className="flex-shrink-0">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-violet-500/10 border border-violet-500/20 rounded-2xl sm:rounded-3xl flex items-center justify-center group-hover:bg-violet-500/15 group-hover:border-violet-400/30 transition-all duration-700">
-                    <feature.icon className="w-8 h-8 sm:w-10 sm:h-10 text-violet-600 dark:text-violet-400/90" />
+                  <div className="w-12 h-12 sm:w-20 sm:h-20 bg-violet-500/10 border border-violet-500/20 rounded-xl sm:rounded-3xl flex items-center justify-center group-hover:bg-violet-500/15 group-hover:border-violet-400/30 transition-all duration-700">
+                    <feature.icon className="w-6 h-6 sm:w-10 sm:h-10 text-violet-600 dark:text-violet-400/90" />
                   </div>
                 </div>
                 
                 <div className="flex-1">
-                  <h3 className="text-responsive-xl font-extralight text-neutral-900 dark:text-white mb-3 sm:mb-4 tracking-wide luxury-heading">
+                  <h3 className="text-lg sm:text-2xl font-extralight text-neutral-900 dark:text-white mb-2 sm:mb-4 tracking-wide luxury-heading">
                     {feature.title}
                   </h3>
                   
-                  <p className="text-responsive-base text-neutral-600 dark:text-neutral-400/80 leading-relaxed font-extralight tracking-wide luxury-body">
+                  <p className="text-sm sm:text-lg text-neutral-600 dark:text-neutral-400/80 leading-relaxed font-extralight tracking-wide luxury-body">
                     {feature.description}
                   </p>
                 </div>

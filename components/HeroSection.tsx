@@ -64,12 +64,12 @@ export default function HeroSection({ onSignUp }: HeroSectionProps) {
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
               onClick={onSignUp}
-              className="group bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-6 sm:px-16 py-3 sm:py-6 rounded-xl sm:rounded-3xl font-light text-sm sm:text-lg tracking-widest transition-all duration-700 shadow-2xl shadow-violet-500/20 hover:shadow-violet-500/40 luxury-glow uppercase touch-target-lg"
+              className="group bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-4 py-2 sm:px-16 sm:py-6 rounded-lg sm:rounded-3xl font-light text-xs sm:text-lg tracking-widest transition-all duration-700 shadow-2xl shadow-violet-500/20 hover:shadow-violet-500/40 luxury-glow uppercase touch-target-lg"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-violet-400/20 to-indigo-400/20 rounded-xl sm:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-              <span className="relative flex items-center space-x-2 sm:space-x-4">
+              <div className="absolute inset-0 bg-gradient-to-r from-violet-400/20 to-indigo-400/20 rounded-lg sm:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+              <span className="relative flex items-center space-x-1 sm:space-x-4">
                 <span>Create an event</span>
-                <ArrowRight className="w-4 h-4 sm:w-6 sm:h-6 transition-transform duration-500 group-hover:translate-x-1" />
+                <ArrowRight className="w-3 h-3 sm:w-6 sm:h-6 transition-transform duration-500 group-hover:translate-x-1" />
               </span>
             </motion.button>
           </motion.div>
