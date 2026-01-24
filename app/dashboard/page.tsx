@@ -513,7 +513,7 @@ export default function Dashboard() {
                             <h3 className="text-2xl sm:text-3xl font-extralight text-neutral-900 dark:text-white tracking-wide luxury-heading group-hover:text-violet-700 dark:group-hover:text-violet-300 transition-colors duration-500 mb-2 sm:mb-0">
                               {event.name}
                             </h3>
-                            <div className={`inline-flex px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-xl sm:rounded-2xl text-xs font-light tracking-widest luxury-caption border backdrop-blur-sm ${
+                            <div className={`inline-flex px-2 py-1 sm:px-5 sm:py-2.5 rounded-lg sm:rounded-2xl text-xs font-light tracking-widest luxury-caption border backdrop-blur-sm ${
                               event.status === 'open' 
                                 ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/20 dark:from-emerald-500/15 dark:to-teal-500/15 text-emerald-700 dark:text-emerald-300/90 border-emerald-500/30 dark:border-emerald-500/25'
                                 : 'bg-gradient-to-r from-amber-500/20 to-orange-500/20 dark:from-amber-500/15 dark:to-orange-500/15 text-amber-700 dark:text-amber-300/90 border-amber-500/30 dark:border-amber-500/25'
