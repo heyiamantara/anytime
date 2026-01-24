@@ -152,15 +152,15 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
     <div className="w-full">
       {/* Availability Canvas - Fixed Layout Container */}
       <div className="relative w-full border border-neutral-300/60 dark:border-neutral-700/20 rounded-2xl sm:rounded-3xl p-4 sm:p-8 bg-gradient-to-br from-white/80 via-neutral-50/40 to-white/60 dark:from-neutral-900/10 dark:via-transparent dark:to-neutral-900/5">
-        {/* Fixed Date Headers */}
-        <div className="relative z-20 mb-6 sm:mb-8">
+        {/* Fixed Date Headers - Consistent Layout */}
+        <div className="relative z-20 mb-4 sm:mb-8">
           <div className="flex">
             {/* Time Label Spacer - Fixed Width */}
-            <div className="flex-shrink-0 w-20 sm:w-32" />
+            <div className="flex-shrink-0 w-16 sm:w-32" />
             
-            {/* Scrollable Date Headers Container */}
-            <div className="flex-1 overflow-x-auto scrollbar-none">
-              <div className="flex gap-2 sm:gap-4" style={{ minWidth: `${Math.max(dates.length * 80, 100)}px` }}>
+            {/* Date Headers Container */}
+            <div className="flex-1">
+              <div className="grid gap-2 sm:gap-4" style={{ gridTemplateColumns: `repeat(${dates.length}, minmax(0, 1fr))` }}>
                 {dates.map((date, index) => {
                   const formatted = formatDate(date)
                   return (
@@ -169,13 +169,12 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.8, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                      className="text-center py-3 sm:py-6 flex-shrink-0"
-                      style={{ width: '80px' }}
+                      className="text-center py-3 sm:py-6"
                     >
-                      <div className="text-xs sm:text-sm font-medium text-neutral-800 dark:text-white mb-2 sm:mb-3 tracking-wider luxury-caption">
+                      <div className="text-xs sm:text-sm font-medium text-neutral-800 dark:text-white mb-1 sm:mb-3 tracking-wider luxury-caption">
                         {formatted.day}
                       </div>
-                      <div className="text-[10px] sm:text-xs text-neutral-600 dark:text-neutral-400/70 font-medium tracking-widest luxury-caption">
+                      <div className="text-[10px] sm:text-xs text-neutral-600 dark:text-neutral-400/70 font-medium tracking-widest luxury-caption hidden sm:block">
                         {formatted.date}
                       </div>
                     </motion.div>
@@ -200,15 +199,15 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
                   className="flex items-center"
                 >
                   {/* Fixed Time Label */}
-                  <div className="flex-shrink-0 flex items-center justify-end pr-3 sm:pr-8 w-20 sm:w-32 h-14 sm:h-16">
+                  <div className="flex-shrink-0 flex items-center justify-end pr-2 sm:pr-8 w-16 sm:w-32 h-14 sm:h-16">
                     <div className="text-xs sm:text-sm font-medium text-neutral-800 dark:text-neutral-300/90 tracking-wider luxury-caption">
                       {formatTime(time)}
                     </div>
                   </div>
 
-                  {/* Fixed Width Availability Tiles Container */}
-                  <div className="flex-1 overflow-x-auto scrollbar-none">
-                    <div className="flex gap-2 sm:gap-4" style={{ minWidth: `${Math.max(dates.length * 80, 100)}px` }}>
+                  {/* Availability Tiles Container */}
+                  <div className="flex-1">
+                    <div className="grid gap-2 sm:gap-4" style={{ gridTemplateColumns: `repeat(${dates.length}, minmax(0, 1fr))` }}>
                       {dates.map((date, dateIndex) => {
                         const dateStr = date.toISOString().split('T')[0]
                         const slotKey = getSlotKey(dateStr, time)
@@ -220,8 +219,7 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
                         return (
                           <div 
                             key={dateIndex} 
-                            className="flex items-center justify-center flex-shrink-0"
-                            style={{ width: '80px', height: '56px' }}
+                            className="flex items-center justify-center"
                           >
                             <motion.div
                               whileHover={canInteract ? { scale: 1.05, y: -2 } : {}}
@@ -229,9 +227,8 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
                               onMouseEnter={() => setHoveredSlot({ date: dateStr, time })}
                               onMouseLeave={() => setHoveredSlot(null)}
                               onClick={() => toggleAvailability(dateStr, time)}
-                              style={{ width: '72px', height: '48px' }}
                               className={`
-                                rounded-lg transition-all duration-300 flex items-center justify-center relative overflow-hidden outline-none ring-0 focus:ring-0 focus:outline-none shadow-none
+                                w-full aspect-[4/3] max-w-20 max-h-14 rounded-lg transition-all duration-300 flex items-center justify-center relative overflow-hidden outline-none ring-0 focus:ring-0 focus:outline-none shadow-none
                                 ${canInteract ? 'cursor-pointer' : 'cursor-default'}
                                 ${isUserAvailable 
                                   ? 'bg-gradient-to-br from-emerald-500/40 via-emerald-400/35 to-teal-500/40 dark:from-emerald-500/25 dark:via-emerald-400/20 dark:to-teal-500/25 border-2 border-emerald-500/70 dark:border-emerald-400/50'

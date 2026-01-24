@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { Users, Calendar, Clock, Star, ArrowLeft, Share2, TrendingUp, BarChart3, Activity } from 'lucide-react'
 import { useParams, useRouter } from 'next/navigation'
@@ -82,12 +82,18 @@ export default function EventAnalyticsPage() {
     }
   }
 
-  const processAvailabilityData = () => {
+  // Memoized participant lookup for better performance
+  const participantMap = useMemo(() => {
+    const map = new Map()
+    event?.participants?.forEach(p => map.set(p.id, p))
+    return map
+  }, [event?.participants])
+
+  const processAvailabilityData = useCallback(() => {
+    if (!event?.availability || !event?.participants || dates.length === 0) return
+
     const data: any = {}
-    const totalParticipants = event.participants?.length || 0
-    
-    // Use the same date calculation as the main component
-    const dates = calculateDateRange(event.start_date, event.end_date)
+    const totalParticipants = event.participants.length
 
     // Initialize data structure
     dates.forEach(date => {
@@ -102,13 +108,13 @@ export default function EventAnalyticsPage() {
       })
     })
 
-    // Process availability data
-    event.availability?.forEach(avail => {
-      if (avail.available && data[avail.date] && data[avail.date][avail.time_block]) {
+    // Process availability data with optimized participant lookup
+    event.availability.forEach(avail => {
+      if (avail.available && data[avail.date]?.[avail.time_block]) {
         data[avail.date][avail.time_block].count++
         
-        // Find participant name
-        const participant = event.participants?.find(p => p.id === avail.participant_id)
+        // Use Map for O(1) participant lookup instead of O(n) find
+        const participant = participantMap.get(avail.participant_id)
         if (participant) {
           data[avail.date][avail.time_block].participants.push(participant)
         }
@@ -117,9 +123,8 @@ export default function EventAnalyticsPage() {
 
     // Find best matches (highest availability counts) - limit to top 3
     const matches: any[] = []
-    Object.keys(data).forEach(date => {
-      Object.keys(data[date]).forEach(timeBlock => {
-        const slot = data[date][timeBlock]
+    Object.entries(data).forEach(([date, dateData]) => {
+      Object.entries(dateData as any).forEach(([timeBlock, slot]: [string, any]) => {
         if (slot.count > 0) {
           matches.push({
             date,
@@ -137,7 +142,7 @@ export default function EventAnalyticsPage() {
     
     setAvailabilityData(data)
     setBestMatches(sortedMatches)
-  }
+  }, [event, dates, participantMap])
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr)
@@ -167,8 +172,9 @@ export default function EventAnalyticsPage() {
   }
 
   const handleShareEvent = () => {
-    const shareUrl = `${window.location.origin}/event/${params.id}`
-    navigator.clipboard.writeText(shareUrl).then(() => {
+    const shareUrl = `/event/${params.id}`
+    const fullUrl = typeof window !== 'undefined' ? `${window.location.origin}${shareUrl}` : shareUrl
+    navigator.clipboard.writeText(fullUrl).then(() => {
       setNotification({
         isVisible: true,
         type: 'success',
@@ -191,7 +197,7 @@ export default function EventAnalyticsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-neutral-100 dark:from-neutral-950 dark:via-neutral-900 dark:to-black flex items-center justify-center">
+      <div className="min-h-[100dvh] bg-gradient-to-br from-neutral-50 via-white to-neutral-100 dark:from-neutral-950 dark:via-neutral-900 dark:to-black flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 border-2 border-violet-500/30 border-t-violet-500 rounded-full animate-spin mx-auto mb-6 luxury-glow" />
           <p className="text-neutral-600 dark:text-neutral-400/80 font-extralight tracking-widest text-sm luxury-caption">Loading analytics...</p>
@@ -202,7 +208,7 @@ export default function EventAnalyticsPage() {
 
   if (error || !event) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-neutral-100 dark:from-neutral-950 dark:via-neutral-900 dark:to-black flex items-center justify-center">
+      <div className="min-h-[100dvh] bg-gradient-to-br from-neutral-50 via-white to-neutral-100 dark:from-neutral-950 dark:via-neutral-900 dark:to-black flex items-center justify-center">
         <div className="text-center max-w-md mx-auto px-6">
           <div className="w-20 h-20 bg-gradient-to-br from-red-500/15 to-orange-500/15 border border-red-500/20 rounded-3xl flex items-center justify-center mx-auto mb-8">
             <Calendar className="w-10 h-10 text-red-500/70 dark:text-red-400/70" />
@@ -237,9 +243,9 @@ export default function EventAnalyticsPage() {
   const participationRate = totalParticipants > 0 ? (respondedParticipants / totalParticipants) * 100 : 0
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-neutral-100 dark:from-neutral-950 dark:via-neutral-900 dark:to-black">
+    <div className="min-h-[100dvh] bg-gradient-to-br from-neutral-50 via-white to-neutral-100 dark:from-neutral-950 dark:via-neutral-900 dark:to-black">
       {/* Invisible Navigation Integration */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-white/90 via-white/60 to-transparent dark:from-black/90 dark:via-black/60 dark:to-transparent backdrop-blur-xl border-b border-neutral-200/60 dark:border-white/10 py-3 sm:py-4">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-white/90 via-white/60 to-transparent dark:from-black/90 dark:via-black/60 dark:to-transparent backdrop-blur-xl border-b border-neutral-200/60 dark:border-white/10 py-3 sm:py-4" style={{ paddingTop: 'max(12px, env(safe-area-inset-top))' }}>
         <div className="w-full h-14 sm:h-16 flex items-center justify-between px-4 sm:px-6 md:px-10">
           {/* Logo - Far Left */}
           <div className="flex items-center">
@@ -291,7 +297,7 @@ export default function EventAnalyticsPage() {
       </div>
       
       {/* Immersive Hero Section - Mobile Responsive */}
-      <div className="pt-16 sm:pt-20 lg:pt-32 pb-8 sm:pb-12 lg:pb-20">
+      <div className="pb-8 sm:pb-12 lg:pb-20" style={{ paddingTop: 'calc(120px + env(safe-area-inset-top))' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10">
           <motion.div
             initial={{ opacity: 0, y: 60 }}
@@ -427,17 +433,17 @@ export default function EventAnalyticsPage() {
 
         {/* Availability Timeline - Unified Container Structure */}
         {event && dates.length > 0 && event.time_blocks && event.time_blocks.length > 0 && (
-        <div className="mb-20">
+        <div className="mb-12 sm:mb-20">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.6, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="mb-16"
+            className="mb-8 sm:mb-16"
           >
-            <h2 className="text-3xl font-extralight text-neutral-900 dark:text-white mb-4 tracking-wide luxury-heading">
+            <h2 className="text-xl sm:text-3xl font-extralight text-neutral-900 dark:text-white mb-2 sm:mb-4 tracking-wide luxury-heading">
               Availability Timeline
             </h2>
-            <p className="text-neutral-700 dark:text-neutral-400/80 font-extralight tracking-wide text-lg luxury-body">
+            <p className="text-sm sm:text-lg text-neutral-700 dark:text-neutral-400/80 font-extralight tracking-wide luxury-body">
               Interactive overview of participant availability
             </p>
           </motion.div>
@@ -447,17 +453,17 @@ export default function EventAnalyticsPage() {
             initial={{ opacity: 0, y: 60 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.6, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full border border-neutral-300/60 dark:border-neutral-700/20 rounded-3xl p-8 bg-gradient-to-br from-white/80 via-neutral-50/40 to-white/60 dark:from-neutral-900/10 dark:via-transparent dark:to-neutral-900/5 shadow-lg shadow-neutral-200/30 dark:shadow-none overflow-hidden"
+            className="relative w-full border border-neutral-300/60 dark:border-neutral-700/20 rounded-2xl sm:rounded-3xl p-4 sm:p-8 bg-gradient-to-br from-white/80 via-neutral-50/40 to-white/60 dark:from-neutral-900/10 dark:via-transparent dark:to-neutral-900/5 shadow-lg shadow-neutral-200/30 dark:shadow-none overflow-hidden"
           >
             {/* Fixed Date Headers - Consistent Layout */}
-            <div className="relative z-20 mb-8">
+            <div className="relative z-20 mb-4 sm:mb-8">
               <div className="flex">
                 {/* Time Label Spacer - Fixed Width */}
-                <div className="flex-shrink-0 w-32" />
+                <div className="flex-shrink-0 w-16 sm:w-32" />
                 
-                {/* Scrollable Date Headers Container */}
-                <div className="flex-1 overflow-x-auto scrollbar-none">
-                  <div className="flex gap-4" style={{ minWidth: `${Math.max(dates.length * 88, 100)}px` }}>
+                {/* Date Headers Container */}
+                <div className="flex-1">
+                  <div className="grid gap-2 sm:gap-4" style={{ gridTemplateColumns: `repeat(${dates.length}, minmax(0, 1fr))` }}>
                     {dates.map((date, index) => {
                       const formatted = formatDate(date.toISOString().split('T')[0])
                       return (
@@ -466,13 +472,12 @@ export default function EventAnalyticsPage() {
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.8, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                          className="text-center py-6 flex-shrink-0"
-                          style={{ width: '88px' }}
+                          className="text-center py-3 sm:py-6"
                         >
-                          <div className="text-sm font-medium text-neutral-800 dark:text-white mb-3 tracking-wider luxury-caption">
+                          <div className="text-xs sm:text-sm font-medium text-neutral-800 dark:text-white mb-1 sm:mb-3 tracking-wider luxury-caption">
                             {formatted.day}
                           </div>
-                          <div className="text-xs text-neutral-600 dark:text-neutral-400/70 font-medium tracking-widest luxury-caption">
+                          <div className="text-xs text-neutral-600 dark:text-neutral-400/70 font-medium tracking-widest luxury-caption hidden sm:block">
                             {formatted.date}
                           </div>
                         </motion.div>
@@ -484,10 +489,10 @@ export default function EventAnalyticsPage() {
             </div>
 
             {/* Fixed Availability Canvas Body */}
-            <div className="relative mb-12">
+            <div className="relative mb-6 sm:mb-12">
               {/* Vertical Scroll Container */}
-              <div className="max-h-[65vh] overflow-y-auto scrollbar-none">
-                <div className="space-y-6">
+              <div className="max-h-[65vh] overflow-y-auto scrollbar-hide">
+                <div className="space-y-3 sm:space-y-6">
                   {(event?.time_blocks || []).map((timeBlock, timeIndex) => (
                     <motion.div 
                       key={timeIndex} 
@@ -497,15 +502,15 @@ export default function EventAnalyticsPage() {
                       className="flex items-center"
                     >
                       {/* Fixed Time Label */}
-                      <div className="flex-shrink-0 flex items-center justify-end pr-8 w-32 h-16">
-                        <div className="text-sm font-medium text-neutral-800 dark:text-neutral-300/90 tracking-wider luxury-caption">
+                      <div className="flex-shrink-0 flex items-center justify-end pr-2 sm:pr-8 w-16 sm:w-32 h-10 sm:h-16">
+                        <div className="text-xs sm:text-sm font-medium text-neutral-800 dark:text-neutral-300/90 tracking-wider luxury-caption">
                           {formatTime(timeBlock)}
                         </div>
                       </div>
 
-                      {/* Fixed Width Availability Tiles Container */}
-                      <div className="flex-1 overflow-x-auto scrollbar-none">
-                        <div className="flex gap-4" style={{ minWidth: `${Math.max(dates.length * 88, 100)}px` }}>
+                      {/* Availability Tiles Container */}
+                      <div className="flex-1">
+                        <div className="grid gap-2 sm:gap-4" style={{ gridTemplateColumns: `repeat(${dates.length}, minmax(0, 1fr))` }}>
                           {dates.map((date, dateIndex) => {
                             const dateStr = date.toISOString().split('T')[0]
                             const slot = availabilityData[dateStr]?.[timeBlock] || { count: 0, participants: [] }
@@ -521,14 +526,12 @@ export default function EventAnalyticsPage() {
                             return (
                               <div 
                                 key={dateIndex} 
-                                className="flex items-center justify-center flex-shrink-0"
-                                style={{ width: '88px', height: '64px' }}
+                                className="flex items-center justify-center"
                               >
                                 <motion.div
                                   whileHover={{ scale: 1.05, y: -2 }}
-                                  style={{ width: '80px', height: '56px' }}
                                   className={`
-                                    rounded-lg transition-all duration-300 flex items-center justify-center relative overflow-hidden outline-none ring-0 focus:ring-0 focus:outline-none shadow-none
+                                    w-full aspect-[4/3] max-w-20 max-h-14 rounded-lg transition-all duration-300 flex items-center justify-center relative overflow-hidden outline-none ring-0 focus:ring-0 focus:outline-none shadow-none
                                     ${slot.count === 0 
                                       ? 'bg-neutral-200/50 dark:bg-neutral-800/20 border border-neutral-300/50 dark:border-neutral-700/30 hover:bg-neutral-300/60 dark:hover:bg-neutral-700/30 hover:border-neutral-400/60 dark:hover:border-neutral-600/40' 
                                       : slot.count === 1
@@ -546,7 +549,7 @@ export default function EventAnalyticsPage() {
                                   {slot.count > 0 && (
                                     <>
                                       <span className={`
-                                        relative text-lg font-medium tracking-wide
+                                        relative text-sm sm:text-lg font-medium tracking-wide
                                         ${slot.count === 1 
                                           ? 'text-blue-700 dark:text-blue-300/90'
                                           : slot.count === 2
@@ -571,73 +574,41 @@ export default function EventAnalyticsPage() {
             </div>
 
             {/* Unified Legend - Inside Same Container */}
-            <div className="pt-8 border-t border-neutral-300/30 dark:border-white/5">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-8">
-                <div className="flex items-center space-x-12">
-                  <div className="text-sm font-medium text-neutral-700 dark:text-neutral-400/80 tracking-wider luxury-caption">
+            <div className="pt-4 sm:pt-8 border-t border-neutral-300/30 dark:border-white/5">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-8">
+                <div className="flex items-center space-x-6 sm:space-x-12">
+                  <div className="text-xs sm:text-sm font-medium text-neutral-700 dark:text-neutral-400/80 tracking-wider luxury-caption">
                     Availability
                   </div>
-                  <div className="flex items-center space-x-10">
-                    <div className="flex items-center space-x-4">
-                      <div className="w-6 h-6 bg-neutral-200/50 dark:bg-neutral-800/20 border border-neutral-300/50 dark:border-neutral-700/30 rounded-lg"></div>
+                  <div className="flex items-center space-x-4 sm:space-x-10">
+                    <div className="flex items-center space-x-2 sm:space-x-4">
+                      <div className="w-4 h-4 sm:w-6 sm:h-6 bg-neutral-200/50 dark:bg-neutral-800/20 border border-neutral-300/50 dark:border-neutral-700/30 rounded-md sm:rounded-lg"></div>
                       <span className="text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">None</span>
                     </div>
-                    <div className="flex items-center space-x-4">
-                      <div className="w-6 h-6 bg-gradient-to-br from-blue-500/35 to-cyan-500/35 dark:from-blue-500/20 dark:to-cyan-500/20 border border-blue-500/50 dark:border-blue-400/30 rounded-lg"></div>
-                      <span className="text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">Low (1)</span>
+                    <div className="flex items-center space-x-2 sm:space-x-4">
+                      <div className="w-4 h-4 sm:w-6 sm:h-6 bg-gradient-to-br from-blue-500/35 to-cyan-500/35 dark:from-blue-500/20 dark:to-cyan-500/20 border border-blue-500/50 dark:border-blue-400/30 rounded-md sm:rounded-lg"></div>
+                      <span className="text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">Low</span>
                     </div>
-                    <div className="flex items-center space-x-4">
-                      <div className="w-6 h-6 bg-gradient-to-br from-violet-500/40 to-indigo-500/40 dark:from-violet-500/25 dark:to-indigo-500/25 border border-violet-500/60 dark:border-violet-400/40 rounded-lg"></div>
-                      <span className="text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">Medium (2)</span>
+                    <div className="flex items-center space-x-2 sm:space-x-4">
+                      <div className="w-4 h-4 sm:w-6 sm:h-6 bg-gradient-to-br from-violet-500/40 to-indigo-500/40 dark:from-violet-500/25 dark:to-indigo-500/25 border border-violet-500/60 dark:border-violet-400/40 rounded-md sm:rounded-lg"></div>
+                      <span className="text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">Med</span>
                     </div>
-                    <div className="flex items-center space-x-4">
-                      <div className="w-6 h-6 bg-gradient-to-br from-purple-500/40 to-rose-500/40 dark:from-purple-500/25 dark:to-rose-500/25 border border-purple-500/60 dark:border-purple-400/40 rounded-lg"></div>
-                      <span className="text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">High (3+)</span>
-                    </div>
-                    <div className="flex items-center space-x-4">
-                      <div className="w-6 h-6 bg-gradient-to-br from-purple-500/40 to-rose-500/40 dark:from-purple-500/25 dark:to-rose-500/25 border border-purple-500/60 dark:border-purple-400/40 rounded-lg ring-2 ring-blue-400/60 dark:ring-blue-400/40"></div>
-                      <span className="text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">Best match</span>
+                    <div className="flex items-center space-x-2 sm:space-x-4">
+                      <div className="w-4 h-4 sm:w-6 sm:h-6 bg-gradient-to-br from-purple-500/40 to-rose-500/40 dark:from-purple-500/25 dark:to-rose-500/25 border border-purple-500/60 dark:border-purple-400/40 rounded-md sm:rounded-lg"></div>
+                      <span className="text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">High</span>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
 
-              {/* Canvas Navigation Hint */}
-              <div className="mt-8 text-center">
-                <p className="text-xs text-neutral-500 dark:text-neutral-500/70 font-extralight tracking-wider luxury-caption">
-                  Navigate the availability canvas • {dates?.length || 0} days • {event?.time_blocks?.length || 0} time slots
-                </p>
-              </div>
+            {/* Canvas Navigation Hint */}
+            <div className="mt-8 text-center">
+              <p className="text-xs text-neutral-500 dark:text-neutral-500/70 font-extralight tracking-wider luxury-caption">
+                Navigate the availability canvas • {dates?.length || 0} days • {event?.time_blocks?.length || 0} time slots
+              </p>
             </div>
           </motion.div>
-
-          <style jsx>{`
-            /* Ensure proper box-sizing for all elements */
-            * {
-              box-sizing: border-box;
-            }
-            
-            /* Hide scrollbars completely for clean aesthetic */
-            .scrollbar-none {
-              -ms-overflow-style: none;
-              scrollbar-width: none;
-            }
-            .scrollbar-none::-webkit-scrollbar {
-              display: none;
-            }
-            
-            /* Smooth, premium scrolling */
-            .overflow-x-auto,
-            .overflow-y-auto {
-              scroll-behavior: smooth;
-              -webkit-overflow-scrolling: touch;
-            }
-            
-            /* Prevent any transform scaling issues */
-            .availability-timeline {
-              transform: none !important;
-            }
-          `}</style>
         </div>
         )}
 
@@ -647,7 +618,7 @@ export default function EventAnalyticsPage() {
             initial={{ opacity: 0, y: 60 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.6, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="bg-gradient-to-br from-white/90 via-neutral-50/70 to-white/90 dark:from-neutral-900/30 dark:via-neutral-800/15 dark:to-neutral-900/30 backdrop-blur-2xl border border-neutral-300/50 dark:border-white/8 rounded-2xl sm:rounded-[2rem] p-responsive shadow-xl shadow-neutral-200/40 dark:shadow-xl mb-8 sm:mb-12 relative overflow-hidden"
+            className="bg-gradient-to-br from-white/90 via-neutral-50/70 to-white/90 dark:from-neutral-900/30 dark:via-neutral-800/15 dark:to-neutral-900/30 backdrop-blur-2xl border border-neutral-300/50 dark:border-white/8 rounded-2xl sm:rounded-[2rem] p-6 sm:p-12 shadow-xl shadow-neutral-200/40 dark:shadow-xl mb-8 sm:mb-12 relative overflow-hidden"
           >
             {/* Subtle Background Pattern */}
             <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/3 to-orange-500/3 dark:from-yellow-500/2 dark:to-orange-500/2 rounded-2xl sm:rounded-[2rem]"></div>
@@ -655,7 +626,7 @@ export default function EventAnalyticsPage() {
             <div className="relative">
               <div className="flex items-center space-x-3 sm:space-x-4 mb-8 sm:mb-12">
                 <Star className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-600 dark:text-yellow-400/90" />
-                <h2 className="text-responsive-2xl font-extralight text-neutral-900 dark:text-white tracking-wide luxury-heading">
+                <h2 className="text-xl sm:text-3xl font-extralight text-neutral-900 dark:text-white tracking-wide luxury-heading">
                   Optimal Time Matches
                 </h2>
               </div>
@@ -669,7 +640,7 @@ export default function EventAnalyticsPage() {
                       initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.9 + index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                      className="bg-gradient-to-br from-yellow-500/15 to-orange-500/15 dark:from-yellow-500/10 dark:to-orange-500/10 border border-neutral-300 dark:border-neutral-600 rounded-2xl sm:rounded-3xl p-responsive-sm hover:bg-gradient-to-br hover:from-yellow-500/20 hover:to-orange-500/20 dark:hover:from-yellow-500/15 dark:hover:to-orange-500/15 transition-all duration-700"
+                      className="bg-gradient-to-br from-yellow-500/15 to-orange-500/15 dark:from-yellow-500/10 dark:to-orange-500/10 border border-neutral-300 dark:border-neutral-600 rounded-2xl sm:rounded-3xl p-4 sm:p-6 hover:bg-gradient-to-br hover:from-yellow-500/20 hover:to-orange-500/20 dark:hover:from-yellow-500/15 dark:hover:to-orange-500/15 transition-all duration-700"
                     >
                       <div className="flex items-center justify-between mb-4 sm:mb-6">
                         <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-yellow-500/25 to-orange-500/25 dark:from-yellow-500/20 dark:to-orange-500/20 border border-neutral-300 dark:border-neutral-600 rounded-xl sm:rounded-2xl flex items-center justify-center">

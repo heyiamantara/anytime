@@ -507,45 +507,37 @@ export default function Dashboard() {
                   
                   <div className="relative flex flex-col lg:flex-row lg:items-start lg:justify-between">
                     <div className="flex-1 lg:pr-8">
-                      {/* Mobile-Responsive Header Section */}
-                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 sm:mb-6">
-                        <div className="flex-1 mb-4 sm:mb-0">
-                          <div className="mb-2 sm:mb-3">
-                            {/* Title */}
-                            <h3 className="text-2xl sm:text-3xl font-extralight text-neutral-900 dark:text-white tracking-wide luxury-heading group-hover:text-violet-700 dark:group-hover:text-violet-300 transition-colors duration-500 mb-2 sm:mb-0">
+                      {/* Improved Header Section with Better Badge Layout */}
+                      <div className="mb-4 sm:mb-6">
+                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3 sm:mb-4">
+                          <div className="flex-1">
+                            {/* Event Title */}
+                            <h3 className="text-2xl sm:text-3xl font-extralight text-neutral-900 dark:text-white tracking-wide luxury-heading group-hover:text-violet-700 dark:group-hover:text-violet-300 transition-colors duration-500 mb-3 sm:mb-4">
                               {event.name}
                             </h3>
                             
-                            {/* Status Badge - Stacked on mobile, inline on desktop */}
-                            <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4">
-                              <div className="sm:hidden">
-                                {/* Mobile: Badge below title */}
-                                <div className={`inline-flex w-fit px-2 py-1 rounded-md text-xs font-light tracking-widest luxury-caption border backdrop-blur-sm ${
+                            {/* Badges Container - Responsive Layout */}
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+                              {/* Status Badge - More Prominent */}
+                              <div className={`inline-flex items-center w-fit px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium tracking-wider luxury-caption border-2 backdrop-blur-sm ${
+                                event.status === 'open' 
+                                  ? 'bg-gradient-to-r from-emerald-500/25 to-teal-500/25 dark:from-emerald-500/20 dark:to-teal-500/20 text-emerald-700 dark:text-emerald-300 border-emerald-500/40 dark:border-emerald-500/30 shadow-lg shadow-emerald-500/20'
+                                  : 'bg-gradient-to-r from-amber-500/25 to-orange-500/25 dark:from-amber-500/20 dark:to-orange-500/20 text-amber-700 dark:text-amber-300 border-amber-500/40 dark:border-amber-500/30 shadow-lg shadow-amber-500/20'
+                              }`}>
+                                <div className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full mr-2 ${
                                   event.status === 'open' 
-                                    ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/20 dark:from-emerald-500/15 dark:to-teal-500/15 text-emerald-700 dark:text-emerald-300/90 border-emerald-500/30 dark:border-emerald-500/25'
-                                    : 'bg-gradient-to-r from-amber-500/20 to-orange-500/20 dark:from-amber-500/15 dark:to-orange-500/15 text-amber-700 dark:text-amber-300/90 border-amber-500/30 dark:border-amber-500/25'
-                                }`}>
-                                  {event.status === 'open' ? 'ACTIVE' : 'COMPLETED'}
-                                </div>
+                                    ? 'bg-emerald-500 dark:bg-emerald-400 animate-pulse' 
+                                    : 'bg-amber-500 dark:bg-amber-400'
+                                }`}></div>
+                                {event.status === 'open' ? 'ACTIVE' : 'COMPLETED'}
                               </div>
                               
-                              <div className="hidden sm:block">
-                                {/* Desktop: Badge inline with title */}
-                                <div className={`inline-flex w-fit px-5 py-2.5 rounded-2xl text-xs font-light tracking-widest luxury-caption border backdrop-blur-sm ${
-                                  event.status === 'open' 
-                                    ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/20 dark:from-emerald-500/15 dark:to-teal-500/15 text-emerald-700 dark:text-emerald-300/90 border-emerald-500/30 dark:border-emerald-500/25'
-                                    : 'bg-gradient-to-r from-amber-500/20 to-orange-500/20 dark:from-amber-500/15 dark:to-orange-500/15 text-amber-700 dark:text-amber-300/90 border-amber-500/30 dark:border-amber-500/25'
-                                }`}>
-                                  {event.status === 'open' ? 'ACTIVE' : 'COMPLETED'}
-                                </div>
+                              {/* Event Type Badge - Secondary */}
+                              <div className="inline-flex items-center w-fit px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-gradient-to-r from-violet-500/15 to-indigo-500/15 dark:from-violet-500/12 dark:to-indigo-500/12 border border-violet-500/25 dark:border-violet-500/20 text-violet-700 dark:text-violet-300/90 text-xs sm:text-sm font-light tracking-wider luxury-caption backdrop-blur-sm">
+                                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-violet-500 dark:bg-violet-400 rounded-full mr-2 animate-pulse"></div>
+                                <span>COORDINATION EVENT</span>
                               </div>
                             </div>
-                          </div>
-                          
-                          {/* Event Type Badge */}
-                          <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-violet-500/10 to-indigo-500/10 dark:from-violet-500/8 dark:to-indigo-500/8 border border-violet-500/20 dark:border-violet-500/15 text-violet-700 dark:text-violet-300/90 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl text-xs font-light tracking-widest luxury-caption mb-3 sm:mb-4">
-                            <div className="w-2 h-2 bg-violet-500 dark:bg-violet-400 rounded-full animate-pulse"></div>
-                            <span>COORDINATION EVENT</span>
                           </div>
                         </div>
                       </div>
