@@ -36,12 +36,12 @@ export default function HowItWorksSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true }}
-          className="text-center mb-16 sm:mb-24"
+          className="text-center mb-12 sm:mb-24"
         >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extralight text-neutral-900 dark:text-white mb-6 sm:mb-8 tracking-tighter leading-[0.85] luxury-heading">
+          <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-extralight text-neutral-900 dark:text-white mb-4 sm:mb-8 tracking-tighter leading-[0.85] luxury-heading">
             How it works
           </h2>
-          <p className="text-responsive-lg text-neutral-600 dark:text-neutral-300/80 max-w-3xl mx-auto leading-relaxed font-extralight tracking-wide luxury-body">
+          <p className="text-base sm:text-xl md:text-2xl text-neutral-600 dark:text-neutral-300/80 max-w-3xl mx-auto leading-relaxed font-extralight tracking-wide luxury-body">
             Simple scheduling in 4 steps
           </p>
         </motion.div>
@@ -62,21 +62,21 @@ export default function HowItWorksSection() {
               
               <div className="relative flex flex-col sm:flex-row items-start space-y-6 sm:space-y-0 sm:space-x-6 lg:space-x-8">
                 {/* Step Number */}
-                <div className="flex-shrink-0 flex sm:flex-col items-center sm:items-start space-x-4 sm:space-x-0">
-                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-violet-500/15 to-indigo-500/15 border border-violet-500/20 rounded-2xl sm:rounded-3xl flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-violet-500/25 group-hover:to-indigo-500/25 group-hover:border-violet-400/30 transition-all duration-700 mb-0 sm:mb-6">
-                    <step.icon className="w-6 h-6 sm:w-8 sm:h-8 text-violet-500 dark:text-violet-400/90" />
+                <div className="flex-shrink-0 flex sm:flex-col items-center sm:items-start space-x-3 sm:space-x-0">
+                  <div className="w-10 h-10 sm:w-16 sm:h-16 bg-gradient-to-br from-violet-500/15 to-indigo-500/15 border border-violet-500/20 rounded-xl sm:rounded-3xl flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-violet-500/25 group-hover:to-indigo-500/25 group-hover:border-violet-400/30 transition-all duration-700 mb-0 sm:mb-6">
+                    <step.icon className="w-5 h-5 sm:w-8 sm:h-8 text-violet-500 dark:text-violet-400/90" />
                   </div>
-                  <div className="text-2xl sm:text-4xl font-extralight text-violet-500/40 dark:text-violet-400/30 tracking-tighter luxury-heading">
+                  <div className="text-xl sm:text-4xl font-extralight text-violet-500/40 dark:text-violet-400/30 tracking-tighter luxury-heading">
                     {String(index + 1).padStart(2, '0')}
                   </div>
                 </div>
                 
                 <div className="flex-1 pt-0 sm:pt-2">
-                  <h3 className="text-responsive-xl font-extralight text-neutral-900 dark:text-white mb-4 sm:mb-6 tracking-wide luxury-heading capitalize">
+                  <h3 className="text-lg sm:text-2xl font-extralight text-neutral-900 dark:text-white mb-3 sm:mb-6 tracking-wide luxury-heading capitalize">
                     {step.title}
                   </h3>
                   
-                  <p className="text-responsive-base text-neutral-600 dark:text-neutral-400/80 leading-relaxed font-extralight tracking-wide luxury-body">
+                  <p className="text-sm sm:text-lg text-neutral-600 dark:text-neutral-400/80 leading-relaxed font-extralight tracking-wide luxury-body">
                     {step.description}
                   </p>
                 </div>

@@ -368,7 +368,7 @@ export default function Dashboard() {
             {canCreateEvent ? (
               <button 
                 onClick={handleCreateEvent}
-                className="bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-all duration-300"
+                className="bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-2 sm:px-4 py-1 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-all duration-300"
               >
                 <span className="hidden sm:inline">Create Event</span>
                 <span className="sm:hidden">Create</span>
@@ -465,7 +465,7 @@ export default function Dashboard() {
               {canCreateEvent ? (
                 <button 
                   onClick={handleCreateEvent}
-                  className="bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-8 py-4 sm:px-12 sm:py-6 rounded-2xl sm:rounded-3xl font-light text-base sm:text-lg tracking-widest transition-all duration-700 shadow-2xl shadow-violet-500/20 hover:shadow-violet-500/40 luxury-glow uppercase"
+                  className="bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-6 py-3 sm:px-12 sm:py-6 rounded-xl sm:rounded-3xl font-light text-sm sm:text-lg tracking-widest transition-all duration-700 shadow-2xl shadow-violet-500/20 hover:shadow-violet-500/40 luxury-glow uppercase"
                 >
                   Create Event
                 </button>

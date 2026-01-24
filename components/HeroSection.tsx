@@ -22,9 +22,9 @@ export default function HeroSection({ onSignUp }: HeroSectionProps) {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-flex items-center space-x-2 sm:space-x-3 bg-violet-500/10 border border-violet-500/20 text-violet-600 dark:text-violet-300/90 px-4 sm:px-8 py-3 sm:py-4 rounded-full text-xs sm:text-sm font-light mb-8 sm:mb-16 backdrop-blur-sm"
+            className="inline-flex items-center space-x-2 sm:space-x-3 bg-violet-500/10 border border-violet-500/20 text-violet-600 dark:text-violet-300/90 px-3 sm:px-8 py-2 sm:py-4 rounded-full text-xs sm:text-sm font-light mb-6 sm:mb-16 backdrop-blur-sm"
           >
-            <div className="w-2 h-2 bg-violet-500 dark:bg-violet-400 rounded-full animate-pulse"></div>
+            <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-violet-500 dark:bg-violet-400 rounded-full animate-pulse"></div>
             <span className="tracking-widest uppercase luxury-caption">Trusted by 1,000+ teams</span>
           </motion.div>
 
@@ -33,7 +33,7 @@ export default function HeroSection({ onSignUp }: HeroSectionProps) {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-extralight mb-8 sm:mb-12 leading-[0.85] text-center luxury-heading tracking-tighter"
+            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-extralight mb-6 sm:mb-12 leading-[0.85] text-center luxury-heading tracking-tighter"
           >
             <span className="text-neutral-900 dark:text-white block">
               The best time
@@ -48,7 +48,7 @@ export default function HeroSection({ onSignUp }: HeroSectionProps) {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.0, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="text-responsive-lg font-extralight text-neutral-600 dark:text-neutral-300/80 mb-12 sm:mb-20 max-w-4xl mx-auto leading-relaxed text-center luxury-body tracking-wide"
+            className="text-base sm:text-xl md:text-2xl font-extralight text-neutral-600 dark:text-neutral-300/80 mb-8 sm:mb-20 max-w-4xl mx-auto leading-relaxed text-center luxury-body tracking-wide"
           >
             Share one link. Everyone marks when they're free. The best time appears instantly.
           </motion.p>
@@ -58,18 +58,18 @@ export default function HeroSection({ onSignUp }: HeroSectionProps) {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.0, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
-            className="mb-12 sm:mb-16 flex justify-center"
+            className="mb-8 sm:mb-16 flex justify-center"
           >
             <motion.button 
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
               onClick={onSignUp}
-              className="group bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-8 sm:px-16 py-4 sm:py-6 rounded-2xl sm:rounded-3xl font-light text-responsive-base tracking-widest transition-all duration-700 shadow-2xl shadow-violet-500/20 hover:shadow-violet-500/40 luxury-glow uppercase touch-target-lg"
+              className="group bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-6 sm:px-16 py-3 sm:py-6 rounded-xl sm:rounded-3xl font-light text-sm sm:text-lg tracking-widest transition-all duration-700 shadow-2xl shadow-violet-500/20 hover:shadow-violet-500/40 luxury-glow uppercase touch-target-lg"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-violet-400/20 to-indigo-400/20 rounded-2xl sm:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-              <span className="relative flex items-center space-x-3 sm:space-x-4">
+              <div className="absolute inset-0 bg-gradient-to-r from-violet-400/20 to-indigo-400/20 rounded-xl sm:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+              <span className="relative flex items-center space-x-2 sm:space-x-4">
                 <span>Create an event</span>
-                <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-500 group-hover:translate-x-1" />
+                <ArrowRight className="w-4 h-4 sm:w-6 sm:h-6 transition-transform duration-500 group-hover:translate-x-1" />
               </span>
             </motion.button>
           </motion.div>
