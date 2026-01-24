@@ -21,7 +21,7 @@ const steps = [
   },
   {
     icon: Sparkles,
-    title: 'Find best time',
+    title: 'Find best times',
     description: 'Perfect overlap highlighted automatically.'
   }
 ]

@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 const testimonials = [
   {
-    text: "Anytime saved us hours every week. No more endless group chats trying to find a meeting time that works for everyone.",
+    text: "Anytime saved us hours every week. No more endless group chats trying to find an event time that works for everyone.",
     image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
     name: "Sarah Chen",
     role: "Product Manager",
@@ -46,7 +46,7 @@ const testimonials = [
     role: "Event Planner",
   },
   {
-    text: "The time zone handling is brilliant. Our global team can finally coordinate meetings without the usual confusion.",
+    text: "The time zone handling is brilliant. Our global team can finally coordinate events without the usual confusion.",
     image: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=150&h=150&fit=crop&crop=face",
     name: "James Wilson",
     role: "Remote Team Lead",

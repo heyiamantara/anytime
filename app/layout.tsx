@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: "Anytime - The best time for everyone",
-  description: 'Lightweight availability coordination tool that helps individuals and teams quickly find overlapping free time without back-and-forth messaging.',
+  description: 'Lightweight availability coordination tool that helps individuals and teams quickly find overlapping free time for events without back-and-forth messaging.',
 }
 
 export default function RootLayout({

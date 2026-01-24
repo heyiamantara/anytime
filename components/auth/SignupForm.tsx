@@ -107,7 +107,7 @@ export default function SignupForm({ onSuccess, onSwitchToLogin }: SignupFormPro
               Create your account
             </h2>
             <p className="text-neutral-400/80 font-extralight text-sm tracking-wide luxury-body">
-              Start scheduling meetings with elegance
+              Start organizing events with elegance
             </p>
           </div>
 

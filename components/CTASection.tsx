@@ -29,7 +29,7 @@ export default function CTASection({ onSignUp }: CTASectionProps) {
 
           {/* Supporting text */}
           <p className="text-lg sm:text-xl text-white/90 mb-8 sm:mb-10 max-w-2xl mx-auto leading-relaxed">
-            Join thousands of teams who've already ditched the endless group chats and found their perfect meeting times in seconds.
+            Join thousands of teams who've already ditched the endless group chats and found their perfect event times in seconds.
           </p>
 
           {/* CTA Button */}

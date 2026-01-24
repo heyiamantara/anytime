@@ -51,7 +51,7 @@ export default function Footer() {
               <Logo size="lg" animated={false} />
             </div>
             <p className="text-neutral-700 dark:text-neutral-400/80 mb-6 sm:mb-8 leading-relaxed font-extralight tracking-wide luxury-body text-base sm:text-lg">
-              Find the perfect time for your group without the chaos.
+              Find the perfect time for your event without the chaos.
             </p>
             <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-500/80 font-extralight tracking-widest luxury-caption">
               © 2026 Anytime. All rights reserved.
