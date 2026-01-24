@@ -159,7 +159,7 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
   return (
     <div className="w-full">
       {/* Availability Canvas - Enhanced Mobile Responsive Container */}
-      <div className="relative w-full border border-neutral-300/60 dark:border-neutral-700/20 rounded-2xl sm:rounded-3xl p-4 sm:p-8 bg-gradient-to-br from-white/80 via-neutral-50/40 to-white/60 dark:from-neutral-900/10 dark:via-transparent dark:to-neutral-900/5 shadow-lg shadow-neutral-200/30 dark:shadow-none">
+      <div className="relative w-full border border-neutral-300/60 dark:border-neutral-700/20 rounded-2xl sm:rounded-3xl p-4 sm:p-8 bg-gradient-to-br from-white/80 via-neutral-50/40 to-white/60 dark:from-neutral-900/10 dark:via-transparent dark:to-neutral-900/5 overflow-hidden">
         {/* Floating Date Headers - Mobile Responsive */}
         <div className="relative z-20 mb-6 sm:mb-8">
           <div className="flex">
@@ -236,40 +236,26 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
                               onMouseLeave={() => setHoveredSlot(null)}
                               onClick={() => toggleAvailability(dateStr, time)}
                               className={`
-                                w-full h-full rounded-xl sm:rounded-2xl transition-all duration-300 flex items-center justify-center relative overflow-hidden touch-target
+                                w-full h-full rounded-lg transition-all duration-300 flex items-center justify-center relative overflow-hidden touch-target outline-none ring-0 focus:ring-0 focus:outline-none shadow-none
                                 ${canInteract ? 'cursor-pointer' : 'cursor-default'}
                                 ${isUserAvailable 
-                                  ? 'bg-gradient-to-br from-emerald-500/40 via-emerald-400/35 to-teal-500/40 dark:from-emerald-500/25 dark:via-emerald-400/20 dark:to-teal-500/25 border-2 border-emerald-500/70 dark:border-emerald-400/50 shadow-xl shadow-emerald-500/35'
+                                  ? 'bg-gradient-to-br from-emerald-500/40 via-emerald-400/35 to-teal-500/40 dark:from-emerald-500/25 dark:via-emerald-400/20 dark:to-teal-500/25 border-2 border-emerald-500/70 dark:border-emerald-400/50'
                                   : availableUsers.length === 0 
                                     ? 'bg-neutral-200/50 dark:bg-neutral-800/20 border border-neutral-300/50 dark:border-neutral-700/30 hover:bg-neutral-300/60 dark:hover:bg-neutral-700/30 hover:border-neutral-400/60 dark:hover:border-neutral-600/40' 
                                     : availableUsers.length === 1
-                                      ? 'bg-gradient-to-br from-blue-500/35 via-blue-400/30 to-cyan-500/35 dark:from-blue-500/20 dark:via-blue-400/15 dark:to-cyan-500/20 border border-blue-500/50 dark:border-blue-400/30 shadow-lg shadow-blue-500/25'
+                                      ? 'bg-gradient-to-br from-blue-500/35 via-blue-400/30 to-cyan-500/35 dark:from-blue-500/20 dark:via-blue-400/15 dark:to-cyan-500/20 border border-blue-500/50 dark:border-blue-400/30'
                                       : availableUsers.length === 2
-                                        ? 'bg-gradient-to-br from-violet-500/40 via-violet-400/35 to-indigo-500/40 dark:from-violet-500/25 dark:via-violet-400/20 dark:to-indigo-500/25 border border-violet-500/60 dark:border-violet-400/40 shadow-lg shadow-violet-500/30'
-                                        : 'bg-gradient-to-br from-orange-500/40 via-yellow-400/35 to-amber-500/40 dark:from-orange-500/25 dark:via-yellow-400/20 dark:to-amber-500/25 border border-orange-500/60 dark:border-orange-400/40 shadow-xl shadow-orange-500/30'
+                                        ? 'bg-gradient-to-br from-violet-500/40 via-violet-400/35 to-indigo-500/40 dark:from-violet-500/25 dark:via-violet-400/20 dark:to-indigo-500/25 border border-violet-500/60 dark:border-violet-400/40'
+                                        : 'bg-gradient-to-br from-purple-500/40 via-pink-400/35 to-rose-500/40 dark:from-purple-500/25 dark:via-pink-400/20 dark:to-rose-500/25 border border-purple-500/60 dark:border-purple-400/40'
                                 }
-                                ${isHovered ? 'shadow-2xl transform scale-105' : ''}
+                                ${isHovered ? 'transform scale-105' : ''}
+                                shadow-none ring-0 focus:ring-0 outline-none focus:outline-none
                               `}
                             >
-                              {/* Soft Atmospheric Glow */}
-                              {(availableUsers.length > 0 || isUserAvailable) && (
-                                <div className={`
-                                  absolute inset-0 rounded-xl sm:rounded-2xl
-                                  ${isUserAvailable 
-                                    ? 'bg-gradient-to-br from-emerald-400/10 via-transparent to-teal-400/10 dark:from-emerald-400/8 dark:to-teal-400/8'
-                                    : availableUsers.length === 1
-                                      ? 'bg-gradient-to-br from-blue-400/8 via-transparent to-cyan-400/8 dark:from-blue-400/6 dark:to-cyan-400/6'
-                                      : availableUsers.length === 2
-                                        ? 'bg-gradient-to-br from-violet-400/8 via-transparent to-indigo-400/8 dark:from-violet-400/6 dark:to-indigo-400/6'
-                                        : 'bg-gradient-to-br from-orange-400/8 via-transparent to-amber-400/8 dark:from-orange-400/6 dark:to-amber-400/6'
-                                  }
-                                `}></div>
-                              )}
-
                               {/* Availability Count or User Selection */}
                               {isUserAvailable ? (
                                 <div className="relative flex items-center justify-center">
-                                  <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-emerald-400 to-teal-400 rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/50">
+                                  <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-emerald-400 to-teal-400 rounded-full flex items-center justify-center">
                                     <svg className="w-3 h-3 sm:w-4 sm:h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                                     </svg>
@@ -282,15 +268,12 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
                                     ? 'text-blue-700 dark:text-blue-300/90'
                                     : availableUsers.length === 2
                                       ? 'text-violet-700 dark:text-violet-300/90'
-                                      : 'text-orange-700 dark:text-orange-300/90'
+                                      : 'text-purple-700 dark:text-purple-300/90'
                                   }
                                 `}>
                                   {availableUsers.length}
                                 </span>
                               ) : null}
-
-                              {/* Hover Atmosphere */}
-                              <div className="absolute inset-0 bg-gradient-to-br from-white/15 via-transparent to-white/10 dark:from-white/10 dark:to-white/5 rounded-xl sm:rounded-2xl opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
                             </motion.div>
                           </div>
                         )
@@ -314,23 +297,23 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
               </div>
               <div className="flex flex-wrap items-center gap-4 sm:gap-10">
                 <div className="flex items-center space-x-3 sm:space-x-4">
-                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-neutral-200/50 dark:bg-neutral-800/20 border border-neutral-300/50 dark:border-neutral-700/30 rounded-lg sm:rounded-xl"></div>
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-neutral-200/50 dark:bg-neutral-800/20 border border-neutral-300/50 dark:border-neutral-700/30 rounded-lg"></div>
                   <span className="text-xs sm:text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">None</span>
                 </div>
                 <div className="flex items-center space-x-3 sm:space-x-4">
-                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-blue-500/35 to-cyan-500/35 dark:from-blue-500/20 dark:to-cyan-500/20 border border-blue-500/50 dark:border-blue-400/30 rounded-lg sm:rounded-xl"></div>
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-blue-500/35 to-cyan-500/35 dark:from-blue-500/20 dark:to-cyan-500/20 border border-blue-500/50 dark:border-blue-400/30 rounded-lg"></div>
                   <span className="text-xs sm:text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">Low (1)</span>
                 </div>
                 <div className="flex items-center space-x-3 sm:space-x-4">
-                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-violet-500/40 to-indigo-500/40 dark:from-violet-500/25 dark:to-indigo-500/25 border border-violet-500/60 dark:border-violet-400/40 rounded-lg sm:rounded-xl"></div>
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-violet-500/40 to-indigo-500/40 dark:from-violet-500/25 dark:to-indigo-500/25 border border-violet-500/60 dark:border-violet-400/40 rounded-lg"></div>
                   <span className="text-xs sm:text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">Medium (2)</span>
                 </div>
                 <div className="flex items-center space-x-3 sm:space-x-4">
-                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-orange-500/40 to-amber-500/40 dark:from-orange-500/25 dark:to-amber-500/25 border border-orange-500/60 dark:border-orange-400/40 rounded-lg sm:rounded-xl"></div>
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-purple-500/40 to-rose-500/40 dark:from-purple-500/25 dark:to-rose-500/25 border border-purple-500/60 dark:border-purple-400/40 rounded-lg"></div>
                   <span className="text-xs sm:text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">High (3+)</span>
                 </div>
                 <div className="flex items-center space-x-3 sm:space-x-4">
-                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-emerald-500/40 to-teal-500/40 dark:from-emerald-500/25 dark:to-teal-500/25 border-2 border-emerald-500/70 dark:border-emerald-400/50 rounded-lg sm:rounded-xl shadow-lg shadow-emerald-500/30"></div>
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-emerald-500/40 to-teal-500/40 dark:from-emerald-500/25 dark:to-teal-500/25 border-2 border-emerald-500/70 dark:border-emerald-400/50 rounded-lg"></div>
                   <span className="text-xs sm:text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">Your selection</span>
                 </div>
               </div>

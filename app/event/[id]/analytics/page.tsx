@@ -18,12 +18,32 @@ export default function EventAnalyticsPage() {
   const [error, setError] = useState('')
   const [availabilityData, setAvailabilityData] = useState<any>({})
   const [bestMatches, setBestMatches] = useState<any[]>([])
+  const [dates, setDates] = useState<Date[]>([])
   const [notification, setNotification] = useState({
     isVisible: false,
     type: 'success' as 'success' | 'error' | 'warning' | 'info',
     title: '',
     message: ''
   })
+
+  // Helper function to calculate date range consistently
+  const calculateDateRange = (startDateStr: string, endDateStr: string) => {
+    const dates = []
+    if (startDateStr && endDateStr) {
+      // Use UTC to avoid timezone issues
+      const startDate = new Date(startDateStr + 'T00:00:00.000Z')
+      const endDate = new Date(endDateStr + 'T00:00:00.000Z')
+      
+      // Create a new date for iteration to avoid mutation
+      const currentDate = new Date(startDate)
+      
+      while (currentDate <= endDate) {
+        dates.push(new Date(currentDate))
+        currentDate.setUTCDate(currentDate.getUTCDate() + 1)
+      }
+    }
+    return dates
+  }
 
   useEffect(() => {
     if (params.id) {
@@ -36,6 +56,14 @@ export default function EventAnalyticsPage() {
       processAvailabilityData()
     }
   }, [event])
+
+  // Update dates when event data changes
+  useEffect(() => {
+    if (event?.start_date && event?.end_date) {
+      const calculatedDates = calculateDateRange(event.start_date, event.end_date)
+      setDates(calculatedDates)
+    }
+  }, [event?.start_date, event?.end_date])
 
   const fetchEvent = async () => {
     try {
@@ -58,14 +86,8 @@ export default function EventAnalyticsPage() {
     const data: any = {}
     const totalParticipants = event.participants?.length || 0
     
-    // Generate date range
-    const startDate = new Date(event.start_date)
-    const endDate = new Date(event.end_date)
-    const dates = []
-    
-    for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
-      dates.push(new Date(d))
-    }
+    // Use the same date calculation as the main component
+    const dates = calculateDateRange(event.start_date, event.end_date)
 
     // Initialize data structure
     dates.forEach(date => {
@@ -202,14 +224,6 @@ export default function EventAnalyticsPage() {
     )
   }
 
-  const dates = []
-  const startDate = new Date(event.start_date)
-  const endDate = new Date(event.end_date)
-  
-  for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
-    dates.push(new Date(d))
-  }
-
   const maxCount = Math.max(
     ...Object.values(availabilityData).flatMap((dateData: any) =>
       Object.values(dateData).map((slot: any) => slot.count)
@@ -226,25 +240,21 @@ export default function EventAnalyticsPage() {
     <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-neutral-100 dark:from-neutral-950 dark:via-neutral-900 dark:to-black">
       {/* Invisible Navigation Integration */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-white/90 via-white/60 to-transparent dark:from-black/90 dark:via-black/60 dark:to-transparent backdrop-blur-xl border-b border-neutral-200/60 dark:border-white/10">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex items-center justify-between">
-            <Logo size="md" animated={true} />
-            
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.2, delay: 0.4 }}
-              className="flex items-center space-x-6"
+        <div className="w-full h-16 flex items-center justify-between px-4 sm:px-6 md:px-8 lg:px-10">
+          {/* Logo - Far Left */}
+          <Logo size="md" animated={true} />
+          
+          {/* Right Side - Navigation + Auth */}
+          <div className="flex items-center gap-6">
+            {/* Theme Switcher */}
+            <button
+              onClick={() => {
+                const newTheme = theme === 'dark' ? 'light' : 'dark'
+                setTheme(newTheme)
+              }}
+              className="p-2 hover:bg-neutral-200/60 dark:hover:bg-white/10 rounded-xl transition-all duration-500 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
+              title="Toggle theme"
             >
-              {/* Theme Switcher - Subtle Integration */}
-              <button
-                onClick={() => {
-                  const newTheme = theme === 'dark' ? 'light' : 'dark'
-                  setTheme(newTheme)
-                }}
-                className="p-3 hover:bg-neutral-200/60 dark:hover:bg-white/10 rounded-2xl transition-all duration-500 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
-                title="Toggle theme"
-              >
                 {theme === 'dark' ? (
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -256,31 +266,30 @@ export default function EventAnalyticsPage() {
                 )}
               </button>
 
-              {/* Back Button */}
-              <button
-                onClick={() => router.push('/dashboard')}
-                className="p-3 hover:bg-neutral-200/60 dark:hover:bg-white/10 rounded-2xl transition-all duration-500 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
-                title="Back to dashboard"
-              >
+            {/* Back Button */}
+            <button
+              onClick={() => router.push('/dashboard')}
+              className="p-2 hover:bg-neutral-200/60 dark:hover:bg-white/10 rounded-xl transition-all duration-500 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
+              title="Back to dashboard"
+            >
                 <ArrowLeft className="w-5 h-5" />
               </button>
 
-              {/* Share Button */}
-              <button
-                onClick={handleShareEvent}
-                className="p-3 hover:bg-neutral-200/60 dark:hover:bg-white/10 rounded-2xl transition-all duration-500 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
-                title="Share event"
-              >
+            {/* Share Button */}
+            <button
+              onClick={handleShareEvent}
+              className="p-2 hover:bg-neutral-200/60 dark:hover:bg-white/10 rounded-xl transition-all duration-500 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
+              title="Share event"
+            >
                 <Share2 className="w-5 h-5" />
               </button>
-            </motion.div>
           </div>
         </div>
       </div>
       
       {/* Immersive Hero Section - Mobile Responsive */}
       <div className="pt-20 sm:pt-32 pb-12 sm:pb-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10">
           <motion.div
             initial={{ opacity: 0, y: 60 }}
             animate={{ opacity: 1, y: 0 }}
@@ -311,14 +320,14 @@ export default function EventAnalyticsPage() {
               <div className="flex items-center space-x-3 sm:space-x-4">
                 <div className="w-1.5 h-1.5 bg-violet-500/80 dark:bg-violet-400/60 rounded-full"></div>
                 <span className="text-xs sm:text-sm tracking-widest font-extralight luxury-caption">
-                  {dates.length} Days
+                  {dates?.length || 0} Days
                 </span>
               </div>
               
               <div className="flex items-center space-x-3 sm:space-x-4">
                 <div className="w-1.5 h-1.5 bg-violet-500/80 dark:bg-violet-400/60 rounded-full"></div>
                 <span className="text-xs sm:text-sm tracking-widest font-extralight luxury-caption">
-                  {event.time_blocks?.length || 0} Time Slots
+                  {event?.time_blocks?.length || 0} Time Slots
                 </span>
               </div>
 
@@ -334,7 +343,7 @@ export default function EventAnalyticsPage() {
       </div>
 
       {/* Full-Bleed Analytics Content */}
-      <div className="max-w-7xl mx-auto px-6 pb-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 pb-24">
         
         {/* Key Metrics - Mobile Responsive Panel */}
         <motion.div
@@ -414,6 +423,7 @@ export default function EventAnalyticsPage() {
         </motion.div>
 
         {/* Availability Timeline - Unified Container Structure */}
+        {event && dates.length > 0 && event.time_blocks && event.time_blocks.length > 0 && (
         <div className="mb-20">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -434,7 +444,7 @@ export default function EventAnalyticsPage() {
             initial={{ opacity: 0, y: 60 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.6, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full border border-neutral-300/60 dark:border-neutral-700/20 rounded-3xl p-8 bg-gradient-to-br from-white/80 via-neutral-50/40 to-white/60 dark:from-neutral-900/10 dark:via-transparent dark:to-neutral-900/5 shadow-lg shadow-neutral-200/30 dark:shadow-none"
+            className="relative w-full border border-neutral-300/60 dark:border-neutral-700/20 rounded-3xl p-8 bg-gradient-to-br from-white/80 via-neutral-50/40 to-white/60 dark:from-neutral-900/10 dark:via-transparent dark:to-neutral-900/5 shadow-lg shadow-neutral-200/30 dark:shadow-none overflow-hidden"
           >
             {/* Floating Date Headers - Adaptive Layout */}
             <div className="relative z-20 mb-8">
@@ -478,7 +488,7 @@ export default function EventAnalyticsPage() {
               {/* Vertical Scroll Container */}
               <div className="max-h-[65vh] overflow-y-auto scrollbar-none">
                 <div className="space-y-6">
-                  {event.time_blocks.map((timeBlock, timeIndex) => (
+                  {(event?.time_blocks || []).map((timeBlock, timeIndex) => (
                     <motion.div 
                       key={timeIndex} 
                       initial={{ opacity: 0, x: -30 }}
@@ -525,32 +535,20 @@ export default function EventAnalyticsPage() {
                                 <motion.div
                                   whileHover={{ scale: 1.05, y: -2 }}
                                   className={`
-                                    w-full h-full rounded-2xl transition-all duration-300 flex items-center justify-center relative overflow-hidden
+                                    w-full h-full rounded-lg transition-all duration-300 flex items-center justify-center relative overflow-hidden outline-none ring-0 focus:ring-0 focus:outline-none shadow-none
                                     ${slot.count === 0 
                                       ? 'bg-neutral-200/50 dark:bg-neutral-800/20 border border-neutral-300/50 dark:border-neutral-700/30 hover:bg-neutral-300/60 dark:hover:bg-neutral-700/30 hover:border-neutral-400/60 dark:hover:border-neutral-600/40' 
                                       : slot.count === 1
-                                        ? 'bg-gradient-to-br from-blue-500/35 via-blue-400/30 to-cyan-500/35 dark:from-blue-500/20 dark:via-blue-400/15 dark:to-cyan-500/20 border border-blue-500/50 dark:border-blue-400/30 shadow-lg shadow-blue-500/25'
+                                        ? 'bg-gradient-to-br from-blue-500/35 via-blue-400/30 to-cyan-500/35 dark:from-blue-500/20 dark:via-blue-400/15 dark:to-cyan-500/20 border border-blue-500/50 dark:border-blue-400/30'
                                         : slot.count === 2
-                                          ? 'bg-gradient-to-br from-violet-500/40 via-violet-400/35 to-indigo-500/40 dark:from-violet-500/25 dark:via-violet-400/20 dark:to-indigo-500/25 border border-violet-500/60 dark:border-violet-400/40 shadow-lg shadow-violet-500/30'
-                                          : 'bg-gradient-to-br from-orange-500/40 via-yellow-400/35 to-amber-500/40 dark:from-orange-500/25 dark:via-yellow-400/20 dark:to-amber-500/25 border border-orange-500/60 dark:border-orange-400/40 shadow-xl shadow-orange-500/30'
+                                          ? 'bg-gradient-to-br from-violet-500/40 via-violet-400/35 to-indigo-500/40 dark:from-violet-500/25 dark:via-violet-400/20 dark:to-indigo-500/25 border border-violet-500/60 dark:border-violet-400/40'
+                                          : 'bg-gradient-to-br from-purple-500/40 via-pink-400/35 to-rose-500/40 dark:from-purple-500/25 dark:via-pink-400/20 dark:to-rose-500/25 border border-purple-500/60 dark:border-purple-400/40'
                                     }
-                                    ${isHighlight ? 'ring-3 ring-yellow-400 shadow-2xl shadow-yellow-500/60' : ''}
+                                    ${isHighlight ? 'ring-2 ring-blue-400/60 dark:ring-blue-400/40' : ''}
+                                    shadow-none ring-0 focus:ring-0 outline-none focus:outline-none
                                   `}
                                   title={`${slot.count}/${totalParticipants} available${slot.participants.length > 0 ? '\n' + slot.participants.map((p: any) => p.name).join(', ') : ''}`}
                                 >
-                                  {/* Soft Atmospheric Glow */}
-                                  {slot.count > 0 && (
-                                    <div className={`
-                                      absolute inset-0 rounded-2xl
-                                      ${slot.count === 1
-                                        ? 'bg-gradient-to-br from-blue-400/8 via-transparent to-cyan-400/8 dark:from-blue-400/6 dark:to-cyan-400/6'
-                                        : slot.count === 2
-                                          ? 'bg-gradient-to-br from-violet-400/8 via-transparent to-indigo-400/8 dark:from-violet-400/6 dark:to-indigo-400/6'
-                                          : 'bg-gradient-to-br from-orange-400/8 via-transparent to-amber-400/8 dark:from-orange-400/6 dark:to-amber-400/6'
-                                      }
-                                    `}></div>
-                                  )}
-
                                   {/* Availability Count */}
                                   {slot.count > 0 && (
                                     <>
@@ -560,16 +558,13 @@ export default function EventAnalyticsPage() {
                                           ? 'text-blue-700 dark:text-blue-300/90'
                                           : slot.count === 2
                                             ? 'text-violet-700 dark:text-violet-300/90'
-                                            : 'text-orange-700 dark:text-orange-300/90'
+                                            : 'text-purple-700 dark:text-purple-300/90'
                                         }
                                       `}>
                                         {slot.count}
                                       </span>
                                     </>
                                   )}
-
-                                  {/* Hover Atmosphere */}
-                                  <div className="absolute inset-0 bg-gradient-to-br from-white/15 via-transparent to-white/10 dark:from-white/10 dark:to-white/5 rounded-2xl opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
                                 </motion.div>
                               </div>
                             )
@@ -591,23 +586,23 @@ export default function EventAnalyticsPage() {
                   </div>
                   <div className="flex items-center space-x-10">
                     <div className="flex items-center space-x-4">
-                      <div className="w-6 h-6 bg-neutral-200/50 dark:bg-neutral-800/20 border border-neutral-300/50 dark:border-neutral-700/30 rounded-xl"></div>
+                      <div className="w-6 h-6 bg-neutral-200/50 dark:bg-neutral-800/20 border border-neutral-300/50 dark:border-neutral-700/30 rounded-lg"></div>
                       <span className="text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">None</span>
                     </div>
                     <div className="flex items-center space-x-4">
-                      <div className="w-6 h-6 bg-gradient-to-br from-blue-500/35 to-cyan-500/35 dark:from-blue-500/20 dark:to-cyan-500/20 border border-blue-500/50 dark:border-blue-400/30 rounded-xl"></div>
+                      <div className="w-6 h-6 bg-gradient-to-br from-blue-500/35 to-cyan-500/35 dark:from-blue-500/20 dark:to-cyan-500/20 border border-blue-500/50 dark:border-blue-400/30 rounded-lg"></div>
                       <span className="text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">Low (1)</span>
                     </div>
                     <div className="flex items-center space-x-4">
-                      <div className="w-6 h-6 bg-gradient-to-br from-violet-500/40 to-indigo-500/40 dark:from-violet-500/25 dark:to-indigo-500/25 border border-violet-500/60 dark:border-violet-400/40 rounded-xl"></div>
+                      <div className="w-6 h-6 bg-gradient-to-br from-violet-500/40 to-indigo-500/40 dark:from-violet-500/25 dark:to-indigo-500/25 border border-violet-500/60 dark:border-violet-400/40 rounded-lg"></div>
                       <span className="text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">Medium (2)</span>
                     </div>
                     <div className="flex items-center space-x-4">
-                      <div className="w-6 h-6 bg-gradient-to-br from-orange-500/40 to-amber-500/40 dark:from-orange-500/25 dark:to-amber-500/25 border border-orange-500/60 dark:border-orange-400/40 rounded-xl"></div>
+                      <div className="w-6 h-6 bg-gradient-to-br from-purple-500/40 to-rose-500/40 dark:from-purple-500/25 dark:to-rose-500/25 border border-purple-500/60 dark:border-purple-400/40 rounded-lg"></div>
                       <span className="text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">High (3+)</span>
                     </div>
                     <div className="flex items-center space-x-4">
-                      <div className="w-6 h-6 bg-gradient-to-br from-orange-500/40 to-amber-500/40 dark:from-orange-500/25 dark:to-amber-500/25 border border-orange-500/60 dark:border-orange-400/40 rounded-xl ring-2 ring-yellow-400/60 shadow-lg shadow-yellow-500/30"></div>
+                      <div className="w-6 h-6 bg-gradient-to-br from-purple-500/40 to-rose-500/40 dark:from-purple-500/25 dark:to-rose-500/25 border border-purple-500/60 dark:border-purple-400/40 rounded-lg ring-2 ring-blue-400/60 dark:ring-blue-400/40"></div>
                       <span className="text-xs text-neutral-600 dark:text-neutral-500/80 font-medium tracking-wider luxury-caption">Best match</span>
                     </div>
                   </div>
@@ -617,7 +612,7 @@ export default function EventAnalyticsPage() {
               {/* Canvas Navigation Hint */}
               <div className="mt-8 text-center">
                 <p className="text-xs text-neutral-500 dark:text-neutral-500/70 font-extralight tracking-wider luxury-caption">
-                  Navigate the availability canvas • {dates.length} days • {event.time_blocks?.length || 0} time slots
+                  Navigate the availability canvas • {dates?.length || 0} days • {event?.time_blocks?.length || 0} time slots
                 </p>
               </div>
             </div>
@@ -641,6 +636,7 @@ export default function EventAnalyticsPage() {
             }
           `}</style>
         </div>
+        )}
 
         {/* Best Matches - Mobile Responsive Panel */}
         {bestMatches.length > 0 && (

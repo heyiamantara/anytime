@@ -119,7 +119,7 @@ export default function ParticipantForm({ isOpen, onClose, eventId, onSuccess, c
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           className="relative w-full max-w-lg"
         >
-          <div className="bg-gradient-to-br from-neutral-900/90 via-neutral-800/80 to-neutral-900/90 backdrop-blur-2xl border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-10 shadow-2xl">
+          <div className="bg-gradient-to-br from-neutral-900/90 via-neutral-800/80 to-neutral-900/90 backdrop-blur-2xl border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-10 shadow-2xl overflow-hidden">
             {/* Refined Header */}
             <div className="flex items-center justify-between mb-6 sm:mb-8">
               <h2 className="text-xl sm:text-2xl lg:text-3xl font-extralight text-white tracking-wide luxury-heading">
@@ -127,7 +127,7 @@ export default function ParticipantForm({ isOpen, onClose, eventId, onSuccess, c
               </h2>
               <button
                 onClick={handleClose}
-                className="p-2 sm:p-3 hover:bg-white/5 rounded-xl sm:rounded-2xl transition-all duration-300"
+                className="p-2 sm:p-3 hover:bg-white/5 rounded-xl sm:rounded-2xl transition-all duration-300 outline-none ring-0 focus:ring-0 focus:outline-none"
               >
                 <X className="w-4 h-4 sm:w-5 sm:h-5 text-neutral-400" />
               </button>
@@ -182,7 +182,7 @@ export default function ParticipantForm({ isOpen, onClose, eventId, onSuccess, c
                     type="text"
                     value={formData.name}
                     onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                    className="w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-3 sm:py-4 border border-white/10 rounded-xl sm:rounded-2xl bg-neutral-800/30 backdrop-blur-sm text-white placeholder-neutral-400/70 focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/30 transition-all duration-500 text-sm sm:text-base font-extralight tracking-wide"
+                    className="w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-3 sm:py-4 border border-white/10 rounded-xl sm:rounded-2xl bg-neutral-800/30 backdrop-blur-sm text-white placeholder-neutral-400/70 focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/30 transition-all duration-500 text-sm sm:text-base font-extralight tracking-wide outline-none"
                     placeholder="Enter your name"
                     required
                     disabled={isAtLimit}
@@ -207,7 +207,7 @@ export default function ParticipantForm({ isOpen, onClose, eventId, onSuccess, c
                 <button
                   type="button"
                   onClick={handleClose}
-                  className="text-neutral-400 hover:text-white px-4 py-2 sm:px-6 sm:py-3 rounded-xl sm:rounded-2xl hover:bg-white/5 transition-all duration-500 font-extralight tracking-widest w-full sm:w-auto order-2 sm:order-1 luxury-caption"
+                  className="text-neutral-400 hover:text-white px-4 py-2 sm:px-6 sm:py-3 rounded-xl sm:rounded-2xl hover:bg-white/5 transition-all duration-500 font-extralight tracking-widest w-full sm:w-auto order-2 sm:order-1 luxury-caption outline-none ring-0 focus:ring-0 focus:outline-none"
                 >
                   CANCEL
                 </button>
@@ -219,7 +219,7 @@ export default function ParticipantForm({ isOpen, onClose, eventId, onSuccess, c
                       onUpgrade?.()
                       handleClose()
                     }}
-                    className="bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl sm:rounded-2xl font-light transition-all duration-500 flex items-center justify-center space-x-2 sm:space-x-3 w-full sm:w-auto order-1 sm:order-2 shadow-xl shadow-violet-500/20 hover:shadow-violet-500/40 tracking-widest"
+                    className="bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl sm:rounded-2xl font-light transition-all duration-500 flex items-center justify-center space-x-2 sm:space-x-3 w-full sm:w-auto order-1 sm:order-2 shadow-xl shadow-violet-500/20 hover:shadow-violet-500/40 tracking-widest outline-none ring-0 focus:ring-0 focus:outline-none"
                   >
                     <Crown className="w-4 h-4 sm:w-5 sm:h-5" />
                     <span className="luxury-caption">UPGRADE</span>
@@ -228,7 +228,7 @@ export default function ParticipantForm({ isOpen, onClose, eventId, onSuccess, c
                   <button
                     type="submit"
                     disabled={loading}
-                    className="bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl sm:rounded-2xl font-light transition-all duration-500 flex items-center justify-center space-x-2 sm:space-x-3 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto order-1 sm:order-2 shadow-xl shadow-violet-500/20 hover:shadow-violet-500/40 tracking-widest"
+                    className="bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl sm:rounded-2xl font-light transition-all duration-500 flex items-center justify-center space-x-2 sm:space-x-3 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto order-1 sm:order-2 shadow-xl shadow-violet-500/20 hover:shadow-violet-500/40 tracking-widest outline-none ring-0 focus:ring-0 focus:outline-none"
                   >
                     {loading ? (
                       <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />

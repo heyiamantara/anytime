@@ -54,7 +54,7 @@ export default function PricingSection({ onSignUp, onUpgrade }: PricingSectionPr
 
   return (
     <section id="pricing" className="py-16 sm:py-24 lg:py-32">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10">
         {/* Editorial Section Header - Mobile Responsive */}
         <motion.div 
           initial={{ opacity: 0, y: 60 }}

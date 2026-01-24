@@ -42,7 +42,7 @@ export default function Footer() {
       {/* Atmospheric top border */}
       <div className="w-screen border-t border-neutral-300/40 dark:border-white/8 relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]"></div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 py-12 sm:py-20">
         {/* Main footer content - Mobile Responsive */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12 mb-12 sm:mb-16">
           {/* Brand column */}

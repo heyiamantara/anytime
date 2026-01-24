@@ -86,51 +86,63 @@ export default function Header({ hideSignOut = false }: HeaderProps) {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 w-full pt-8 overflow-hidden transition-all duration-500 ${
           isScrolled || mobileMenuOpen
-            ? 'bg-neutral-950/95 backdrop-blur-xl border-b border-neutral-800/50' 
+            ? 'bg-neutral-950/95 backdrop-blur-xl border-b border-neutral-800/30' 
             : 'bg-transparent'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <button 
-              onClick={goHome}
-              className="hover:opacity-80 transition-opacity duration-300 touch-target"
-            >
-              <Logo size="md" animated={false} />
-            </button>
+        <div className="w-full h-16 flex items-center justify-between px-4 sm:px-6 md:px-8 lg:px-10">
+          {/* Logo - Extreme Left */}
+          <button 
+            onClick={goHome}
+            className="flex items-center hover:opacity-80 transition-all duration-300 hover:scale-105 touch-target"
+          >
+            <div className="h-8 flex items-center">
+              <Logo size="sm" animated={false} />
+            </div>
+          </button>
 
-            {/* Desktop Navigation - Centered */}
+          {/* Right Side - Navigation + Auth */}
+          <div className="flex items-center gap-8">
+            {/* Desktop Navigation */}
             {showNavigation && (
-              <nav className="hidden lg:flex items-center justify-center space-x-8 absolute left-1/2 transform -translate-x-1/2">
-                <a href="#product" className="btn-ghost text-sm">
+              <nav className="hidden lg:flex items-center gap-8">
+                <a 
+                  href="#product" 
+                  className="text-sm font-medium text-neutral-300 hover:text-white transition-all duration-300 tracking-wide hover:scale-105"
+                >
                   Product
                 </a>
-                <a href="#demo" className="btn-ghost text-sm">
+                <a 
+                  href="#demo" 
+                  className="text-sm font-medium text-neutral-300 hover:text-white transition-all duration-300 tracking-wide hover:scale-105"
+                >
                   Demo
                 </a>
-                <a href="#pricing" className="btn-ghost text-sm">
+                <a 
+                  href="#pricing" 
+                  className="text-sm font-medium text-neutral-300 hover:text-white transition-all duration-300 tracking-wide hover:scale-105"
+                >
                   Pricing
                 </a>
               </nav>
             )}
 
-            {/* Desktop Right side */}
-            <div className="hidden sm:flex items-center space-x-3">
+            {/* Auth buttons */}
+            <div className="hidden sm:flex items-center gap-4">
               {/* Theme toggle */}
               <button
                 onClick={() => {
                   const newTheme = theme === 'dark' ? 'light' : 'dark'
                   setTheme(newTheme)
                 }}
-                className="p-2 rounded-lg hover:bg-neutral-800/50 transition-colors touch-target"
+                className="p-2.5 rounded-xl hover:bg-neutral-800/60 transition-all duration-300 hover:scale-110 touch-target group"
               >
                 {theme === 'dark' ? (
-                  <Sun className="w-5 h-5 text-neutral-400" />
+                  <Sun className="w-5 h-5 text-neutral-400 group-hover:text-amber-400 transition-colors duration-300" />
                 ) : (
-                  <Moon className="w-5 h-5 text-neutral-400" />
+                  <Moon className="w-5 h-5 text-neutral-400 group-hover:text-blue-400 transition-colors duration-300" />
                 )}
               </button>
 
@@ -139,11 +151,11 @@ export default function Header({ hideSignOut = false }: HeaderProps) {
                 <div className="w-8 h-8 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
               ) : user ? (
                 /* Authenticated user menu */
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-4">
                   {!hideSignOut && (
                     <button
                       onClick={handleSignOut}
-                      className="btn-ghost flex items-center space-x-2 text-neutral-400 hover:text-neutral-200"
+                      className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-neutral-400 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-all duration-300 tracking-wide"
                     >
                       <LogOut className="w-4 h-4" />
                       <span>Sign Out</span>
@@ -151,50 +163,50 @@ export default function Header({ hideSignOut = false }: HeaderProps) {
                   )}
                 </div>
               ) : (
-                /* Guest user buttons */
-                <>
+                /* Guest user buttons */}
+                <div className="flex items-center gap-3">
                   <button 
                     onClick={() => openAuthModal('login')}
-                    className="btn-ghost px-4"
+                    className="px-5 py-2.5 text-sm font-medium text-neutral-300 hover:text-white hover:bg-neutral-800/60 rounded-xl transition-all duration-300 tracking-wide"
                   >
                     Sign In
                   </button>
                   <button 
                     onClick={() => openAuthModal('signup')}
-                    className="btn-primary px-4 py-2"
+                    className="px-5 py-2.5 text-sm font-medium bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-500 hover:to-primary-600 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-primary-500/25 hover:scale-105 tracking-wide"
                   >
                     Sign Up
                   </button>
-                </>
+                </div>
               )}
             </div>
 
-            {/* Mobile Right side */}
-            <div className="flex sm:hidden items-center space-x-2">
+            {/* Mobile Right side - Flush Right */}
+            <div className="flex sm:hidden items-center gap-3">
               {/* Theme toggle */}
               <button
                 onClick={() => {
                   const newTheme = theme === 'dark' ? 'light' : 'dark'
                   setTheme(newTheme)
                 }}
-                className="p-2 rounded-lg hover:bg-neutral-800/50 transition-colors touch-target"
+                className="p-2.5 rounded-xl hover:bg-neutral-800/60 transition-all duration-300 hover:scale-110 touch-target group"
               >
                 {theme === 'dark' ? (
-                  <Sun className="w-5 h-5 text-neutral-400" />
+                  <Sun className="w-5 h-5 text-neutral-400 group-hover:text-amber-400 transition-colors duration-300" />
                 ) : (
-                  <Moon className="w-5 h-5 text-neutral-400" />
+                  <Moon className="w-5 h-5 text-neutral-400 group-hover:text-blue-400 transition-colors duration-300" />
                 )}
               </button>
 
               {/* Mobile menu button */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 rounded-lg hover:bg-neutral-800/50 transition-colors touch-target"
+                className="p-2.5 rounded-xl hover:bg-neutral-800/60 transition-all duration-300 hover:scale-110 touch-target group"
               >
                 {mobileMenuOpen ? (
-                  <X className="w-5 h-5 text-neutral-400" />
+                  <X className="w-5 h-5 text-neutral-400 group-hover:text-red-400 transition-colors duration-300" />
                 ) : (
-                  <Menu className="w-5 h-5 text-neutral-400" />
+                  <Menu className="w-5 h-5 text-neutral-400 group-hover:text-white transition-colors duration-300" />
                 )}
               </button>
             </div>
@@ -209,29 +221,29 @@ export default function Header({ hideSignOut = false }: HeaderProps) {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="sm:hidden bg-neutral-950/95 backdrop-blur-xl border-t border-neutral-800/50"
+              className="sm:hidden bg-neutral-950/95 backdrop-blur-xl border-t border-neutral-800/30"
             >
-              <div className="px-4 py-6 space-y-4">
+              <div className="px-4 sm:px-6 md:px-8 lg:px-10 py-6 space-y-4">
                 {/* Navigation Links */}
                 {showNavigation && (
-                  <div className="space-y-3 pb-4 border-b border-neutral-800/50">
+                  <div className="space-y-3 pb-4 border-b border-neutral-800/30">
                     <a 
                       href="#product" 
-                      className="block py-2 text-neutral-300 hover:text-white transition-colors"
+                      className="block py-3 px-4 text-neutral-300 hover:text-white hover:bg-neutral-800/40 rounded-xl transition-all duration-300 font-medium tracking-wide"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Product
                     </a>
                     <a 
                       href="#demo" 
-                      className="block py-2 text-neutral-300 hover:text-white transition-colors"
+                      className="block py-3 px-4 text-neutral-300 hover:text-white hover:bg-neutral-800/40 rounded-xl transition-all duration-300 font-medium tracking-wide"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Demo
                     </a>
                     <a 
                       href="#pricing" 
-                      className="block py-2 text-neutral-300 hover:text-white transition-colors"
+                      className="block py-3 px-4 text-neutral-300 hover:text-white hover:bg-neutral-800/40 rounded-xl transition-all duration-300 font-medium tracking-wide"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Pricing
@@ -249,17 +261,17 @@ export default function Header({ hideSignOut = false }: HeaderProps) {
                   <div className="space-y-3">
                     <button
                       onClick={goToDashboard}
-                      className="w-full text-left py-3 px-4 bg-neutral-800/50 rounded-lg text-neutral-300 hover:text-white hover:bg-neutral-800 transition-colors flex items-center space-x-2"
+                      className="w-full text-left py-3 px-4 bg-neutral-800/50 hover:bg-neutral-800/70 rounded-xl text-neutral-300 hover:text-white transition-all duration-300 flex items-center space-x-3 font-medium tracking-wide"
                     >
-                      <Home className="w-4 h-4" />
+                      <Home className="w-5 h-5" />
                       <span>Dashboard</span>
                     </button>
                     {!hideSignOut && (
                       <button
                         onClick={handleSignOut}
-                        className="w-full text-left py-3 px-4 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-colors flex items-center space-x-2"
+                        className="w-full text-left py-3 px-4 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-xl transition-all duration-300 flex items-center space-x-3 font-medium tracking-wide"
                       >
-                        <LogOut className="w-4 h-4" />
+                        <LogOut className="w-5 h-5" />
                         <span>Sign Out</span>
                       </button>
                     )}
@@ -269,13 +281,13 @@ export default function Header({ hideSignOut = false }: HeaderProps) {
                   <div className="space-y-3">
                     <button 
                       onClick={() => openAuthModal('login')}
-                      className="w-full py-3 px-4 text-neutral-300 hover:text-white hover:bg-neutral-800/50 rounded-lg transition-colors text-center"
+                      className="w-full py-3 px-4 text-neutral-300 hover:text-white hover:bg-neutral-800/50 rounded-xl transition-all duration-300 text-center font-medium tracking-wide"
                     >
                       Sign In
                     </button>
                     <button 
                       onClick={() => openAuthModal('signup')}
-                      className="w-full py-3 px-4 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors text-center"
+                      className="w-full py-3 px-4 bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-500 hover:to-primary-600 text-white rounded-xl transition-all duration-300 text-center font-medium tracking-wide shadow-lg"
                     >
                       Sign Up
                     </button>

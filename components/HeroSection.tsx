@@ -9,7 +9,7 @@ interface HeroSectionProps {
 
 export default function HeroSection({ onSignUp }: HeroSectionProps) {
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 pt-24 sm:pt-32">
+    <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 md:px-8 lg:px-10 pt-24 sm:pt-32">
       <div className="relative z-10 max-w-7xl mx-auto text-center w-full">
         <motion.div
           initial={{ opacity: 0, y: 60 }}

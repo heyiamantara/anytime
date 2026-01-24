@@ -164,69 +164,62 @@ export default function EventPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-neutral-100 dark:from-neutral-950 dark:via-neutral-900 dark:to-black">
-      {/* Luxury Navigation - Invisible Integration */}
+      {/* Full-Width Navigation */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-white/90 via-white/60 to-transparent dark:from-black/90 dark:via-black/60 dark:to-transparent backdrop-blur-xl border-b border-neutral-200/60 dark:border-white/10">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex items-center justify-between">
-            {/* Minimal Logo */}
-            <Logo size="md" animated={true} />
-            
-            {/* Minimal Actions */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.2, delay: 0.4 }}
-              className="flex items-center space-x-6"
+        <div className="w-full h-16 flex items-center justify-between px-4 sm:px-6 md:px-8 lg:px-10">
+          {/* Logo - Far Left */}
+          <Logo size="md" animated={true} />
+          
+          {/* Right Side - Navigation + Auth */}
+          <div className="flex items-center gap-6">
+            {/* Theme Switcher */}
+            <button
+              onClick={() => {
+                const newTheme = theme === 'dark' ? 'light' : 'dark'
+                setTheme(newTheme)
+              }}
+              className="p-2 hover:bg-neutral-200/60 dark:hover:bg-white/10 rounded-xl transition-all duration-500 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white outline-none ring-0 focus:ring-0 focus:outline-none"
+              title="Toggle theme"
             >
-              {/* Theme Switcher - Subtle Integration */}
-              <button
-                onClick={() => {
-                  const newTheme = theme === 'dark' ? 'light' : 'dark'
-                  setTheme(newTheme)
-                }}
-                className="p-3 hover:bg-neutral-200/60 dark:hover:bg-white/10 rounded-2xl transition-all duration-500 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
-                title="Toggle theme"
-              >
-                {theme === 'dark' ? (
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                  </svg>
-                ) : (
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                  </svg>
-                )}
-              </button>
-
-              {/* Analytics Button - Subtle Integration */}
-              {user && event && event.created_by === user.id && (
-                <button
-                  onClick={() => window.open(`/event/${event.id}/analytics`, '_blank')}
-                  className="p-3 hover:bg-neutral-200/60 dark:hover:bg-white/10 rounded-2xl transition-all duration-500 text-neutral-700 dark:text-neutral-300 hover:text-violet-600 dark:hover:text-violet-400"
-                  title="View analytics"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
-                </button>
+              {theme === 'dark' ? (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              ) : (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
               )}
+            </button>
 
-              {/* Share Button */}
+            {/* Analytics Button - Only for event creator */}
+            {user && event && event.created_by === user.id && (
               <button
-                onClick={handleShareEvent}
-                className="p-3 hover:bg-neutral-200/60 dark:hover:bg-white/10 rounded-2xl transition-all duration-500 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
-                title="Share event"
+                onClick={() => window.open(`/event/${event.id}/analytics`, '_blank')}
+                className="p-2 hover:bg-neutral-200/60 dark:hover:bg-white/10 rounded-xl transition-all duration-500 text-neutral-700 dark:text-neutral-300 hover:text-violet-600 dark:hover:text-violet-400 outline-none ring-0 focus:ring-0 focus:outline-none"
+                title="View analytics"
               >
-                <Share2 className="w-5 h-5" />
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
               </button>
-            </motion.div>
+            )}
+
+            {/* Share Button */}
+            <button
+              onClick={handleShareEvent}
+              className="p-2 hover:bg-neutral-200/60 dark:hover:bg-white/10 rounded-xl transition-all duration-500 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white outline-none ring-0 focus:ring-0 focus:outline-none"
+              title="Share event"
+            >
+              <Share2 className="w-5 h-5" />
+            </button>
           </div>
         </div>
       </div>
       
       {/* Immersive Hero Section */}
-      <div className="pt-32 pb-20">
-        <div className="max-w-7xl mx-auto px-6">
+      <div className="pt-24 pb-16 space-y-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10">
           <motion.div
             initial={{ opacity: 0, y: 60 }}
             animate={{ opacity: 1, y: 0 }}
@@ -253,7 +246,7 @@ export default function EventPage() {
             )}
 
             {/* Refined Metadata */}
-            <div className="flex flex-wrap items-center justify-center gap-16 text-neutral-600 dark:text-neutral-400/70 mb-20">
+            <div className="flex flex-wrap items-center justify-center gap-8 text-neutral-600 dark:text-neutral-400/70 mb-16">
               <div className="flex items-center space-x-4">
                 <div className="w-1.5 h-1.5 bg-violet-600 dark:bg-violet-400/60 rounded-full"></div>
                 <span className="text-sm tracking-widest font-extralight luxury-caption">
@@ -277,13 +270,13 @@ export default function EventPage() {
             </div>
 
             {/* Exclusive Primary Action */}
-            <div className="flex flex-col items-center space-y-8">
+            <div className="flex flex-col items-center space-y-6">
               {!currentParticipant && event.status === 'open' ? (
                 <motion.button
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setShowJoinForm(true)}
-                  className="group relative bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-16 py-6 rounded-3xl font-light text-xl tracking-widest transition-all duration-700 shadow-2xl shadow-violet-500/20 hover:shadow-violet-500/40 luxury-glow"
+                  className="group relative bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-16 py-6 rounded-3xl font-light text-xl tracking-widest transition-all duration-700 shadow-2xl shadow-violet-500/20 hover:shadow-violet-500/40 luxury-glow outline-none ring-0 focus:ring-0 focus:outline-none overflow-hidden"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-violet-400/20 to-indigo-400/20 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                   <span className="relative flex items-center space-x-4">
@@ -308,14 +301,14 @@ export default function EventPage() {
       </div>
 
       {/* Immersive Content Area */}
-      <div className="max-w-7xl mx-auto px-6 pb-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 pb-24 space-y-12">
         
         {/* Atmospheric Availability Panel */}
         <motion.div
           initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-gradient-to-br from-white/95 via-neutral-50/80 to-white/95 dark:from-neutral-900/40 dark:via-neutral-800/20 dark:to-neutral-900/40 backdrop-blur-2xl border border-neutral-300/60 dark:border-white/8 rounded-[2rem] p-12 shadow-xl shadow-neutral-200/50 dark:shadow-2xl mb-12 relative overflow-hidden"
+          className="bg-gradient-to-br from-white/95 via-neutral-50/80 to-white/95 dark:from-neutral-900/40 dark:via-neutral-800/20 dark:to-neutral-900/40 backdrop-blur-2xl border border-neutral-300/60 dark:border-white/8 rounded-[2rem] p-12 shadow-xl shadow-neutral-200/50 dark:shadow-2xl relative overflow-hidden"
         >
           {/* Subtle Background Pattern */}
           <div className="absolute inset-0 bg-gradient-to-br from-violet-500/4 to-indigo-500/4 dark:from-violet-500/3 dark:to-indigo-500/3 rounded-[2rem]"></div>

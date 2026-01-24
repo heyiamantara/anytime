@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 
 interface LogoProps {
   size?: 'sm' | 'md' | 'lg' | 'xl'
@@ -10,16 +11,22 @@ interface LogoProps {
 
 export default function Logo({ size = 'md', className = '', animated = true }: LogoProps) {
   const sizeClasses = {
-    sm: 'text-xl',
-    md: 'text-2xl',
-    lg: 'text-3xl',
-    xl: 'text-4xl'
+    sm: { width: 60, height: 16 },
+    md: { width: 320, height: 84 },
+    lg: { width: 400, height: 106 },
+    xl: { width: 480, height: 128 }
   }
 
   const LogoContent = () => (
-    <div className={`font-bold tracking-wider luxury-heading ${sizeClasses[size]} ${className}`}>
-      <span className="text-neutral-900 dark:text-white font-bold">Any</span>
-      <span className="text-violet-600 dark:text-violet-400 font-bold italic">time</span>
+    <div className={`${className} h-full flex items-center`}>
+      <Image
+        src="/logo/anytime-logo.png"
+        alt="Anytime"
+        width={sizeClasses[size].width}
+        height={sizeClasses[size].height}
+        className="h-full w-auto object-contain dark:brightness-0 dark:invert dark:hue-rotate-180 dark:saturate-50 dark:contrast-125"
+        priority
+      />
     </div>
   )
 
@@ -42,16 +49,23 @@ export default function Logo({ size = 'md', className = '', animated = true }: L
 // Alternative logo variations for different contexts
 export function LogoMark({ size = 'md', className = '' }: Omit<LogoProps, 'animated'>) {
   const sizeClasses = {
-    sm: 'text-xl',
-    md: 'text-2xl', 
-    lg: 'text-3xl',
-    xl: 'text-4xl'
+    sm: { width: 80, height: 64 },
+    md: { width: 100, height: 84 }, 
+    lg: { width: 120, height: 106 },
+    xl: { width: 160, height: 128 }
   }
 
   return (
-    <div className={`font-bold tracking-widest luxury-heading ${sizeClasses[size]} ${className}`}>
-      <span className="text-neutral-900 dark:text-white font-bold">A</span>
-      <span className="text-violet-600 dark:text-violet-400 font-bold italic">T</span>
+    <div className={`${className} h-full flex items-center`}>
+      <Image
+        src="/logo/anytime-logo.png"
+        alt="AT"
+        width={sizeClasses[size].width}
+        height={sizeClasses[size].height}
+        className="h-full w-auto object-contain object-left dark:brightness-0 dark:invert dark:hue-rotate-180 dark:saturate-50 dark:contrast-125"
+        style={{ clipPath: 'inset(0 70% 0 0)' }}
+        priority
+      />
     </div>
   )
 }
@@ -59,26 +73,30 @@ export function LogoMark({ size = 'md', className = '' }: Omit<LogoProps, 'anima
 // Full brand logo with tagline for special occasions
 export function LogoWithTagline({ size = 'lg', className = '' }: Omit<LogoProps, 'animated'>) {
   const sizeClasses = {
-    sm: 'text-lg',
-    md: 'text-xl',
-    lg: 'text-2xl', 
-    xl: 'text-3xl'
+    sm: { width: 280, height: 74 },
+    md: { width: 360, height: 96 },
+    lg: { width: 440, height: 116 }, 
+    xl: { width: 520, height: 138 }
   }
 
   const taglineSizes = {
     sm: 'text-xs',
-    md: 'text-sm',
+    md: 'text-xs',
     lg: 'text-sm',
     xl: 'text-base'
   }
 
   return (
     <div className={`${className}`}>
-      <div className={`font-bold tracking-wider luxury-heading ${sizeClasses[size]}`}>
-        <span className="text-neutral-900 dark:text-white font-bold">Any</span>
-        <span className="text-violet-600 dark:text-violet-400 font-bold italic">time</span>
-      </div>
-      <div className={`${taglineSizes[size]} text-neutral-600 dark:text-neutral-400/80 font-extralight tracking-widest luxury-caption mt-1`}>
+      <Image
+        src="/logo/anytime-logo.png"
+        alt="Anytime"
+        width={sizeClasses[size].width}
+        height={sizeClasses[size].height}
+        className="object-contain dark:brightness-0 dark:invert dark:hue-rotate-180 dark:saturate-50 dark:contrast-125"
+        priority
+      />
+      <div className={`${taglineSizes[size]} text-neutral-600 dark:text-neutral-400/80 font-mono font-bold tracking-wider mt-2 text-center`}>
         THE BEST TIME FOR EVERYONE
       </div>
     </div>
