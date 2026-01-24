@@ -448,15 +448,15 @@ export default function EventAnalyticsPage() {
             transition={{ duration: 1.6, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="relative w-full border border-neutral-300/60 dark:border-neutral-700/20 rounded-3xl p-8 bg-gradient-to-br from-white/80 via-neutral-50/40 to-white/60 dark:from-neutral-900/10 dark:via-transparent dark:to-neutral-900/5 shadow-lg shadow-neutral-200/30 dark:shadow-none overflow-hidden"
           >
-            {/* Floating Date Headers - Adaptive Layout */}
+            {/* Fixed Date Headers - Consistent Layout */}
             <div className="relative z-20 mb-8">
               <div className="flex">
-                {/* Time Label Spacer */}
-                <div style={{ width: '140px' }} className="flex-shrink-0" />
+                {/* Time Label Spacer - Fixed Width */}
+                <div className="flex-shrink-0 w-32" />
                 
-                {/* Adaptive Date Headers Container */}
+                {/* Scrollable Date Headers Container */}
                 <div className="flex-1 overflow-x-auto scrollbar-none">
-                  <div className="flex" style={{ minWidth: '100%' }}>
+                  <div className="flex gap-4" style={{ minWidth: `${Math.max(dates.length * 88, 100)}px` }}>
                     {dates.map((date, index) => {
                       const formatted = formatDate(date.toISOString().split('T')[0])
                       return (
@@ -465,11 +465,8 @@ export default function EventAnalyticsPage() {
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.8, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                          className="text-center py-6 flex-1"
-                          style={{ 
-                            minWidth: dates.length <= 7 ? `${100 / dates.length}%` : '88px',
-                            maxWidth: dates.length <= 7 ? 'none' : '120px'
-                          }}
+                          className="text-center py-6 flex-shrink-0"
+                          style={{ width: '88px' }}
                         >
                           <div className="text-sm font-medium text-neutral-800 dark:text-white mb-3 tracking-wider luxury-caption">
                             {formatted.day}
@@ -485,7 +482,7 @@ export default function EventAnalyticsPage() {
               </div>
             </div>
 
-            {/* Unified Availability Canvas Body */}
+            {/* Fixed Availability Canvas Body */}
             <div className="relative mb-12">
               {/* Vertical Scroll Container */}
               <div className="max-h-[65vh] overflow-y-auto scrollbar-none">
@@ -498,19 +495,16 @@ export default function EventAnalyticsPage() {
                       transition={{ duration: 0.8, delay: 0.3 + timeIndex * 0.08, ease: [0.16, 1, 0.3, 1] }}
                       className="flex items-center"
                     >
-                      {/* Floating Time Label */}
-                      <div 
-                        className="flex-shrink-0 flex items-center justify-end pr-8"
-                        style={{ width: '140px', height: '72px' }}
-                      >
+                      {/* Fixed Time Label */}
+                      <div className="flex-shrink-0 flex items-center justify-end pr-8 w-32 h-16">
                         <div className="text-sm font-medium text-neutral-800 dark:text-neutral-300/90 tracking-wider luxury-caption">
                           {formatTime(timeBlock)}
                         </div>
                       </div>
 
-                      {/* Adaptive Availability Tiles Container */}
+                      {/* Fixed Width Availability Tiles Container */}
                       <div className="flex-1 overflow-x-auto scrollbar-none">
-                        <div className="flex gap-4" style={{ minWidth: '100%' }}>
+                        <div className="flex gap-4" style={{ minWidth: `${Math.max(dates.length * 88, 100)}px` }}>
                           {dates.map((date, dateIndex) => {
                             const dateStr = date.toISOString().split('T')[0]
                             const slot = availabilityData[dateStr]?.[timeBlock] || { count: 0, participants: [] }
@@ -526,18 +520,14 @@ export default function EventAnalyticsPage() {
                             return (
                               <div 
                                 key={dateIndex} 
-                                className="flex items-center justify-center"
-                                style={{ 
-                                  minWidth: dates.length <= 7 ? `calc((100% - ${(dates.length - 1) * 16}px) / ${dates.length})` : '88px',
-                                  maxWidth: dates.length <= 7 ? 'none' : '120px',
-                                  height: '72px',
-                                  flex: dates.length <= 7 ? '1' : '0 0 auto'
-                                }}
+                                className="flex items-center justify-center flex-shrink-0"
+                                style={{ width: '88px', height: '64px' }}
                               >
                                 <motion.div
                                   whileHover={{ scale: 1.05, y: -2 }}
+                                  style={{ width: '80px', height: '56px' }}
                                   className={`
-                                    w-full h-full rounded-lg transition-all duration-300 flex items-center justify-center relative overflow-hidden outline-none ring-0 focus:ring-0 focus:outline-none shadow-none
+                                    rounded-lg transition-all duration-300 flex items-center justify-center relative overflow-hidden outline-none ring-0 focus:ring-0 focus:outline-none shadow-none
                                     ${slot.count === 0 
                                       ? 'bg-neutral-200/50 dark:bg-neutral-800/20 border border-neutral-300/50 dark:border-neutral-700/30 hover:bg-neutral-300/60 dark:hover:bg-neutral-700/30 hover:border-neutral-400/60 dark:hover:border-neutral-600/40' 
                                       : slot.count === 1
@@ -621,6 +611,11 @@ export default function EventAnalyticsPage() {
           </motion.div>
 
           <style jsx>{`
+            /* Ensure proper box-sizing for all elements */
+            * {
+              box-sizing: border-box;
+            }
+            
             /* Hide scrollbars completely for clean aesthetic */
             .scrollbar-none {
               -ms-overflow-style: none;
@@ -635,6 +630,11 @@ export default function EventAnalyticsPage() {
             .overflow-y-auto {
               scroll-behavior: smooth;
               -webkit-overflow-scrolling: touch;
+            }
+            
+            /* Prevent any transform scaling issues */
+            .availability-timeline {
+              transform: none !important;
             }
           `}</style>
         </div>

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 
 interface LogoProps {
-  size?: 'sm' | 'md' | 'lg' | 'xl'
+  size?: 'sm' | 'nav' | 'md' | 'lg' | 'xl'
   className?: string
   animated?: boolean
 }
@@ -12,6 +12,7 @@ interface LogoProps {
 export default function Logo({ size = 'md', className = '', animated = true }: LogoProps) {
   const sizeClasses = {
     sm: { width: 60, height: 16 },
+    nav: { width: 120, height: 32 },
     md: { width: 320, height: 84 },
     lg: { width: 400, height: 106 },
     xl: { width: 480, height: 128 }
@@ -50,6 +51,7 @@ export default function Logo({ size = 'md', className = '', animated = true }: L
 export function LogoMark({ size = 'md', className = '' }: Omit<LogoProps, 'animated'>) {
   const sizeClasses = {
     sm: { width: 80, height: 64 },
+    nav: { width: 100, height: 80 },
     md: { width: 100, height: 84 }, 
     lg: { width: 120, height: 106 },
     xl: { width: 160, height: 128 }
@@ -74,6 +76,7 @@ export function LogoMark({ size = 'md', className = '' }: Omit<LogoProps, 'anima
 export function LogoWithTagline({ size = 'lg', className = '' }: Omit<LogoProps, 'animated'>) {
   const sizeClasses = {
     sm: { width: 280, height: 74 },
+    nav: { width: 320, height: 84 },
     md: { width: 360, height: 96 },
     lg: { width: 440, height: 116 }, 
     xl: { width: 520, height: 138 }
@@ -81,6 +84,7 @@ export function LogoWithTagline({ size = 'lg', className = '' }: Omit<LogoProps,
 
   const taglineSizes = {
     sm: 'text-xs',
+    nav: 'text-xs',
     md: 'text-xs',
     lg: 'text-sm',
     xl: 'text-base'

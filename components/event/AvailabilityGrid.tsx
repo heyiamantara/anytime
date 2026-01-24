@@ -148,27 +148,22 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
   const dates = generateDateRange()
   const timeSlots = event.time_blocks || []
   
-  // Responsive cell dimensions
-  const CELL_WIDTH_MOBILE = 60 // Smaller for mobile
-  const CELL_HEIGHT_MOBILE = 56 // Smaller for mobile
-  const CELL_WIDTH_DESKTOP = 88 // Original desktop size
-  const CELL_HEIGHT_DESKTOP = 72 // Original desktop size
-  const TIME_LABEL_WIDTH_MOBILE = 80 // Smaller for mobile
-  const TIME_LABEL_WIDTH_DESKTOP = 140 // Original desktop size
+  const dates = generateDateRange()
+  const timeSlots = event.time_blocks || []
 
   return (
     <div className="w-full">
-      {/* Availability Canvas - Enhanced Mobile Responsive Container */}
-      <div className="relative w-full border border-neutral-300/60 dark:border-neutral-700/20 rounded-2xl sm:rounded-3xl p-4 sm:p-8 bg-gradient-to-br from-white/80 via-neutral-50/40 to-white/60 dark:from-neutral-900/10 dark:via-transparent dark:to-neutral-900/5 overflow-hidden">
-        {/* Floating Date Headers - Mobile Responsive */}
+      {/* Availability Canvas - Fixed Layout Container */}
+      <div className="relative w-full border border-neutral-300/60 dark:border-neutral-700/20 rounded-2xl sm:rounded-3xl p-4 sm:p-8 bg-gradient-to-br from-white/80 via-neutral-50/40 to-white/60 dark:from-neutral-900/10 dark:via-transparent dark:to-neutral-900/5">
+        {/* Fixed Date Headers */}
         <div className="relative z-20 mb-6 sm:mb-8">
           <div className="flex">
-            {/* Time Label Spacer - Responsive */}
-            <div className="flex-shrink-0 w-20 sm:w-[140px]" />
+            {/* Time Label Spacer - Fixed Width */}
+            <div className="flex-shrink-0 w-20 sm:w-32" />
             
-            {/* Adaptive Date Headers Container */}
+            {/* Scrollable Date Headers Container */}
             <div className="flex-1 overflow-x-auto scrollbar-none">
-              <div className="flex gap-2 sm:gap-4" style={{ minWidth: '100%' }}>
+              <div className="flex gap-2 sm:gap-4" style={{ minWidth: `${Math.max(dates.length * 80, 100)}px` }}>
                 {dates.map((date, index) => {
                   const formatted = formatDate(date)
                   return (
@@ -177,7 +172,8 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.8, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                      className="text-center py-3 sm:py-6 flex-1 min-w-[60px] sm:min-w-[88px]"
+                      className="text-center py-3 sm:py-6 flex-shrink-0"
+                      style={{ width: '80px' }}
                     >
                       <div className="text-xs sm:text-sm font-medium text-neutral-800 dark:text-white mb-2 sm:mb-3 tracking-wider luxury-caption">
                         {formatted.day}
@@ -193,7 +189,7 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
           </div>
         </div>
 
-        {/* Availability Canvas Body - Mobile Responsive */}
+        {/* Availability Canvas Body - Fixed Layout */}
         <div className="relative">
           {/* Vertical Scroll Container */}
           <div className="max-h-[50vh] sm:max-h-[65vh] overflow-y-auto scrollbar-none">
@@ -206,16 +202,16 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
                   transition={{ duration: 0.8, delay: 0.3 + timeIndex * 0.08, ease: [0.16, 1, 0.3, 1] }}
                   className="flex items-center"
                 >
-                  {/* Floating Time Label - Responsive */}
-                  <div className="flex-shrink-0 flex items-center justify-end pr-3 sm:pr-8 w-20 sm:w-[140px] h-14 sm:h-[72px]">
+                  {/* Fixed Time Label */}
+                  <div className="flex-shrink-0 flex items-center justify-end pr-3 sm:pr-8 w-20 sm:w-32 h-14 sm:h-16">
                     <div className="text-xs sm:text-sm font-medium text-neutral-800 dark:text-neutral-300/90 tracking-wider luxury-caption">
                       {formatTime(time)}
                     </div>
                   </div>
 
-                  {/* Adaptive Availability Tiles Container */}
+                  {/* Fixed Width Availability Tiles Container */}
                   <div className="flex-1 overflow-x-auto scrollbar-none">
-                    <div className="flex gap-2 sm:gap-4" style={{ minWidth: '100%' }}>
+                    <div className="flex gap-2 sm:gap-4" style={{ minWidth: `${Math.max(dates.length * 80, 100)}px` }}>
                       {dates.map((date, dateIndex) => {
                         const dateStr = date.toISOString().split('T')[0]
                         const slotKey = getSlotKey(dateStr, time)
@@ -227,7 +223,8 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
                         return (
                           <div 
                             key={dateIndex} 
-                            className="flex items-center justify-center flex-1 min-w-[60px] sm:min-w-[88px] h-14 sm:h-[72px]"
+                            className="flex items-center justify-center flex-shrink-0"
+                            style={{ width: '80px', height: '56px' }}
                           >
                             <motion.div
                               whileHover={canInteract ? { scale: 1.05, y: -2 } : {}}
@@ -235,8 +232,9 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
                               onMouseEnter={() => setHoveredSlot({ date: dateStr, time })}
                               onMouseLeave={() => setHoveredSlot(null)}
                               onClick={() => toggleAvailability(dateStr, time)}
+                              style={{ width: '72px', height: '48px' }}
                               className={`
-                                w-full h-full rounded-lg transition-all duration-300 flex items-center justify-center relative overflow-hidden touch-target outline-none ring-0 focus:ring-0 focus:outline-none shadow-none
+                                rounded-lg transition-all duration-300 flex items-center justify-center relative overflow-hidden outline-none ring-0 focus:ring-0 focus:outline-none shadow-none
                                 ${canInteract ? 'cursor-pointer' : 'cursor-default'}
                                 ${isUserAvailable 
                                   ? 'bg-gradient-to-br from-emerald-500/40 via-emerald-400/35 to-teal-500/40 dark:from-emerald-500/25 dark:via-emerald-400/20 dark:to-teal-500/25 border-2 border-emerald-500/70 dark:border-emerald-400/50'
@@ -356,6 +354,11 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
       </div>
 
       <style jsx>{`
+        /* Ensure proper box-sizing for all elements */
+        * {
+          box-sizing: border-box;
+        }
+        
         /* Hide scrollbars completely for clean aesthetic */
         .scrollbar-none {
           -ms-overflow-style: none;
@@ -370,6 +373,11 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
         .overflow-y-auto {
           scroll-behavior: smooth;
           -webkit-overflow-scrolling: touch;
+        }
+        
+        /* Prevent any transform scaling issues */
+        .availability-grid {
+          transform: none !important;
         }
       `}</style>
     </div>
