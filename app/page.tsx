@@ -83,51 +83,48 @@ export default function Home() {
     <main className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-neutral-100 dark:from-neutral-950 dark:via-neutral-900 dark:to-black">
       {/* Full-Width Navigation - Improved Web Layout */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-white/90 via-white/60 to-transparent dark:from-black/90 dark:via-black/60 dark:to-transparent backdrop-blur-xl border-b border-neutral-200/60 dark:border-white/10 py-3 sm:py-4">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10">
-          <div className="h-14 sm:h-16 flex items-center justify-between">
-            {/* Logo - Left Side */}
-            <div className="flex items-center">
-              <Logo size="sm" animated={true} className="sm:hidden" />
-              <Logo size="nav" animated={true} className="hidden sm:block" />
-            </div>
+        <div className="w-full h-14 sm:h-16 flex items-center justify-between px-4 sm:px-6 md:px-10">
+          {/* Logo - Far Left */}
+          <div className="flex items-center">
+            <Logo size="sm" animated={true} className="sm:hidden" />
+            <Logo size="nav" animated={true} className="hidden sm:block" />
+          </div>
 
-            {/* Centered Navigation Menu - Desktop Only */}
-            <motion.nav
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.2, delay: 0.3 }}
-              className="hidden lg:flex items-center justify-center flex-1 mx-12"
+          {/* Navigation Menu - Desktop Only */}
+          <motion.nav
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.2, delay: 0.3 }}
+            className="hidden lg:flex items-center space-x-8"
+          >
+            <a 
+              href="#features" 
+              className="text-neutral-700 dark:text-neutral-300 hover:text-violet-600 dark:hover:text-violet-400 transition-all duration-500 font-extralight tracking-widest text-sm luxury-caption"
             >
-              <div className="flex items-center space-x-12">
-                <a 
-                  href="#features" 
-                  className="text-neutral-700 dark:text-neutral-300 hover:text-violet-600 dark:hover:text-violet-400 transition-all duration-500 font-extralight tracking-widest text-sm luxury-caption"
-                >
-                  PRODUCT
-                </a>
-                <a 
-                  href="#demo" 
-                  className="text-neutral-700 dark:text-neutral-300 hover:text-violet-600 dark:hover:text-violet-400 transition-all duration-500 font-extralight tracking-widest text-sm luxury-caption"
-                >
-                  DEMO
-                </a>
-                <a 
-                  href="#pricing" 
-                  className="text-neutral-700 dark:text-neutral-300 hover:text-violet-600 dark:hover:text-violet-400 transition-all duration-500 font-extralight tracking-widest text-sm luxury-caption"
-                >
-                  PRICING
-                </a>
-                <a 
-                  href="#how-it-works" 
-                  className="text-neutral-700 dark:text-neutral-300 hover:text-violet-600 dark:hover:text-violet-400 transition-all duration-500 font-extralight tracking-widest text-sm luxury-caption"
-                >
-                  HOW IT WORKS
-                </a>
-              </div>
-            </motion.nav>
+              PRODUCT
+            </a>
+            <a 
+              href="#demo" 
+              className="text-neutral-700 dark:text-neutral-300 hover:text-violet-600 dark:hover:text-violet-400 transition-all duration-500 font-extralight tracking-widest text-sm luxury-caption"
+            >
+              DEMO
+            </a>
+            <a 
+              href="#pricing" 
+              className="text-neutral-700 dark:text-neutral-300 hover:text-violet-600 dark:hover:text-violet-400 transition-all duration-500 font-extralight tracking-widest text-sm luxury-caption"
+            >
+              PRICING
+            </a>
+            <a 
+              href="#how-it-works" 
+              className="text-neutral-700 dark:text-neutral-300 hover:text-violet-600 dark:hover:text-violet-400 transition-all duration-500 font-extralight tracking-widest text-sm luxury-caption"
+            >
+              HOW IT WORKS
+            </a>
+          </motion.nav>
 
-            {/* Right Side - Auth & Theme */}
-            <div className="flex items-center gap-3 sm:gap-4">
+          {/* Right Side - Auth & Theme */}
+          <div className="flex items-center gap-3 sm:gap-4">
               {/* Desktop Auth buttons */}
               <div className="hidden sm:flex items-center gap-3">
                 {/* Theme Switcher */}
@@ -200,7 +197,6 @@ export default function Home() {
                 </button>
               </div>
             </div>
-          </div>
         </div>
       </div>
 
