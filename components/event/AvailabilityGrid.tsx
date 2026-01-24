@@ -147,9 +147,6 @@ export default function AvailabilityGrid({ event, currentParticipant, onAvailabi
 
   const dates = generateDateRange()
   const timeSlots = event.time_blocks || []
-  
-  const dates = generateDateRange()
-  const timeSlots = event.time_blocks || []
 
   return (
     <div className="w-full">
