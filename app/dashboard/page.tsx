@@ -308,28 +308,30 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-neutral-100 dark:from-neutral-950 dark:via-neutral-900 dark:to-black">
       {/* Full-Width Navigation */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-white/90 via-white/60 to-transparent dark:from-black/90 dark:via-black/60 dark:to-transparent backdrop-blur-xl border-b border-neutral-200/60 dark:border-white/10 py-4">
-        <div className="w-full h-16 flex items-center justify-between px-6 md:px-10">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-white/90 via-white/60 to-transparent dark:from-black/90 dark:via-black/60 dark:to-transparent backdrop-blur-xl border-b border-neutral-200/60 dark:border-white/10 py-3 sm:py-4">
+        <div className="w-full h-14 sm:h-16 flex items-center justify-between px-4 sm:px-6 md:px-10">
           {/* Logo - Far Left */}
-          <Logo size="md" animated={true} />
+          <div className="flex items-center">
+            <Logo size="sm" animated={true} />
+          </div>
           
           {/* Right Side - Navigation + Auth */}
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-2 sm:gap-4 md:gap-6">
             {/* Theme Switcher */}
             <button
               onClick={() => {
                 const newTheme = theme === 'dark' ? 'light' : 'dark'
                 setTheme(newTheme)
               }}
-              className="p-2 hover:bg-neutral-200/60 dark:hover:bg-white/10 rounded-xl transition-all duration-500 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
+              className="p-1.5 sm:p-2 hover:bg-neutral-200/60 dark:hover:bg-white/10 rounded-lg sm:rounded-xl transition-all duration-500 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
               title="Toggle theme"
             >
               {theme === 'dark' ? (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
               ) : (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                 </svg>
               )}
@@ -354,10 +356,10 @@ export default function Dashboard() {
                   }, 500)
                 }
               }}
-              className="p-2 hover:bg-neutral-200/60 dark:hover:bg-white/10 rounded-xl transition-all duration-500 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
+              className="p-1.5 sm:p-2 hover:bg-neutral-200/60 dark:hover:bg-white/10 rounded-lg sm:rounded-xl transition-all duration-500 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
               title="Sign out"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
               </svg>
             </button>
@@ -366,7 +368,7 @@ export default function Dashboard() {
             {canCreateEvent ? (
               <button 
                 onClick={handleCreateEvent}
-                className="btn-primary px-4 py-2"
+                className="bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-all duration-300"
               >
                 <span className="hidden sm:inline">Create Event</span>
                 <span className="sm:hidden">Create</span>
@@ -377,7 +379,7 @@ export default function Dashboard() {
                   setUpgradeReason('events')
                   setUpgradeModalOpen(true)
                 }}
-                className="btn-primary px-4 py-2"
+                className="bg-gradient-to-r from-violet-600/90 to-indigo-600/90 hover:from-violet-500 hover:to-indigo-500 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-all duration-300"
               >
                 <span className="hidden sm:inline">Upgrade</span>
                 <span className="sm:hidden">Pro</span>

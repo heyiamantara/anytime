@@ -239,10 +239,12 @@ export default function EventAnalyticsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-neutral-100 dark:from-neutral-950 dark:via-neutral-900 dark:to-black">
       {/* Invisible Navigation Integration */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-white/90 via-white/60 to-transparent dark:from-black/90 dark:via-black/60 dark:to-transparent backdrop-blur-xl border-b border-neutral-200/60 dark:border-white/10 py-4">
-        <div className="w-full h-16 flex items-center justify-between px-6 md:px-10">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-white/90 via-white/60 to-transparent dark:from-black/90 dark:via-black/60 dark:to-transparent backdrop-blur-xl border-b border-neutral-200/60 dark:border-white/10 py-3 sm:py-4">
+        <div className="w-full h-14 sm:h-16 flex items-center justify-between px-4 sm:px-6 md:px-10">
           {/* Logo - Far Left */}
-          <Logo size="md" animated={true} />
+          <div className="flex items-center">
+            <Logo size="sm" animated={true} />
+          </div>
           
           {/* Right Side - Navigation + Auth */}
           <div className="flex items-center gap-6">

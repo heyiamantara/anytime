@@ -92,19 +92,19 @@ export default function Header({ hideSignOut = false }: HeaderProps) {
             : 'bg-transparent'
         }`}
       >
-        <div className="w-full h-16 flex items-center justify-between px-6 md:px-10 py-2">
+        <div className="w-full h-14 sm:h-16 flex items-center justify-between px-4 sm:px-6 md:px-10 py-2">
           {/* Logo - Extreme Left */}
           <button 
             onClick={goHome}
             className="flex items-center hover:opacity-80 transition-all duration-300 hover:scale-105 touch-target"
           >
-            <div className="h-8 flex items-center">
+            <div className="h-6 sm:h-8 flex items-center">
               <Logo size="sm" animated={false} />
             </div>
           </button>
 
           {/* Right Side - Navigation + Auth */}
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-4 sm:gap-6 md:gap-8">
             {/* Desktop Navigation */}
             {showNavigation && (
               <nav className="hidden lg:flex items-center gap-8">
@@ -130,7 +130,7 @@ export default function Header({ hideSignOut = false }: HeaderProps) {
             )}
 
             {/* Auth buttons */}
-            <div className="hidden sm:flex items-center gap-4">
+            <div className="hidden sm:flex items-center gap-3 md:gap-4">
               {/* Theme toggle */}
               <button
                 onClick={() => {
@@ -182,7 +182,7 @@ export default function Header({ hideSignOut = false }: HeaderProps) {
             </div>
 
             {/* Mobile Right side - Flush Right */}
-            <div className="flex sm:hidden items-center gap-3">
+            <div className="flex sm:hidden items-center gap-2">
               {/* Theme toggle */}
               <button
                 onClick={() => {
