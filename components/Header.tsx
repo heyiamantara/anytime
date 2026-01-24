@@ -86,13 +86,13 @@ export default function Header({ hideSignOut = false }: HeaderProps) {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className={`fixed top-0 left-0 right-0 z-50 w-full pt-8 overflow-hidden transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-50 w-full py-4 overflow-hidden transition-all duration-500 ${
           isScrolled || mobileMenuOpen
             ? 'bg-neutral-950/95 backdrop-blur-xl border-b border-neutral-800/30' 
             : 'bg-transparent'
         }`}
       >
-        <div className="w-full h-16 flex items-center justify-between px-4 sm:px-6 md:px-8 lg:px-10">
+        <div className="w-full h-16 flex items-center justify-between px-6 md:px-10 py-2">
           {/* Logo - Extreme Left */}
           <button 
             onClick={goHome}
