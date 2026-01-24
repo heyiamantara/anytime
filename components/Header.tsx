@@ -86,25 +86,23 @@ export default function Header({ hideSignOut = false }: HeaderProps) {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className={`fixed top-0 left-0 right-0 z-50 w-full py-4 overflow-hidden transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 ${
           isScrolled || mobileMenuOpen
             ? 'bg-neutral-950/95 backdrop-blur-xl border-b border-neutral-800/30' 
             : 'bg-transparent'
         }`}
       >
-        <div className="w-full h-14 sm:h-16 flex items-center justify-between px-4 sm:px-6 md:px-10 py-2">
+        <div className="w-full h-16 flex items-center justify-between px-4 sm:px-6 md:px-10">
           {/* Logo - Extreme Left */}
           <button 
             onClick={goHome}
-            className="flex items-center hover:opacity-80 transition-all duration-300 hover:scale-105 touch-target"
+            className="flex items-center hover:opacity-80 transition-all duration-300 hover:scale-105 touch-target h-full"
           >
-            <div className="h-6 sm:h-8 flex items-center">
-              <Logo size="sm" animated={false} />
-            </div>
+            <Logo size="sm" animated={false} />
           </button>
 
           {/* Right Side - Navigation + Auth */}
-          <div className="flex items-center gap-4 sm:gap-6 md:gap-8">
+          <div className="flex items-center gap-3 sm:gap-4 md:gap-6 h-full">
             {/* Desktop Navigation */}
             {showNavigation && (
               <nav className="hidden lg:flex items-center gap-8">
@@ -130,14 +128,14 @@ export default function Header({ hideSignOut = false }: HeaderProps) {
             )}
 
             {/* Auth buttons */}
-            <div className="hidden sm:flex items-center gap-3 md:gap-4">
+            <div className="hidden sm:flex items-center gap-2 md:gap-3 h-full">
               {/* Theme toggle */}
               <button
                 onClick={() => {
                   const newTheme = theme === 'dark' ? 'light' : 'dark'
                   setTheme(newTheme)
                 }}
-                className="p-2.5 rounded-xl hover:bg-neutral-800/60 transition-all duration-300 hover:scale-110 touch-target group"
+                className="flex items-center justify-center w-10 h-10 hover:bg-neutral-800/60 rounded-xl transition-all duration-300 hover:scale-110 touch-target group"
               >
                 {theme === 'dark' ? (
                   <Sun className="w-5 h-5 text-neutral-400 group-hover:text-amber-400 transition-colors duration-300" />

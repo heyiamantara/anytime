@@ -1,7 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Calendar, Users, Clock, Share2, Trash2, CheckCircle, BarChart3 } from 'lucide-react'
+import { Calendar, Users, Clock, Share2, Trash2, CheckCircle, BarChart3, MoreHorizontal } from 'lucide-react'
+import { useState } from 'react'
 
 interface RefinedEventCardProps {
   event: {
@@ -28,6 +29,7 @@ export default function RefinedEventCard({
   onShare, 
   onMarkCompleted 
 }: RefinedEventCardProps) {
+  const [showActions, setShowActions] = useState(false)
 
   const formatDateRange = (startDate: string, endDate: string) => {
     const start = new Date(startDate)
@@ -35,6 +37,7 @@ export default function RefinedEventCard({
     
     if (start.toDateString() === end.toDateString()) {
       return start.toLocaleDateString('en-US', {
+        weekday: 'short',
         month: 'short',
         day: 'numeric'
       })
@@ -53,6 +56,8 @@ export default function RefinedEventCard({
   const responseCount = event.participants?.filter((participant: any) => 
     event.availability?.some((avail: any) => avail.participant_id === participant.id)
   ).length || 0
+
+  const responseRate = participantCount > 0 ? Math.round((responseCount / participantCount) * 100) : 0
 
   const handleAnalytics = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -74,115 +79,164 @@ export default function RefinedEventCard({
     onDelete(event.id)
   }
 
+  const handleCardClick = () => {
+    onSelect(event)
+  }
+
+  const handlePrimaryAction = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    if (event.status === 'open') {
+      onShare(event.id)
+    } else {
+      handleAnalytics(e)
+    }
+  }
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      onClick={() => onSelect(event)}
-      className="group relative bg-neutral-800/50 border border-neutral-700/50 rounded-xl p-3 sm:p-4 cursor-pointer transition-all duration-200 hover:bg-neutral-800/70 hover:border-neutral-600/50 hover:shadow-lg hover:shadow-black/10"
+      className="group relative bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl overflow-hidden transition-all duration-200 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-black/20 hover:border-neutral-300 dark:hover:border-neutral-700"
     >
-      {/* Status Badge - Top Left */}
-      <div className="flex items-start justify-between mb-2 sm:mb-3">
-        <div className={`
-          inline-flex px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-full text-xs font-medium
-          ${event.status === 'open' 
-            ? 'bg-green-500/10 text-green-400 border border-green-500/20' 
-            : 'bg-orange-500/10 text-orange-400 border border-orange-500/20'
-          }
-        `}>
-          {event.status === 'open' ? 'Active' : 'Completed'}
+      {/* Card Content */}
+      <div className="p-6" onClick={handleCardClick}>
+        {/* Header: Title + Status */}
+        <div className="flex items-start justify-between mb-4">
+          <div className="flex-1 min-w-0">
+            <h3 className="text-lg font-semibold text-neutral-900 dark:text-white mb-1 line-clamp-2 leading-tight">
+              {event.name}
+            </h3>
+            <div className="flex items-center gap-2">
+              <div className={`
+                inline-flex items-center px-2 py-1 rounded-full text-xs font-medium
+                ${event.status === 'open' 
+                  ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400' 
+                  : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400'
+                }
+              `}>
+                {event.status === 'open' ? 'Active' : 'Completed'}
+              </div>
+              {responseRate === 100 && event.status === 'open' && (
+                <div className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400">
+                  Ready to finalize
+                </div>
+              )}
+            </div>
+          </div>
+          
+          {/* More Actions Button */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              setShowActions(!showActions)
+            }}
+            className="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+          >
+            <MoreHorizontal className="w-4 h-4 text-neutral-500" />
+          </button>
         </div>
 
-        {/* Action Icons - Top Right */}
-        <div className="flex items-center space-x-0.5 sm:space-x-1">
+        {/* Event Details */}
+        <div className="space-y-3 mb-6">
+          {/* Date Range */}
+          <div className="flex items-center text-sm text-neutral-600 dark:text-neutral-400">
+            <Calendar className="w-4 h-4 mr-3 text-neutral-400" />
+            <span>{formatDateRange(event.start_date, event.end_date)}</span>
+          </div>
+
+          {/* Participants & Responses */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center text-sm text-neutral-600 dark:text-neutral-400">
+              <Users className="w-4 h-4 mr-3 text-neutral-400" />
+              <span>{participantCount} participant{participantCount !== 1 ? 's' : ''}</span>
+            </div>
+            
+            {participantCount > 0 && (
+              <div className="flex items-center text-sm">
+                <Clock className="w-4 h-4 mr-2 text-neutral-400" />
+                <span className="text-neutral-600 dark:text-neutral-400 mr-2">
+                  {responseCount}/{participantCount} responded
+                </span>
+                <div className={`
+                  px-2 py-1 rounded-full text-xs font-medium
+                  ${responseRate === 100 
+                    ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400'
+                    : responseRate >= 50
+                      ? 'bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-400'
+                      : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400'
+                  }
+                `}>
+                  {responseRate}%
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Primary Action */}
+        <button
+          onClick={handlePrimaryAction}
+          className={`
+            w-full py-3 px-4 rounded-xl font-medium text-sm transition-all duration-200
+            ${event.status === 'open'
+              ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-sm hover:shadow-md'
+              : 'bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300'
+            }
+          `}
+        >
+          {event.status === 'open' ? 'Share availability link' : 'View analytics'}
+        </button>
+      </div>
+
+      {/* Action Menu Overlay */}
+      {showActions && (
+        <div className="absolute top-16 right-4 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-xl shadow-lg py-2 z-10 min-w-[160px]">
           <button
             onClick={handleAnalytics}
-            className="p-1 sm:p-1.5 hover:bg-neutral-700 rounded-lg transition-colors"
-            title="View Analytics"
+            className="w-full px-4 py-2 text-left text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-700 flex items-center"
           >
-            <BarChart3 className="w-3 h-3 sm:w-4 sm:h-4 text-neutral-400 hover:text-primary-400" />
+            <BarChart3 className="w-4 h-4 mr-3" />
+            View analytics
           </button>
           
           <button
             onClick={handleShare}
-            className="p-1 sm:p-1.5 hover:bg-neutral-700 rounded-lg transition-colors"
-            title="Share Event"
+            className="w-full px-4 py-2 text-left text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-700 flex items-center"
           >
-            <Share2 className="w-3 h-3 sm:w-4 sm:h-4 text-neutral-400 hover:text-blue-400" />
+            <Share2 className="w-4 h-4 mr-3" />
+            Share event
           </button>
 
           {event.status === 'open' && (
             <button
               onClick={handleMarkCompleted}
-              className="p-1 sm:p-1.5 hover:bg-neutral-700 rounded-lg transition-colors"
-              title="Mark as Completed"
+              className="w-full px-4 py-2 text-left text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-700 flex items-center"
             >
-              <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-neutral-400 hover:text-green-400" />
+              <CheckCircle className="w-4 h-4 mr-3" />
+              Mark completed
             </button>
           )}
 
+          <div className="border-t border-neutral-200 dark:border-neutral-700 my-2" />
+          
           <button
             onClick={handleDelete}
-            className="p-1 sm:p-1.5 hover:bg-red-500/10 rounded-lg transition-colors"
-            title="Delete Event"
+            className="w-full px-4 py-2 text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 flex items-center"
           >
-            <Trash2 className="w-3 h-3 sm:w-4 sm:h-4 text-neutral-400 hover:text-red-400" />
+            <Trash2 className="w-4 h-4 mr-3" />
+            Delete event
           </button>
         </div>
-      </div>
+      )}
 
-      {/* Event Title */}
-      <div className="mb-2">
-        <h3 className="font-semibold text-neutral-100 text-sm sm:text-base line-clamp-1 group-hover:text-white transition-colors">
-          {event.name}
-        </h3>
-      </div>
-
-      {/* Event Date */}
-      <div className="flex items-center text-xs sm:text-sm text-neutral-400 mb-3 sm:mb-4">
-        <Calendar className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
-        <span>{formatDateRange(event.start_date, event.end_date)}</span>
-      </div>
-
-      {/* Metrics Row */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-3 sm:space-x-4">
-          <div className="flex items-center space-x-1 sm:space-x-1.5">
-            <Users className="w-3 h-3 sm:w-4 sm:h-4 text-neutral-500" />
-            <span className="text-xs sm:text-sm font-medium text-neutral-300">{participantCount}</span>
-            <span className="text-xs text-neutral-500 hidden sm:inline">participants</span>
-          </div>
-          
-          <div className="flex items-center space-x-1 sm:space-x-1.5">
-            <Clock className="w-3 h-3 sm:w-4 sm:h-4 text-neutral-500" />
-            <span className="text-xs sm:text-sm font-medium text-neutral-300">{responseCount}</span>
-            <span className="text-xs text-neutral-500 hidden sm:inline">responses</span>
-            {responseCount > 0 && (
-              <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-primary-500 rounded-full animate-pulse" />
-            )}
-          </div>
-        </div>
-
-        {/* Response Rate Indicator */}
-        {participantCount > 0 && (
-          <div className="text-right">
-            <div className="text-xs text-neutral-500 hidden sm:block">Response Rate</div>
-            <div className={`text-xs sm:text-sm font-semibold ${
-              responseCount === participantCount 
-                ? 'text-green-400' 
-                : responseCount > 0 
-                  ? 'text-yellow-400' 
-                  : 'text-neutral-400'
-            }`}>
-              {Math.round((responseCount / participantCount) * 100)}%
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Hover Overlay Effect */}
-      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" />
+      {/* Click outside to close actions */}
+      {showActions && (
+        <div 
+          className="fixed inset-0 z-0" 
+          onClick={() => setShowActions(false)}
+        />
+      )}
     </motion.div>
   )
 }

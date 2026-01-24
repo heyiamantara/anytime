@@ -97,12 +97,6 @@ export default function Home() {
               transition={{ duration: 1.2, delay: 0.3 }}
               className="hidden lg:flex items-center space-x-8"
             >
-            <motion.nav
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.2, delay: 0.3 }}
-              className="hidden lg:flex items-center space-x-8"
-            >
               <a 
                 href="#features" 
                 className="text-neutral-700 dark:text-neutral-300 hover:text-violet-600 dark:hover:text-violet-400 transition-all duration-500 font-extralight tracking-widest text-sm luxury-caption"
