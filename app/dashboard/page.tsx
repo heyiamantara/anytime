@@ -312,7 +312,8 @@ export default function Dashboard() {
         <div className="w-full h-14 sm:h-16 flex items-center justify-between px-4 sm:px-6 md:px-10">
           {/* Logo - Far Left */}
           <div className="flex items-center">
-            <Logo size="sm" animated={true} />
+            <Logo size="sm" className="md:hidden" animated={true} />
+            <Logo size="nav" className="hidden md:block" animated={true} />
           </div>
           
           {/* Right Side - Navigation + Auth */}

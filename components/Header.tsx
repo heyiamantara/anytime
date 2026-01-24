@@ -92,7 +92,7 @@ export default function Header({ hideSignOut = false }: HeaderProps) {
             : 'bg-transparent'
         }`}
       >
-        <div className="w-full h-16 flex items-center justify-between px-4 sm:px-6 md:px-10">
+        <div className="w-full h-16 md:h-12 flex items-center justify-between px-4 sm:px-6 md:px-6 lg:px-8">
           {/* Logo - Extreme Left */}
           <button 
             onClick={goHome}
@@ -102,10 +102,10 @@ export default function Header({ hideSignOut = false }: HeaderProps) {
           </button>
 
           {/* Right Side - Navigation + Auth */}
-          <div className="flex items-center gap-3 sm:gap-4 md:gap-6 h-full">
+          <div className="flex items-center gap-3 sm:gap-4 md:gap-4 lg:gap-6 h-full">
             {/* Desktop Navigation */}
             {showNavigation && (
-              <nav className="hidden lg:flex items-center gap-8">
+              <nav className="hidden lg:flex items-center gap-6 lg:gap-8">
                 <a 
                   href="#product" 
                   className="text-sm font-medium text-neutral-300 hover:text-white transition-all duration-300 tracking-wide hover:scale-105"
@@ -128,19 +128,19 @@ export default function Header({ hideSignOut = false }: HeaderProps) {
             )}
 
             {/* Auth buttons */}
-            <div className="hidden sm:flex items-center gap-2 md:gap-3 h-full">
+            <div className="hidden sm:flex items-center gap-2 md:gap-2 lg:gap-3 h-full">
               {/* Theme toggle */}
               <button
                 onClick={() => {
                   const newTheme = theme === 'dark' ? 'light' : 'dark'
                   setTheme(newTheme)
                 }}
-                className="flex items-center justify-center w-10 h-10 hover:bg-neutral-800/60 rounded-xl transition-all duration-300 hover:scale-110 touch-target group"
+                className="flex items-center justify-center w-10 h-10 md:w-8 md:h-8 hover:bg-neutral-800/60 rounded-xl md:rounded-lg transition-all duration-300 hover:scale-110 touch-target group"
               >
                 {theme === 'dark' ? (
-                  <Sun className="w-5 h-5 text-neutral-400 group-hover:text-amber-400 transition-colors duration-300" />
+                  <Sun className="w-5 h-5 md:w-4 md:h-4 text-neutral-400 group-hover:text-amber-400 transition-colors duration-300" />
                 ) : (
-                  <Moon className="w-5 h-5 text-neutral-400 group-hover:text-blue-400 transition-colors duration-300" />
+                  <Moon className="w-5 h-5 md:w-4 md:h-4 text-neutral-400 group-hover:text-blue-400 transition-colors duration-300" />
                 )}
               </button>
 
@@ -153,10 +153,10 @@ export default function Header({ hideSignOut = false }: HeaderProps) {
                   {!hideSignOut && (
                     <button
                       onClick={handleSignOut}
-                      className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-neutral-400 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-all duration-300 tracking-wide"
+                      className="flex items-center space-x-2 px-3 py-1.5 md:px-2 md:py-1 text-sm font-medium text-neutral-400 hover:text-red-400 hover:bg-red-500/10 rounded-xl md:rounded-lg transition-all duration-300 tracking-wide"
                     >
-                      <LogOut className="w-4 h-4" />
-                      <span>Sign Out</span>
+                      <LogOut className="w-4 h-4 md:w-3.5 md:h-3.5" />
+                      <span className="md:text-xs">Sign Out</span>
                     </button>
                   )}
                 </div>
@@ -165,13 +165,13 @@ export default function Header({ hideSignOut = false }: HeaderProps) {
                 <div className="flex items-center gap-3">
                   <button 
                     onClick={() => openAuthModal('login')}
-                    className="px-5 py-2.5 text-sm font-medium text-neutral-300 hover:text-white hover:bg-neutral-800/60 rounded-xl transition-all duration-300 tracking-wide"
+                    className="px-4 py-2 md:px-3 md:py-1.5 text-sm font-medium text-neutral-300 hover:text-white hover:bg-neutral-800/60 rounded-xl md:rounded-lg transition-all duration-300 tracking-wide"
                   >
                     Sign In
                   </button>
                   <button 
                     onClick={() => openAuthModal('signup')}
-                    className="px-5 py-2.5 text-sm font-medium bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-500 hover:to-primary-600 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-primary-500/25 hover:scale-105 tracking-wide"
+                    className="px-4 py-2 md:px-3 md:py-1.5 text-sm font-medium bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-500 hover:to-primary-600 text-white rounded-xl md:rounded-lg transition-all duration-300 shadow-lg hover:shadow-primary-500/25 hover:scale-105 tracking-wide"
                   >
                     Sign Up
                   </button>

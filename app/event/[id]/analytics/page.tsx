@@ -243,7 +243,8 @@ export default function EventAnalyticsPage() {
         <div className="w-full h-14 sm:h-16 flex items-center justify-between px-4 sm:px-6 md:px-10">
           {/* Logo - Far Left */}
           <div className="flex items-center">
-            <Logo size="sm" animated={true} />
+            <Logo size="sm" className="md:hidden" animated={true} />
+            <Logo size="nav" className="hidden md:block" animated={true} />
           </div>
           
           {/* Right Side - Navigation + Auth */}
@@ -290,51 +291,51 @@ export default function EventAnalyticsPage() {
       </div>
       
       {/* Immersive Hero Section - Mobile Responsive */}
-      <div className="pt-20 sm:pt-32 pb-12 sm:pb-20">
+      <div className="pt-16 sm:pt-20 lg:pt-32 pb-8 sm:pb-12 lg:pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10">
           <motion.div
             initial={{ opacity: 0, y: 60 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
-            className="text-center mb-12 sm:mb-20"
+            className="text-center mb-6 sm:mb-12 lg:mb-20"
           >
             <div className="w-full overflow-hidden">
-              <h1 className="text-responsive-hero font-extralight text-neutral-900 dark:text-white mb-6 sm:mb-8 tracking-tighter leading-[0.85] luxury-heading break-words hyphens-none">
+              <h1 className="text-xl sm:text-3xl lg:text-5xl font-extralight text-neutral-900 dark:text-white mb-3 sm:mb-6 lg:mb-8 tracking-tighter leading-[0.85] luxury-heading break-words hyphens-none">
                 {event.name}
               </h1>
             </div>
             
             {event.description && (
-              <p className="text-responsive-lg text-neutral-600 dark:text-neutral-300/80 max-w-3xl mx-auto mb-8 sm:mb-16 leading-relaxed font-extralight tracking-wide luxury-body">
+              <p className="text-sm sm:text-lg lg:text-2xl text-neutral-600 dark:text-neutral-300/80 max-w-3xl mx-auto mb-4 sm:mb-8 lg:mb-16 leading-relaxed font-extralight tracking-wide luxury-body">
                 {event.description}
               </p>
             )}
 
             {/* Refined Metadata - Mobile Responsive */}
-            <div className="flex flex-wrap items-center justify-center gap-responsive text-neutral-500 dark:text-neutral-400/70 mb-12 sm:mb-20">
-              <div className="flex items-center space-x-3 sm:space-x-4">
-                <div className="w-1.5 h-1.5 bg-violet-500/80 dark:bg-violet-400/60 rounded-full"></div>
+            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 lg:gap-8 text-neutral-500 dark:text-neutral-400/70 mb-6 sm:mb-12 lg:mb-20">
+              <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4">
+                <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-violet-500/80 dark:bg-violet-400/60 rounded-full"></div>
                 <span className="text-xs sm:text-sm tracking-widest font-extralight luxury-caption">
                   {totalParticipants} Participants
                 </span>
               </div>
               
-              <div className="flex items-center space-x-3 sm:space-x-4">
-                <div className="w-1.5 h-1.5 bg-violet-500/80 dark:bg-violet-400/60 rounded-full"></div>
+              <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4">
+                <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-violet-500/80 dark:bg-violet-400/60 rounded-full"></div>
                 <span className="text-xs sm:text-sm tracking-widest font-extralight luxury-caption">
                   {dates?.length || 0} Days
                 </span>
               </div>
               
-              <div className="flex items-center space-x-3 sm:space-x-4">
-                <div className="w-1.5 h-1.5 bg-violet-500/80 dark:bg-violet-400/60 rounded-full"></div>
+              <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4">
+                <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-violet-500/80 dark:bg-violet-400/60 rounded-full"></div>
                 <span className="text-xs sm:text-sm tracking-widest font-extralight luxury-caption">
                   {event?.time_blocks?.length || 0} Time Slots
                 </span>
               </div>
 
-              <div className="flex items-center space-x-3 sm:space-x-4">
-                <div className="w-1.5 h-1.5 bg-violet-500/80 dark:bg-violet-400/60 rounded-full"></div>
+              <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4">
+                <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-violet-500/80 dark:bg-violet-400/60 rounded-full"></div>
                 <span className="text-xs sm:text-sm tracking-widest font-extralight luxury-caption">
                   {Math.round(participationRate)}% Participation
                 </span>
@@ -345,51 +346,51 @@ export default function EventAnalyticsPage() {
       </div>
 
       {/* Full-Bleed Analytics Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 pb-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 pb-12 sm:pb-24">
         
         {/* Key Metrics - Mobile Responsive Panel */}
         <motion.div
           initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-gradient-to-br from-white/95 via-neutral-50/80 to-white/95 dark:from-neutral-900/40 dark:via-neutral-800/20 dark:to-neutral-900/40 backdrop-blur-2xl border border-neutral-300/60 dark:border-white/8 rounded-2xl sm:rounded-[2rem] p-responsive shadow-xl shadow-neutral-200/50 dark:shadow-2xl mb-8 sm:mb-12 relative overflow-hidden"
+          className="bg-gradient-to-br from-white/95 via-neutral-50/80 to-white/95 dark:from-neutral-900/40 dark:via-neutral-800/20 dark:to-neutral-900/40 backdrop-blur-2xl border border-neutral-300/60 dark:border-white/8 rounded-xl sm:rounded-2xl lg:rounded-[2rem] p-4 sm:p-6 lg:p-12 shadow-xl shadow-neutral-200/50 dark:shadow-2xl mb-6 sm:mb-8 lg:mb-12 relative overflow-hidden"
         >
           {/* Subtle Background Pattern */}
-          <div className="absolute inset-0 bg-gradient-to-br from-violet-500/4 to-indigo-500/4 dark:from-violet-500/3 dark:to-indigo-500/3 rounded-2xl sm:rounded-[2rem]"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-violet-500/4 to-indigo-500/4 dark:from-violet-500/3 dark:to-indigo-500/3 rounded-xl sm:rounded-2xl lg:rounded-[2rem]"></div>
           
           <div className="relative">
-            <h2 className="text-responsive-2xl font-extralight text-neutral-900 dark:text-white mb-8 sm:mb-12 tracking-wide luxury-heading text-center">
+            <h2 className="text-lg sm:text-2xl lg:text-3xl font-extralight text-neutral-900 dark:text-white mb-4 sm:mb-8 lg:mb-12 tracking-wide luxury-heading text-center">
               Key Insights
             </h2>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 lg:gap-8">
               {/* Total Participants */}
               <div className="text-center">
-                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 dark:from-blue-500/15 dark:to-cyan-500/15 border border-blue-500/30 dark:border-blue-500/20 rounded-2xl sm:rounded-3xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
-                  <Users className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600 dark:text-blue-400/90" />
+                <div className="w-8 h-8 sm:w-12 sm:h-12 lg:w-16 lg:h-16 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 dark:from-blue-500/15 dark:to-cyan-500/15 border border-blue-500/30 dark:border-blue-500/20 rounded-xl sm:rounded-2xl lg:rounded-3xl flex items-center justify-center mx-auto mb-2 sm:mb-4 lg:mb-6">
+                  <Users className="w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-blue-600 dark:text-blue-400/90" />
                 </div>
-                <div className="text-2xl sm:text-4xl font-extralight text-neutral-900 dark:text-white mb-2 tracking-wide">
+                <div className="text-lg sm:text-2xl lg:text-4xl font-extralight text-neutral-900 dark:text-white mb-1 sm:mb-2 tracking-wide">
                   {totalParticipants}
                 </div>
-                <div className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400/80 font-extralight tracking-widest luxury-caption">
-                  TOTAL PARTICIPANTS
+                <div className="text-xs sm:text-xs lg:text-sm text-neutral-600 dark:text-neutral-400/80 font-extralight tracking-widest luxury-caption">
+                  PARTICIPANTS
                 </div>
               </div>
 
               {/* Participation Rate */}
               <div className="text-center">
-                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:from-emerald-500/15 dark:to-teal-500/15 border border-emerald-500/30 dark:border-emerald-500/20 rounded-2xl sm:rounded-3xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
-                  <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-600 dark:text-emerald-400/90" />
+                <div className="w-8 h-8 sm:w-12 sm:h-12 lg:w-16 lg:h-16 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:from-emerald-500/15 dark:to-teal-500/15 border border-emerald-500/30 dark:border-emerald-500/20 rounded-xl sm:rounded-2xl lg:rounded-3xl flex items-center justify-center mx-auto mb-2 sm:mb-4 lg:mb-6">
+                  <TrendingUp className="w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-emerald-600 dark:text-emerald-400/90" />
                 </div>
-                <div className="text-2xl sm:text-4xl font-extralight text-neutral-900 dark:text-white mb-2 tracking-wide">
+                <div className="text-lg sm:text-2xl lg:text-4xl font-extralight text-neutral-900 dark:text-white mb-1 sm:mb-2 tracking-wide">
                   {Math.round(participationRate)}%
                 </div>
-                <div className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400/80 font-extralight tracking-widest luxury-caption">
-                  PARTICIPATION RATE
+                <div className="text-xs sm:text-xs lg:text-sm text-neutral-600 dark:text-neutral-400/80 font-extralight tracking-widest luxury-caption">
+                  PARTICIPATION
                 </div>
-                <div className="w-full bg-neutral-300/50 dark:bg-neutral-800/50 rounded-full h-1 mt-3">
+                <div className="w-full bg-neutral-300/50 dark:bg-neutral-800/50 rounded-full h-0.5 sm:h-1 mt-2 sm:mt-3">
                   <div 
-                    className="bg-gradient-to-r from-emerald-500 to-teal-500 h-1 rounded-full transition-all duration-1000"
+                    className="bg-gradient-to-r from-emerald-500 to-teal-500 h-0.5 sm:h-1 rounded-full transition-all duration-1000"
                     style={{ width: `${participationRate}%` }}
                   ></div>
                 </div>
@@ -397,27 +398,27 @@ export default function EventAnalyticsPage() {
 
               {/* Active Responses */}
               <div className="text-center">
-                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-violet-500/20 to-indigo-500/20 dark:from-violet-500/15 dark:to-indigo-500/15 border border-violet-500/30 dark:border-violet-500/20 rounded-2xl sm:rounded-3xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
-                  <Activity className="w-6 h-6 sm:w-8 sm:h-8 text-violet-600 dark:text-violet-400/90" />
+                <div className="w-8 h-8 sm:w-12 sm:h-12 lg:w-16 lg:h-16 bg-gradient-to-br from-violet-500/20 to-indigo-500/20 dark:from-violet-500/15 dark:to-indigo-500/15 border border-violet-500/30 dark:border-violet-500/20 rounded-xl sm:rounded-2xl lg:rounded-3xl flex items-center justify-center mx-auto mb-2 sm:mb-4 lg:mb-6">
+                  <Activity className="w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-violet-600 dark:text-violet-400/90" />
                 </div>
-                <div className="text-2xl sm:text-4xl font-extralight text-neutral-900 dark:text-white mb-2 tracking-wide">
+                <div className="text-lg sm:text-2xl lg:text-4xl font-extralight text-neutral-900 dark:text-white mb-1 sm:mb-2 tracking-wide">
                   {respondedParticipants}
                 </div>
-                <div className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400/80 font-extralight tracking-widest luxury-caption">
-                  ACTIVE RESPONSES
+                <div className="text-xs sm:text-xs lg:text-sm text-neutral-600 dark:text-neutral-400/80 font-extralight tracking-widest luxury-caption">
+                  RESPONSES
                 </div>
               </div>
 
               {/* Best Match Score */}
               <div className="text-center">
-                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 dark:from-yellow-500/15 dark:to-orange-500/15 border border-yellow-500/30 dark:border-yellow-500/20 rounded-2xl sm:rounded-3xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
-                  <BarChart3 className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-600 dark:text-yellow-400/90" />
+                <div className="w-8 h-8 sm:w-12 sm:h-12 lg:w-16 lg:h-16 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 dark:from-yellow-500/15 dark:to-orange-500/15 border border-yellow-500/30 dark:border-yellow-500/20 rounded-xl sm:rounded-2xl lg:rounded-3xl flex items-center justify-center mx-auto mb-2 sm:mb-4 lg:mb-6">
+                  <BarChart3 className="w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-yellow-600 dark:text-yellow-400/90" />
                 </div>
-                <div className="text-2xl sm:text-4xl font-extralight text-neutral-900 dark:text-white mb-2 tracking-wide">
+                <div className="text-lg sm:text-2xl lg:text-4xl font-extralight text-neutral-900 dark:text-white mb-1 sm:mb-2 tracking-wide">
                   {bestMatches.length > 0 ? Math.round(bestMatches[0].percentage) : 0}%
                 </div>
-                <div className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400/80 font-extralight tracking-widest luxury-caption">
-                  BEST MATCH SCORE
+                <div className="text-xs sm:text-xs lg:text-sm text-neutral-600 dark:text-neutral-400/80 font-extralight tracking-widest luxury-caption">
+                  BEST MATCH
                 </div>
               </div>
             </div>

@@ -4,13 +4,14 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 
 interface LogoProps {
-  size?: 'sm' | 'nav' | 'md' | 'lg' | 'xl'
+  size?: 'xs' | 'sm' | 'nav' | 'md' | 'lg' | 'xl'
   className?: string
   animated?: boolean
 }
 
 export default function Logo({ size = 'md', className = '', animated = true }: LogoProps) {
   const sizeClasses = {
+    xs: { width: 48, height: 13 },
     sm: { width: 60, height: 16 },
     nav: { width: 120, height: 32 },
     md: { width: 320, height: 84 },
